@@ -359,7 +359,7 @@ class VectorFunctions:
         # 正規化
         outRayV = outRayV/np.linalg.norm(outRayV)
         return outRayV
-
+    '''
     # ２点の位置ベクトルから直線を引く関数
     def plotLineRed(self, startPointV, endPointV):
         startX = startPointV[0]
@@ -390,11 +390,13 @@ class VectorFunctions:
         endZ = endPointV[2]
         ax.plot([startX,endX],[startY,endY],[startZ,endZ],
             'o-',ms='2',linewidth=0.5,color='blue')
+    '''
 
 
 # トリプレット（テッサー）のスクリーン上に映った点を返す関数
-def pointsTessar(Nlens1=1.5, Nlens2=1.5, Nlens3=1.45, Nlens4=1.8,
-            NBlueRay1=1.04, NBlueRay2=1.04, NBlueRay3=1.1048, NBlueRay4=1.01):
+def pointsTessar(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.46,
+            NBlueRay1=1.016, NBlueRay2=1.016, NBlueRay3=1.013, NBlueRay4=1.006):
+    '''
     def plotLensTriplet():
         # １枚目の凸レンズを再現する
         limitTheta = 2*np.pi  # theta生成数
@@ -461,6 +463,7 @@ def pointsTessar(Nlens1=1.5, Nlens2=1.5, Nlens3=1.45, Nlens4=1.8,
             np.arange(-3, 3.5, 0.5))
         Xs = 0*Ys + 0*Zs + screenV[0]
         ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
+    '''
 
     #plotLensTriplet()
     VF = VectorFunctions()  # インスタンス化
