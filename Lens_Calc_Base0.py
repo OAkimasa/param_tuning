@@ -40,7 +40,8 @@ Ry4 = 3  # レンズ４の倍率
 Rz4 = 3  # レンズ４の倍率
 lens4V = np.array([1.5, 0, 0])  # レンズ４の位置ベクトル
 
-screenV = np.array([8, 0, 0])  # スクリーンの位置ベクトル
+screenV = np.array([8, 0, 0])  # スクリーン１の位置ベクトル
+screen2V = np.array([5.2, 0, 0])  # スクリーン１の位置ベクトル
 
 class VectorFunctions:
     # 受け取ったx,y,z座標から(x,y,z)の組を作る関数
@@ -394,8 +395,8 @@ class VectorFunctions:
 
 class ChromaticAberration:
     # トリプレット（テッサー）と光線の描画。４枚目を低分散高屈折率の凸レンズにしている。
-    def colorTriplet(self, Nlens1=1.5, Nlens2=1.5, Nlens3=1.45, Nlens4=1.8,
-                NBlueRay1=1.04, NBlueRay2=1.04, NBlueRay3=1.1048, NBlueRay4=1.01):
+    def colorTriplet(self, Nlens1=1.4, Nlens2=1.4, Nlens3=1.46, Nlens4=1.74,
+                NBlueRay1=1.001, NBlueRay2=1.001, NBlueRay3=1.010, NBlueRay4=1.0014):
         def plotLensTriplet():
             # １枚目の凸レンズを再現する
             limitTheta = 2*np.pi  # theta生成数
@@ -456,11 +457,18 @@ class ChromaticAberration:
             Zs = Rz4 * np.outer(np.ones(np.size(theta)), np.cos(phi)) + lens4V[2]
             ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
 
-            # スクリーン
+            # スクリーン１
             Ys, Zs = np.meshgrid(
                 np.arange(-3, 3.5, 0.5),
                 np.arange(-3, 3.5, 0.5))
             Xs = 0*Ys + 0*Zs + screenV[0]
+            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
+
+            # スクリーン２
+            Ys, Zs = np.meshgrid(
+                np.arange(-3, 3.5, 0.5),
+                np.arange(-3, 3.5, 0.5))
+            Xs = 0*Ys + 0*Zs + screen2V[0]
             ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
 
         plotLensTriplet()
