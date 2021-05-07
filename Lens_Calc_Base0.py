@@ -488,7 +488,7 @@ class ChromaticAberration:
 
         for i in raySPoint0:
             raySPoint0 = i
-            directionVector0 = np.array([1, 0, 0])  # 入射光の方向ベクトルを設定
+            directionVector0 = np.array([1, 0.1, 0])  # 入射光の方向ベクトルを設定
             T = VF.rayTraceDecideT_Lens1L(raySPoint0, directionVector0)  # 交点のための係数
             rayEPoint0 = raySPoint0 + T*directionVector0  # 入射光の終点
             VF.plotLinePurple(raySPoint0, rayEPoint0)  # 入射光描画
