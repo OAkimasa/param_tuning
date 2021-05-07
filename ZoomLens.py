@@ -92,26 +92,41 @@ lens10V = np.array([1.6, 0, 0])  # レンズ１0の位置ベクトル
 Rx111 = Rx102  # レンズ１1の倍率1
 Rx112 = 0.1  # レンズ１1の倍率2
 Ry111 = 1.8  # レンズ１1の倍率1
-Ry112 = 1.8  # レンズ１1の倍率2
+Ry112 = 1.7  # レンズ１1の倍率2
 Rz111 = 1.8  # レンズ１1の倍率1
-Rz112 = 1.8  # レンズ１1の倍率2
+Rz112 = 1.7  # レンズ１1の倍率2
 lens11V = np.array([1.65, 0, 0])  # レンズ１1の位置ベクトル
 Rx121 = 0.2  # レンズ1２の倍率１
 Rx122 = 0.3  # レンズ1２の倍率２
-Ry121 = 3  # レンズ1２の倍率１
-Ry122 = 2.5  # レンズ1２の倍率２
-Rz121 = 3  # レンズ1２の倍率１
-Rz122 = 2.5  # レンズ1２の倍率２
-lens12V = np.array([-1.1, 0, 0])  # レンズ1２の位置ベクトル
+Ry121 = 1.7  # レンズ1２の倍率１
+Ry122 = 1.7  # レンズ1２の倍率２
+Rz121 = 1.7  # レンズ1２の倍率１
+Rz122 = 1.7  # レンズ1２の倍率２
+lens12V = np.array([3, 0, 0])  # レンズ1２の位置ベクトル
 Rx131 = 0.01  # レンズ1３の倍率１
-Rx132 = 0.8  # レンズ1３の倍率２
-Ry131 = 2.5  # レンズ1３の倍率１
-Ry132 = 3  # レンズ1３の倍率２
-Rz131 = 2.5  # レンズ1３の倍率１
-Rz132 = 3  # レンズ1３の倍率２
-lens13V = np.array([1.5, 0, 0])  # レンズ1３の位置ベクトル
+Rx132 = 0.2  # レンズ1３の倍率２
+Ry131 = 1.8  # レンズ1３の倍率１
+Ry132 = 1.6  # レンズ1３の倍率２
+Rz131 = 1.8  # レンズ1３の倍率１
+Rz132 = 1.6  # レンズ1３の倍率２
+lens13V = np.array([3.5, 0, 0])  # レンズ1３の位置ベクトル
+Rx141 = 0.1  # レンズ14の倍率１
+Rx142 = 0.3  # レンズ14の倍率２
+Ry141 = 1.8  # レンズ14の倍率１
+Ry142 = 1.8  # レンズ14の倍率２
+Rz141 = 1.8  # レンズ14の倍率１
+Rz142 = 1.8  # レンズ14の倍率２
+lens14V = np.array([3.9, 0, 0])  # レンズ14の位置ベクトル
+Rx151 = Rx142  # レンズ15の倍率１
+Rx152 = 0.1  # レンズ15の倍率２
+Ry151 = 1.8  # レンズ15の倍率１
+Ry152 = 1.8  # レンズ15の倍率２
+Rz151 = 1.8  # レンズ15の倍率１
+Rz152 = 1.8  # レンズ15の倍率２
+lens15V = np.array([4.5, 0, 0])  # レンズ15の位置ベクトル
 
 screenV = np.array([8, 0, 0])  # スクリーンの位置ベクトル
+
 
 class VectorFunctions:
     # 受け取ったx,y,z座標から(x,y,z)の組を作る関数
@@ -1022,13 +1037,73 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         Xs = np.where(Xs<0, Xs2, Xs1) + lens11V[0]
         ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
 
+        # 12枚目のレンズを再現する
+        Xs = Rx121 * np.outer(np.cos(theta), np.sin(phi))
+        Ys = Ry121 * np.outer(np.sin(theta), np.sin(phi))
+        Zs = Rz121 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Xs1 = Rx121 * np.outer(np.cos(theta), np.sin(phi))
+        Xs2 = Rx122 * np.outer(np.cos(theta), np.sin(phi)) + 0.15
+        Ys1 = Ry121 * np.outer(np.sin(theta), np.sin(phi))
+        Ys2 = Ry122 * np.outer(np.sin(theta), np.sin(phi))
+        Zs1 = Rz121 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Zs2 = Rz122 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Ys = np.where(Xs<0, Ys1, Ys2) + lens12V[1]
+        Zs = np.where(Xs<0, Zs1, Zs2) + lens12V[2]
+        Xs = np.where(Xs<0, Xs1, Xs2) + lens12V[0]
+        ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
+
+        # 13枚目のレンズを再現する
+        Xs = Rx131 * np.outer(np.cos(theta), np.sin(phi))
+        Ys = Ry131 * np.outer(np.sin(theta), np.sin(phi))
+        Zs = Rz131 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Xs1 = Rx131 * np.outer(np.cos(theta), np.sin(phi))
+        Xs2 = -Rx132 * np.outer(np.cos(theta), np.sin(phi)) + 0.4
+        Xs2 = np.where(0.7<=Xs2, 0.5, Xs2)
+        Ys1 = Ry131 * np.outer(np.sin(theta), np.sin(phi))
+        Ys2 = Ry132 * np.outer(np.sin(theta), np.sin(phi))
+        Zs1 = Rz131 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Zs2 = Rz132 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Ys = np.where(Xs<0, Ys1, Ys2) + lens13V[1]
+        Zs = np.where(Xs<0, Zs1, Zs2) + lens13V[2]
+        Xs = np.where(Xs<0, Xs1, Xs2) + lens13V[0]
+        ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
+
+        # 14枚目のレンズを再現する
+        Xs = Rx141 * np.outer(np.cos(theta), np.sin(phi))
+        Ys = Ry141 * np.outer(np.sin(theta), np.sin(phi))
+        Zs = Rz141 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Xs1 = Rx141 * np.outer(np.cos(theta), np.sin(phi))
+        Xs2 = Rx142 * np.outer(np.cos(theta), np.sin(phi)) + 0.6
+        Ys1 = Ry141 * np.outer(np.sin(theta), np.sin(phi))
+        Ys2 = Ry142 * np.outer(np.sin(theta), np.sin(phi))
+        Zs1 = Rz141 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Zs2 = Rz142 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Ys = np.where(Xs<0, Ys2, Ys1) + lens14V[1]
+        Zs = np.where(Xs<0, Zs2, Zs1) + lens14V[2]
+        Xs = np.where(Xs<0, Xs2, Xs1) + lens14V[0]
+        ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
+
+        # 15枚目のレンズを再現する
+        Xs = Rx151 * np.outer(np.cos(theta), np.sin(phi))
+        Ys = Ry151 * np.outer(np.sin(theta), np.sin(phi))
+        Zs = Rz151 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Xs1 = Rx151 * np.outer(np.cos(theta), np.sin(phi))
+        Xs2 = Rx152 * np.outer(np.cos(theta), np.sin(phi)) + 0.15
+        Ys1 = Ry151 * np.outer(np.sin(theta), np.sin(phi))
+        Ys2 = Ry152 * np.outer(np.sin(theta), np.sin(phi))
+        Zs1 = Rz151 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Zs2 = Rz152 * np.outer(np.ones(np.size(theta)), np.cos(phi))
+        Ys = np.where(Xs<0, Ys1, Ys2) + lens15V[1]
+        Zs = np.where(Xs<0, Zs1, Zs2) + lens15V[2]
+        Xs = np.where(Xs<0, Xs1, Xs2) + lens15V[0]
+        ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
 
         # スクリーン
         Ys, Zs = np.meshgrid(
             np.arange(-3, 3.5, 0.5),
             np.arange(-3, 3.5, 0.5))
         Xs = 0*Ys + 0*Zs + screenV[0]
-        #ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
+        ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
 
 
     plotZoomLens()
