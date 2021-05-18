@@ -49,8 +49,9 @@ def calcNorm_ZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
             NBlueRay9, NBlueRay10, NBlueRay11, NBlueRay12,
             NBlueRay13, NBlueRay14, NBlueRay15])  # ここから変化させて最適化する
 
-    pointsRed = pointsZoomLens(*Params)[0]
-    pointsBlue = pointsZoomLens(*Params)[1]
+    points = pointsZoomLens(*Params)
+    pointsRed = points[0]
+    pointsBlue = points[1]
     diff = np.array(pointsRed) - np.array(pointsBlue)
 
     resultNorm = np.linalg.norm(np.nan_to_num(
