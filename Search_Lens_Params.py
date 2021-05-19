@@ -56,7 +56,7 @@ def calcNorm_ZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
 
     resultNorm = np.linalg.norm(np.nan_to_num(
         diff, copy=False), ord=2)
-    print('norm =', resultNorm, '  :   params =', Params)
+    #print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
 
 '''
@@ -582,11 +582,55 @@ def searchParam_ZoomLens_Layer(Nlens1=1.44, Nlens2=1.5, Nlens3=1.44, Nlens4=1.44
     print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
 
 
+def searchParam_ZoomLens_Layer_v2():
+    LayerOrder = [2, 1, 6, 5, 11,
+                10, 15, 14, 3, 4,
+                7, 8, 9, 12, 13]
+    Nlensargs = [1.48, 1.48, 1.46, 1.44, 1.44,
+                1.50, 1.50, 1.44, 1.50, 1.50,
+                1.44, 1.50, 1.44, 1.44, 1.50]
+    NBlueRayargs = [1.015, 1.110, 1.040, 1.010, 1.010,
+                1.010, 1.010, 1.010, 1.010, 1.010,
+                1.010, 1.010, 1.010, 1.010, 1.010]
+    Nargs = Nlensargs + NBlueRayargs
+    minNorm_toNext = [30, []]
+    for k in LayerOrder:
+        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.001, dNB=0.001):
+            count = 0
+            for i in range(10):
+                if 10 <= count:
+                    print('\n----Lens', k, ' STOP----\n')
+                    break
+                print('Lens', k, ' :', i+1, '/10')
+                calcNorm_ZoomLens(*Nargs)[0]
+                Nargs[k-1] += dNl
+                for j in range(10):
+                    norm = calcNorm_ZoomLens(*Nargs)
+                    Nargs[k+14] += dNB
+                    #print(minNorm[0])
+                    if norm[0] <= minNorm[0]:
+                        #print('!')
+                        minNorm = norm
+                        count = 0
+                    else:
+                        count += 1
+            Nlens = minNorm[1][k-1]
+            NBlueRay = minNorm[1][k+14]
+            return minNorm, Nlens, NBlueRay
+
+        resultLayer = LensLayer(Nlensargs, NBlueRayargs, minNorm_toNext)
+        minNorm = resultLayer[0]
+        Nlensargs = resultLayer[1]
+        NBlueRayargs = resultLayer[2]
+        minNorm_toNext = minNorm
+
+        print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
+
 if __name__ == "__main__":
     print('\n----------------START----------------\n')
     start = time.time()
 
     # searchParam_Tessar_Layer or searchParam_ZoomLens_Layer
-    searchParam_ZoomLens_Layer()
+    searchParam_ZoomLens_Layer_v2()
 
     print('time =', time.time()-start)
