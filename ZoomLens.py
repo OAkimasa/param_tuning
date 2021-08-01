@@ -17,115 +17,118 @@ centerX = -8  # 入射光の始点の中心座標
 centerY = 0  # 入射光の始点の中心座標
 centerZ = 0  # 入射光の始点の中心座標
 rayDensity = 0.25  # 入射光の密度
-focusX = 4  # 焦点付近の描画範囲を平行移動
+focusX = 6  # 焦点付近の描画範囲を平行移動
 
-Rx11 = 0.35  # レンズ１の倍率1
-Rx12 = 0.65  # レンズ１の倍率2
+Unit1X = -0.5
+Rx11 = 0.75  # レンズ１の倍率1
+Rx12 = 1.05  # レンズ１の倍率2
 Ry11 = 5  # レンズ１の倍率1
 Ry12 = 5  # レンズ１の倍率2
 Rz11 = 5  # レンズ１の倍率1
 Rz12 = 5  # レンズ１の倍率2
-lens1V = np.array([-5.5, 0, 0])  # レンズ１の位置ベクトル
+lens1V = np.array([-5.5+Unit1X, 0, 0])  # レンズ１の位置ベクトル
 Rx21 = Rx12  # レンズ２の倍率１
 Rx22 = 0.001  # レンズ２の倍率２
 Ry21 = 5  # レンズ２の倍率１
 Ry22 = 4.5  # レンズ２の倍率２
 Rz21 = 5  # レンズ２の倍率１
 Rz22 = 4.5  # レンズ２の倍率２
-lens2V = np.array([-5, 0, 0])  # レンズ２の位置ベクトル
-Rx31 = 0.65  # レンズ３の倍率１
+lens2V = np.array([-5+Unit1X, 0, 0])  # レンズ２の位置ベクトル
+Rx31 = 0.9  # レンズ３の倍率１
 Rx32 = 0.3  # レンズ３の倍率２
 Ry31 = 4.3  # レンズ３の倍率１
 Ry32 = 4.3  # レンズ３の倍率２
 Rz31 = 4.3  # レンズ３の倍率１
 Rz32 = 4.3  # レンズ３の倍率２
-lens3V = np.array([-3.88, 0, 0])  # レンズ３の位置ベクトル
-Rx41 = 0.3  # レンズ４の倍率1
-Rx42 = 1  # レンズ４の倍率2
+lens3V = np.array([-3.3+Unit1X, 0, 0])  # レンズ３の位置ベクトル
+
+Unit2X = -0
+Rx41 = 0.15  # レンズ４の倍率1
+Rx42 = 0.9  # レンズ４の倍率2
 Ry41 = 2.5  # レンズ４の倍率1
-Ry42 = 1.6  # レンズ４の倍率2
+Ry42 = 2.1  # レンズ４の倍率2
 Rz41 = 2.5  # レンズ４の倍率1
-Rz42 = 1.6  # レンズ４の倍率2
-lens4V = np.array([-3.4, 0, 0])  # レンズ４の位置ベクトル
+Rz42 = 2.1  # レンズ４の倍率2
+lens4V = np.array([-3.4+Unit2X, 0, 0])  # レンズ４の位置ベクトル
 Rx51 = 0.2  # レンズ5の倍率1
-Rx52 = 0.2  # レンズ5の倍率2
+Rx52 = 0.35  # レンズ5の倍率2
 Ry51 = 1.8  # レンズ5の倍率1
 Ry52 = 1.8  # レンズ5の倍率2
 Rz51 = 1.8  # レンズ5の倍率1
 Rz52 = 1.8  # レンズ5の倍率2
-lens5V = np.array([-2.9, 0, 0])  # レンズ5の位置ベクトル
-Rx61 = 0.2  # レンズ6の倍率１
-Rx62 = 0.001  # レンズ6の倍率２
+lens5V = np.array([-2.9+Unit2X, 0, 0])  # レンズ5の位置ベクトル
+Rx61 = Rx52  # レンズ6の倍率１
+Rx62 = 0.1  # レンズ6の倍率２
 Ry61 = 1.8  # レンズ6の倍率１
 Ry62 = 1.7  # レンズ6の倍率２
 Rz61 = 1.8  # レンズ6の倍率１
 Rz62 = 1.7  # レンズ6の倍率２
-lens6V = np.array([-2.3, 0, 0])  # レンズ6の位置ベクトル
-Rx71 = 0.15  # レンズ7の倍率１
-Rx72 = 0.2  # レンズ7の倍率２
+lens6V = np.array([-2.0+Unit2X, 0, 0])  # レンズ6の位置ベクトル
+Rx71 = 0.25  # レンズ7の倍率１
+Rx72 = 0.3  # レンズ7の倍率２
 Ry71 = 1.8  # レンズ7の倍率１
 Ry72 = 1.8  # レンズ7の倍率２
 Rz71 = 1.8  # レンズ7の倍率１
 Rz72 = 1.8  # レンズ7の倍率２
-lens7V = np.array([-2, 0, 0])  # レンズ7の位置ベクトル
-Rx81 = 0.35  # レンズ8の倍率1
-Rx82 = 0.1  # レンズ8の倍率2
+lens7V = np.array([-1.75+Unit2X, 0, 0])  # レンズ7の位置ベクトル
+Rx81 = 0.4  # レンズ8の倍率1
+Rx82 = 0.08  # レンズ8の倍率2
 Ry81 = 1.85  # レンズ8の倍率1
-Ry82 = 1.6  # レンズ8の倍率2
+Ry82 = 1.5  # レンズ8の倍率2
 Rz81 = 1.85  # レンズ8の倍率1
-Rz82 = 1.6  # レンズ8の倍率2
-lens8V = np.array([-1.7, 0, 0])  # レンズ8の位置ベクトル
+Rz82 = 1.5  # レンズ8の倍率2
+lens8V = np.array([-1.55+Unit2X, 0, 0])  # レンズ8の位置ベクトル
 Rx91 = 0.15  # レンズ9の倍率1
-Rx92 = 0.18  # レンズ9の倍率2
+Rx92 = 0.28  # レンズ9の倍率2
 Ry91 = 1.8  # レンズ9の倍率1
 Ry92 = 1.8  # レンズ9の倍率2
 Rz91 = 1.8  # レンズ9の倍率1
 Rz92 = 1.8  # レンズ9の倍率2
-lens9V = np.array([1, 0, 0])  # レンズ9の位置ベクトル
-Rx101 = 0.3  # レンズ１0の倍率1
-Rx102 = 0.3  # レンズ１0の倍率2
+lens9V = np.array([0.9, 0, 0])  # レンズ9の位置ベクトル
+Rx101 = 0.4  # レンズ１0の倍率1
+Rx102 = 0.4  # レンズ１0の倍率2
 Ry101 = 1.8  # レンズ１0の倍率1
 Ry102 = 1.8  # レンズ１0の倍率2
 Rz101 = 1.8  # レンズ１0の倍率1
 Rz102 = 1.8  # レンズ１0の倍率2
-lens10V = np.array([1.6, 0, 0])  # レンズ１0の位置ベクトル
+lens10V = np.array([1.7, 0, 0])  # レンズ１0の位置ベクトル
 Rx111 = Rx102  # レンズ１1の倍率1
-Rx112 = 0.1  # レンズ１1の倍率2
+Rx112 = 0.15  # レンズ１1の倍率2
 Ry111 = 1.8  # レンズ１1の倍率1
 Ry112 = 1.7  # レンズ１1の倍率2
 Rz111 = 1.8  # レンズ１1の倍率1
 Rz112 = 1.7  # レンズ１1の倍率2
-lens11V = np.array([1.65, 0, 0])  # レンズ１1の位置ベクトル
-Rx121 = 0.2  # レンズ1２の倍率１
-Rx122 = 0.3  # レンズ1２の倍率２
+lens11V = np.array([1.75, 0, 0])  # レンズ１1の位置ベクトル
+Rx121 = 0.5  # レンズ1２の倍率１
+Rx122 = 0.5  # レンズ1２の倍率２
 Ry121 = 1.7  # レンズ1２の倍率１
 Ry122 = 1.7  # レンズ1２の倍率２
 Rz121 = 1.7  # レンズ1２の倍率１
 Rz122 = 1.7  # レンズ1２の倍率２
-lens12V = np.array([3, 0, 0])  # レンズ1２の位置ベクトル
-Rx131 = 0.01  # レンズ1３の倍率１
-Rx132 = 0.2  # レンズ1３の倍率２
+lens12V = np.array([3.6, 0, 0])  # レンズ1２の位置ベクトル
+Rx131 = 0.2  # レンズ1３の倍率１
+Rx132 = 0.3  # レンズ1３の倍率２
 Ry131 = 1.8  # レンズ1３の倍率１
 Ry132 = 1.6  # レンズ1３の倍率２
 Rz131 = 1.8  # レンズ1３の倍率１
 Rz132 = 1.6  # レンズ1３の倍率２
-lens13V = np.array([3.5, 0, 0])  # レンズ1３の位置ベクトル
-Rx141 = 0.1  # レンズ14の倍率１
-Rx142 = 0.3  # レンズ14の倍率２
+lens13V = np.array([4.15, 0, 0])  # レンズ1３の位置ベクトル
+Rx141 = 0.08  # レンズ14の倍率１
+Rx142 = 0.6  # レンズ14の倍率２
 Ry141 = 1.8  # レンズ14の倍率１
 Ry142 = 1.8  # レンズ14の倍率２
 Rz141 = 1.8  # レンズ14の倍率１
 Rz142 = 1.8  # レンズ14の倍率２
-lens14V = np.array([3.9, 0, 0])  # レンズ14の位置ベクトル
+lens14V = np.array([4.55, 0, 0])  # レンズ14の位置ベクトル
 Rx151 = Rx142  # レンズ15の倍率１
-Rx152 = 0.1  # レンズ15の倍率２
+Rx152 = 0.3  # レンズ15の倍率２
 Ry151 = 1.8  # レンズ15の倍率１
 Ry152 = 1.8  # レンズ15の倍率２
 Rz151 = 1.8  # レンズ15の倍率１
 Rz152 = 1.8  # レンズ15の倍率２
-lens15V = np.array([4.5, 0, 0])  # レンズ15の位置ベクトル
+lens15V = np.array([5.35, 0, 0])  # レンズ15の位置ベクトル
 
-screenV = np.array([8, 0, 0])  # スクリーンの位置ベクトル
+screenV = np.array([9, 0, 0])  # スクリーンの位置ベクトル
 
 
 class VectorFunctions:
@@ -376,11 +379,11 @@ class VectorFunctions:
                 directionV[1]**2/Ry52**2)+(
                 directionV[2]**2/Rz52**2)
         #print(A)
-        B = ((startV[0] - 0.6)*directionV[0]/Rx52**2)+(
+        B = ((startV[0] - 0.9)*directionV[0]/Rx52**2)+(
                 startV[1]*directionV[1]/Ry52**2)+(
                 startV[2]*directionV[2]/Rz52**2)
         #print(B)
-        C = -1+((startV[0] - 0.6)**2/Rx52**2)+(
+        C = -1+((startV[0] - 0.9)**2/Rx52**2)+(
                 startV[1]**2/Ry52**2)+(
                 startV[2]**2/Rz52**2)
         #print(C)
@@ -398,7 +401,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens5R(self, pointV):
         pointV = pointV - lens5V
-        nornalVx = -(2/Rx52**2)*(pointV[0] - 0.6)
+        nornalVx = -(2/Rx52**2)*(pointV[0] - 0.9)
         nornalVy = -(2/Ry52**2)*pointV[1]
         nornalVz = -(2/Rz52**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -437,7 +440,7 @@ class VectorFunctions:
                 startV[1]**2/Ry62**2)+(
                 startV[2]**2/Rz62**2)
         #print(C)
-        T = (-B+np.sqrt(B**2-A*C))/A
+        T = (-B-np.sqrt(B**2-A*C))/A
         return T
 
     # レンズ6表面の法線を求める関数
@@ -451,9 +454,9 @@ class VectorFunctions:
 
     def decideNormalV_Lens6R(self, pointV):
         pointV = pointV - lens6V
-        nornalVx = 1
-        nornalVy = 0
-        nornalVz = 0
+        nornalVx = -(2/Rx62**2)*(pointV[0] - 0.1)
+        nornalVy = -(2/Ry62**2)*pointV[1]
+        nornalVz = -(2/Rz62**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
         return normalV
 
@@ -694,11 +697,11 @@ class VectorFunctions:
                 directionV[1]**2/Ry112**2)+(
                 directionV[2]**2/Rz112**2)
         #print(A)
-        B = ((startV[0] - 0.5)*directionV[0]/Rx112**2)+(
+        B = ((startV[0] - 0.7)*directionV[0]/Rx112**2)+(
                 startV[1]*directionV[1]/Ry112**2)+(
                 startV[2]*directionV[2]/Rz112**2)
         #print(B)
-        C = -1+((startV[0] - 0.5)**2/Rx112**2)+(
+        C = -1+((startV[0] - 0.7)**2/Rx112**2)+(
                 startV[1]**2/Ry112**2)+(
                 startV[2]**2/Rz112**2)
         #print(C)
@@ -716,7 +719,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens11R(self, pointV):
         pointV = pointV - lens11V
-        nornalVx = -(2/Rx112**2)*(pointV[0] - 0.5)
+        nornalVx = -(2/Rx112**2)*(pointV[0] - 0.7)
         nornalVy = -(2/Ry112**2)*pointV[1]
         nornalVz = -(2/Rz112**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -747,11 +750,11 @@ class VectorFunctions:
                 directionV[1]**2/Ry122**2)+(
                 directionV[2]**2/Rz122**2)
         #print(A)
-        B = ((startV[0] - 0.15)*directionV[0]/Rx122**2)+(
+        B = ((startV[0] + 0.15)*directionV[0]/Rx122**2)+(
                 startV[1]*directionV[1]/Ry122**2)+(
                 startV[2]*directionV[2]/Rz122**2)
         #print(B)
-        C = -1+((startV[0] - 0.15)**2/Rx122**2)+(
+        C = -1+((startV[0] + 0.15)**2/Rx122**2)+(
                 startV[1]**2/Ry122**2)+(
                 startV[2]**2/Rz122**2)
         #print(C)
@@ -769,7 +772,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens12R(self, pointV):
         pointV = pointV - lens12V
-        nornalVx = (2/Rx122**2)*(pointV[0] - 0.15)
+        nornalVx = (2/Rx122**2)*(pointV[0] + 0.15)
         nornalVy = (2/Ry122**2)*pointV[1]
         nornalVz = (2/Rz122**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -853,11 +856,11 @@ class VectorFunctions:
                 directionV[1]**2/Ry142**2)+(
                 directionV[2]**2/Rz142**2)
         #print(A)
-        B = ((startV[0] - 0.6)*directionV[0]/Rx142**2)+(
+        B = ((startV[0] - 0.8)*directionV[0]/Rx142**2)+(
                 startV[1]*directionV[1]/Ry142**2)+(
                 startV[2]*directionV[2]/Rz142**2)
         #print(B)
-        C = -1+((startV[0] - 0.6)**2/Rx142**2)+(
+        C = -1+((startV[0] - 0.8)**2/Rx142**2)+(
                 startV[1]**2/Ry142**2)+(
                 startV[2]**2/Rz142**2)
         #print(C)
@@ -875,7 +878,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens14R(self, pointV):
         pointV = pointV - lens14V
-        nornalVx = -(2/Rx142**2)*(pointV[0] - 0.6)
+        nornalVx = -(2/Rx142**2)*(pointV[0] - 0.8)
         nornalVy = -(2/Ry142**2)*pointV[1]
         nornalVz = -(2/Rz142**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -906,11 +909,11 @@ class VectorFunctions:
                 directionV[1]**2/Ry152**2)+(
                 directionV[2]**2/Rz152**2)
         #print(A)
-        B = ((startV[0] - 0.15)*directionV[0]/Rx152**2)+(
+        B = ((startV[0] + 0.15)*directionV[0]/Rx152**2)+(
                 startV[1]*directionV[1]/Ry152**2)+(
                 startV[2]*directionV[2]/Rz152**2)
         #print(B)
-        C = -1+((startV[0] - 0.15)**2/Rx152**2)+(
+        C = -1+((startV[0] + 0.15)**2/Rx152**2)+(
                 startV[1]**2/Ry152**2)+(
                 startV[2]**2/Rz152**2)
         #print(C)
@@ -928,7 +931,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens15R(self, pointV):
         pointV = pointV - lens15V
-        nornalVx = (2/Rx152**2)*(pointV[0] - 0.15)
+        nornalVx = (2/Rx152**2)*(pointV[0] + 0.15)
         nornalVy = (2/Ry152**2)*pointV[1]
         nornalVz = (2/Rz152**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -1031,14 +1034,14 @@ class VectorFunctions:
 
 
 # ズームレンズのスクリーン上に映った点を返す関数
-def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
-            Nlens5=1.44, Nlens6=1.44, Nlens7=1.44, Nlens8=1.44,
-            Nlens9=1.44, Nlens10=1.44, Nlens11=1.44, Nlens12=1.44,
-            Nlens13=1.44, Nlens14=1.44, Nlens15=1.44,
-            NBlueRay1=1.010, NBlueRay2=1.010, NBlueRay3=1.010, NBlueRay4=1.010,
-            NBlueRay5=1.010, NBlueRay6=1.010, NBlueRay7=1.010, NBlueRay8=1.010,
-            NBlueRay9=1.010, NBlueRay10=1.010, NBlueRay11=1.010, NBlueRay12=1.010,
-            NBlueRay13=1.010, NBlueRay14=1.010, NBlueRay15=1.010):
+def pointsZoomLens(Nlens1=1.8, Nlens2=1.8, Nlens3=1.8, Nlens4=1.5,
+            Nlens5=1.6, Nlens6=1.7, Nlens7=1.6, Nlens8=1.5,
+            Nlens9=1.5, Nlens10=1.6, Nlens11=1.8, Nlens12=1.6,
+            Nlens13=1.6, Nlens14=1.5, Nlens15=1.6, EXNlens45=1, EXNlens1314=1,
+            NBlueRay1=1.00, NBlueRay2=1.00, NBlueRay3=1.00, NBlueRay4=1.00,
+            NBlueRay5=1.00, NBlueRay6=1.00, NBlueRay7=1.00, NBlueRay8=1.00,
+            NBlueRay9=1.00, NBlueRay10=1.00, NBlueRay11=1.00, NBlueRay12=1.00,
+            NBlueRay13=1.00, NBlueRay14=1.00, NBlueRay15=1.00):
     def plotZoomLens():
         limitTheta = 2*np.pi  # theta生成数
         limitPhi = np.pi  # phi生成数
@@ -1111,7 +1114,7 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         Ys = Ry51 * np.outer(np.sin(theta), np.sin(phi))
         Zs = Rz51 * np.outer(np.ones(np.size(theta)), np.cos(phi))
         Xs1 = Rx51 * np.outer(np.cos(theta), np.sin(phi))
-        Xs2 = Rx52 * np.outer(np.cos(theta), np.sin(phi)) + 0.6
+        Xs2 = Rx52 * np.outer(np.cos(theta), np.sin(phi)) + 0.9
         Ys1 = Ry51 * np.outer(np.sin(theta), np.sin(phi))
         Ys2 = Ry52 * np.outer(np.sin(theta), np.sin(phi))
         Zs1 = Rz51 * np.outer(np.ones(np.size(theta)), np.cos(phi))
@@ -1201,7 +1204,7 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         Ys = Ry111 * np.outer(np.sin(theta), np.sin(phi))
         Zs = Rz111 * np.outer(np.ones(np.size(theta)), np.cos(phi))
         Xs1 = Rx111 * np.outer(np.cos(theta), np.sin(phi))
-        Xs2 = Rx112 * np.outer(np.cos(theta), np.sin(phi)) + 0.5
+        Xs2 = Rx112 * np.outer(np.cos(theta), np.sin(phi)) + 0.7
         Ys1 = Ry111 * np.outer(np.sin(theta), np.sin(phi))
         Ys2 = Ry112 * np.outer(np.sin(theta), np.sin(phi))
         Zs1 = Rz111 * np.outer(np.ones(np.size(theta)), np.cos(phi))
@@ -1216,7 +1219,7 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         Ys = Ry121 * np.outer(np.sin(theta), np.sin(phi))
         Zs = Rz121 * np.outer(np.ones(np.size(theta)), np.cos(phi))
         Xs1 = Rx121 * np.outer(np.cos(theta), np.sin(phi))
-        Xs2 = Rx122 * np.outer(np.cos(theta), np.sin(phi)) + 0.15
+        Xs2 = Rx122 * np.outer(np.cos(theta), np.sin(phi)) - 0.15
         Ys1 = Ry121 * np.outer(np.sin(theta), np.sin(phi))
         Ys2 = Ry122 * np.outer(np.sin(theta), np.sin(phi))
         Zs1 = Rz121 * np.outer(np.ones(np.size(theta)), np.cos(phi))
@@ -1247,7 +1250,7 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         Ys = Ry141 * np.outer(np.sin(theta), np.sin(phi))
         Zs = Rz141 * np.outer(np.ones(np.size(theta)), np.cos(phi))
         Xs1 = Rx141 * np.outer(np.cos(theta), np.sin(phi))
-        Xs2 = Rx142 * np.outer(np.cos(theta), np.sin(phi)) + 0.6
+        Xs2 = Rx142 * np.outer(np.cos(theta), np.sin(phi)) + 0.8
         Ys1 = Ry141 * np.outer(np.sin(theta), np.sin(phi))
         Ys2 = Ry142 * np.outer(np.sin(theta), np.sin(phi))
         Zs1 = Rz141 * np.outer(np.ones(np.size(theta)), np.cos(phi))
@@ -1262,7 +1265,7 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         Ys = Ry151 * np.outer(np.sin(theta), np.sin(phi))
         Zs = Rz151 * np.outer(np.ones(np.size(theta)), np.cos(phi))
         Xs1 = Rx151 * np.outer(np.cos(theta), np.sin(phi))
-        Xs2 = Rx152 * np.outer(np.cos(theta), np.sin(phi)) + 0.15
+        Xs2 = Rx152 * np.outer(np.cos(theta), np.sin(phi)) - 0.15
         Ys1 = Ry151 * np.outer(np.sin(theta), np.sin(phi))
         Ys2 = Ry152 * np.outer(np.sin(theta), np.sin(phi))
         Zs1 = Rz151 * np.outer(np.ones(np.size(theta)), np.cos(phi))
@@ -1360,14 +1363,14 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         #VF.plotLineRed(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
         raySPoint_Lens4R = refractEPoint_Lens4L
         normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
-        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nair, Nlens4)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, EXNlens45, Nlens4)
         T = VF.rayTraceDecideT_Lens5L(raySPoint_Lens4R, refractionV_Lens4R)
         rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
         #VF.plotLineRed(raySPoint_Lens4R, rayEPoint_Lens5L)
 
         refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
         normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
-        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nair, Nlens5)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, EXNlens45, Nlens5)
         T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
         refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
         #VF.plotLineRed(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画
@@ -1416,6 +1419,12 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         T = VF.rayTraceDecideT_Lens9L(raySPoint_Lens8R, refractionV_Lens8R)
         rayEPoint_Lens9L = raySPoint_Lens8R + T*refractionV_Lens8R
         #VF.plotLineRed(raySPoint_Lens8R, rayEPoint_Lens9L)
+
+        # 絞り
+        rayEPoint_Lens9L_TEST = raySPoint_Lens8R + 1.5*refractionV_Lens8R
+        TestR = rayEPoint_Lens9L_TEST[1]**2 + rayEPoint_Lens9L_TEST[2]**2
+        if TestR >= 1:
+            refractionV_Lens8R = [0,0,0]
 
         refractSPoint_Lens9L = rayEPoint_Lens9L  # 以下、レンズ9についての計算
         normalV_Lens9L = VF.decideNormalV_Lens9L(refractSPoint_Lens9L)
@@ -1477,14 +1486,14 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         #VF.plotLineRed(refractSPoint_Lens13L,refractEPoint_Lens13L)  # 屈折光の描画
         raySPoint_Lens13R = refractEPoint_Lens13L
         normalV_Lens13R = VF.decideNormalV_Lens13R(raySPoint_Lens13R)
-        refractionV_Lens13R = VF.decideRefractionVR(refractionV_Lens13L, normalV_Lens13R, Nair, Nlens13)
+        refractionV_Lens13R = VF.decideRefractionVR(refractionV_Lens13L, normalV_Lens13R, EXNlens1314, Nlens13)
         T = VF.rayTraceDecideT_Lens14L(raySPoint_Lens13R, refractionV_Lens13R)
         rayEPoint_Lens14L = raySPoint_Lens13R + T*refractionV_Lens13R
         #VF.plotLineRed(raySPoint_Lens13R, rayEPoint_Lens14L)
 
         refractSPoint_Lens14L = rayEPoint_Lens14L  # 以下、レンズ14についての計算
         normalV_Lens14L = VF.decideNormalV_Lens14L(refractSPoint_Lens14L)
-        refractionV_Lens14L = VF.decideRefractionVL(refractionV_Lens13R, normalV_Lens14L, Nair, Nlens14)
+        refractionV_Lens14L = VF.decideRefractionVL(refractionV_Lens13R, normalV_Lens14L, EXNlens1314, Nlens14)
         T = VF.rayTraceDecideT_Lens14R(refractSPoint_Lens14L, refractionV_Lens14L)
         refractEPoint_Lens14L = refractSPoint_Lens14L + T*refractionV_Lens14L
         #VF.plotLineRed(refractSPoint_Lens14L,refractEPoint_Lens14L)  # 屈折光の描画
@@ -1565,14 +1574,14 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         #VF.plotLineBlue(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
         raySPoint_Lens4R = refractEPoint_Lens4L
         normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
-        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nair, Nlens4*NBlueRay4)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, EXNlens45*1.008, Nlens4*NBlueRay4)
         T = VF.rayTraceDecideT_Lens5L(raySPoint_Lens4R, refractionV_Lens4R)
         rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
         #VF.plotLineBlue(raySPoint_Lens4R, rayEPoint_Lens5L)
 
         refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
         normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
-        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nair, Nlens5*NBlueRay5)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, EXNlens45*1.008, Nlens5*NBlueRay5)
         T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
         refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
         #VF.plotLineBlue(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画
@@ -1621,6 +1630,12 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         T = VF.rayTraceDecideT_Lens9L(raySPoint_Lens8R, refractionV_Lens8R)
         rayEPoint_Lens9L = raySPoint_Lens8R + T*refractionV_Lens8R
         #VF.plotLineBlue(raySPoint_Lens8R, rayEPoint_Lens9L)
+
+        # 絞り
+        rayEPoint_Lens9L_TEST = raySPoint_Lens8R + 1.5*refractionV_Lens8R
+        TestR = rayEPoint_Lens9L_TEST[1]**2 + rayEPoint_Lens9L_TEST[2]**2
+        if TestR >= 1:
+            refractionV_Lens8R = [0,0,0]
 
         refractSPoint_Lens9L = rayEPoint_Lens9L  # 以下、レンズ9についての計算
         normalV_Lens9L = VF.decideNormalV_Lens9L(refractSPoint_Lens9L)
@@ -1682,14 +1697,14 @@ def pointsZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
         #VF.plotLineBlue(refractSPoint_Lens13L,refractEPoint_Lens13L)  # 屈折光の描画
         raySPoint_Lens13R = refractEPoint_Lens13L
         normalV_Lens13R = VF.decideNormalV_Lens13R(raySPoint_Lens13R)
-        refractionV_Lens13R = VF.decideRefractionVR(refractionV_Lens13L, normalV_Lens13R, Nair, Nlens13*NBlueRay13)
+        refractionV_Lens13R = VF.decideRefractionVR(refractionV_Lens13L, normalV_Lens13R, EXNlens1314*1.002, Nlens13*NBlueRay13)
         T = VF.rayTraceDecideT_Lens14L(raySPoint_Lens13R, refractionV_Lens13R)
         rayEPoint_Lens14L = raySPoint_Lens13R + T*refractionV_Lens13R
         #VF.plotLineBlue(raySPoint_Lens13R, rayEPoint_Lens14L)
 
         refractSPoint_Lens14L = rayEPoint_Lens14L  # 以下、レンズ14についての計算
         normalV_Lens14L = VF.decideNormalV_Lens14L(refractSPoint_Lens14L)
-        refractionV_Lens14L = VF.decideRefractionVL(refractionV_Lens13R, normalV_Lens14L, Nair, Nlens14*NBlueRay14)
+        refractionV_Lens14L = VF.decideRefractionVL(refractionV_Lens13R, normalV_Lens14L, EXNlens1314*1.002, Nlens14*NBlueRay14)
         T = VF.rayTraceDecideT_Lens14R(refractSPoint_Lens14L, refractionV_Lens14L)
         refractEPoint_Lens14L = refractSPoint_Lens14L + T*refractionV_Lens14L
         #VF.plotLineBlue(refractSPoint_Lens14L,refractEPoint_Lens14L)  # 屈折光の描画

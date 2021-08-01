@@ -32,14 +32,14 @@ def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
     print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
 
-def calcNorm_ZoomLens(Nlens1=1.44, Nlens2=1.44, Nlens3=1.44, Nlens4=1.44,
-            Nlens5=1.44, Nlens6=1.44, Nlens7=1.44, Nlens8=1.44,
-            Nlens9=1.44, Nlens10=1.44, Nlens11=1.44, Nlens12=1.44,
-            Nlens13=1.44, Nlens14=1.44, Nlens15=1.44,
-            NBlueRay1=1.010, NBlueRay2=1.010, NBlueRay3=1.010, NBlueRay4=1.010,
-            NBlueRay5=1.010, NBlueRay6=1.010, NBlueRay7=1.010, NBlueRay8=1.010,
-            NBlueRay9=1.010, NBlueRay10=1.010, NBlueRay11=1.010, NBlueRay12=1.010,
-            NBlueRay13=1.010, NBlueRay14=1.010, NBlueRay15=1.010):
+def calcNorm_ZoomLens(Nlens1=1.8, Nlens2=1.8, Nlens3=1.8, Nlens4=1.5,
+            Nlens5=1.6, Nlens6=1.7, Nlens7=1.6, Nlens8=1.5,
+            Nlens9=1.5, Nlens10=1.6, Nlens11=1.8, Nlens12=1.6,
+            Nlens13=1.6, Nlens14=1.5, Nlens15=1.6,
+            NBlueRay1=1.00, NBlueRay2=1.00, NBlueRay3=1.00, NBlueRay4=1.00,
+            NBlueRay5=1.00, NBlueRay6=1.00, NBlueRay7=1.00, NBlueRay8=1.00,
+            NBlueRay9=1.00, NBlueRay10=1.00, NBlueRay11=1.00, NBlueRay12=1.00,
+            NBlueRay13=1.00, NBlueRay14=1.00, NBlueRay15=1.00):
     Params = np.array([Nlens1, Nlens2, Nlens3, Nlens4,
             Nlens5, Nlens6, Nlens7, Nlens8,
             Nlens9, Nlens10, Nlens11, Nlens12,
@@ -341,15 +341,15 @@ def searchParam_Tessar_Layer(Nlens1=1.4, Nlens2=1.4, Nlens3=1.45, Nlens4=1.7,
     print('4:best =', 'norm =', minNorm4[0], 'params =', *minNorm4[1])
 
 
-def searchParam_ZoomLens_Layer(Nlens1=1.44, Nlens2=1.5, Nlens3=1.44, Nlens4=1.44,
-            Nlens5=1.44, Nlens6=1.44, Nlens7=1.44, Nlens8=1.44,
-            Nlens9=1.44, Nlens10=1.44, Nlens11=1.44, Nlens12=1.44,
-            Nlens13=1.44, Nlens14=1.44, Nlens15=1.44,
-            NBlueRay1=1.010, NBlueRay2=1.070, NBlueRay3=1.010, NBlueRay4=1.010,
-            NBlueRay5=1.010, NBlueRay6=1.010, NBlueRay7=1.010, NBlueRay8=1.010,
-            NBlueRay9=1.010, NBlueRay10=1.010, NBlueRay11=1.010, NBlueRay12=1.010,
-            NBlueRay13=1.010, NBlueRay14=1.010, NBlueRay15=1.010,
-            dNl=0.01, dNB=0.001):
+def searchParam_ZoomLens_Layer(Nlens1=1.5, Nlens2=1.5, Nlens3=1.5, Nlens4=1.5,
+            Nlens5=1.5, Nlens6=1.5, Nlens7=1.5, Nlens8=1.5,
+            Nlens9=1.5, Nlens10=1.5, Nlens11=1.5, Nlens12=1.5,
+            Nlens13=1.5, Nlens14=1.5, Nlens15=1.5,
+            NBlueRay1=1.008, NBlueRay2=1.008, NBlueRay3=1.008, NBlueRay4=1.008,
+            NBlueRay5=1.008, NBlueRay6=1.008, NBlueRay7=1.008, NBlueRay8=1.008,
+            NBlueRay9=1.008, NBlueRay10=1.008, NBlueRay11=1.008, NBlueRay12=1.008,
+            NBlueRay13=1.008, NBlueRay14=1.008, NBlueRay15=1.008,
+            dNl=0.01, dNB=0.0001):
     minNorm_toNext = [30, []]
     def Lens1Layer(Nlens1, Nlens2, Nlens3, Nlens4,
             Nlens5, Nlens6, Nlens7, Nlens8,
@@ -586,16 +586,16 @@ def searchParam_ZoomLens_Layer_v2():
     LayerOrder = [2, 1, 6, 5, 11,
                 10, 15, 14, 3, 4,
                 7, 8, 9, 12, 13]
-    Nlensargs = [1.48, 1.48, 1.46, 1.44, 1.44,
-                1.50, 1.50, 1.44, 1.50, 1.50,
-                1.44, 1.50, 1.44, 1.44, 1.50]
-    NBlueRayargs = [1.015, 1.110, 1.040, 1.010, 1.010,
-                1.010, 1.010, 1.010, 1.010, 1.010,
-                1.010, 1.010, 1.010, 1.010, 1.010]
+    Nlensargs = [1.7, 1.7, 1.7, 1.5, 1.5,
+                1.6, 1.5, 1.5, 1.5, 1.5,
+                1.7, 1.5, 1.5, 1.5, 1.5]
+    NBlueRayargs = [1.004, 1.006, 1.004, 1.004, 1.004,
+                1.006, 1.004, 1.006, 1.004, 1.004,
+                1.006, 1.004, 1.006, 1.006, 1.004]
     Nargs = Nlensargs + NBlueRayargs
     minNorm_toNext = [30, []]
     for k in LayerOrder:
-        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.001, dNB=0.001):
+        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.01, dNB=0.001):
             count = 0
             for i in range(10):
                 if 10 <= count:
