@@ -7,19 +7,19 @@ import time
 fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(1, 1, 1, projection='3d')
 
-LX = 4
-LY = 4
-LZ = 4
+LX = 6
+LY = 6
+LZ = 6
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
 centerX = -8  # 入射光の始点の中心座標
 centerY = 0  # 入射光の始点の中心座標
 centerZ = 0  # 入射光の始点の中心座標
-rayDensity = 0.25  # 入射光の密度
-focusX = 6  # 焦点付近の描画範囲を平行移動
+rayDensity = 0.75  # 入射光の密度
+focusX = 0  # 焦点付近の描画範囲を平行移動
 
-Unit1X = -2
+Unit1X = -1
 Rx11 = 0.75  # レンズ１の倍率1
 Rx12 = 1.05  # レンズ１の倍率2
 Ry11 = 5  # レンズ１の倍率1
@@ -43,7 +43,7 @@ Rz32 = 4.3  # レンズ３の倍率２
 lens3V = np.array([-3.3+Unit1X, 0, 0])  # レンズ３の位置ベクトル
 
 Unit2X = -0
-Rx41 = 0.15  # レンズ４の倍率1
+Rx41 = 0.5  # レンズ４の倍率1
 Rx42 = 0.9  # レンズ４の倍率2
 Ry41 = 2.5  # レンズ４の倍率1
 Ry42 = 2.1  # レンズ４の倍率2
@@ -1291,7 +1291,7 @@ def colorZoomLens(Nlens1=1.74, Nlens2=1.8, Nlens3=1.7, Nlens4=1.5,
 
     # 始点を生成する
     width = 3
-    space = 1
+    space = 0.5
     size = len(np.arange(-width+centerY, 1+width+centerY, space))**2
     pointsY, pointsZ = np.meshgrid(
         np.arange(-width+centerY, 1+width+centerY, space),
@@ -1303,7 +1303,8 @@ def colorZoomLens(Nlens1=1.74, Nlens2=1.8, Nlens3=1.7, Nlens4=1.5,
 
     for i in raySPoint0:
         raySPoint0 = i
-        directionVector0 = np.array([1, 0, 0])  # 入射光の方向ベクトルを設定
+        #directionVector0 = np.array([1, 0, 0])  # 入射光の方向ベクトルを設定
+        directionVector0 = [100, 0, 0] + raySPoint0
         T = VF.rayTraceDecideT_Lens1L(raySPoint0, directionVector0)  # 交点のための係数
         rayEPoint0 = raySPoint0 + T*directionVector0  # 入射光の終点
         VF.plotLinePurple(raySPoint0, rayEPoint0)  # 入射光描画
@@ -1423,7 +1424,7 @@ def colorZoomLens(Nlens1=1.74, Nlens2=1.8, Nlens3=1.7, Nlens4=1.5,
         # 絞り
         rayEPoint_Lens9L_TEST = raySPoint_Lens8R + 1.5*refractionV_Lens8R
         TestR = rayEPoint_Lens9L_TEST[1]**2 + rayEPoint_Lens9L_TEST[2]**2
-        if TestR >= 1:
+        if TestR >= 1.4:
             refractionV_Lens8R = [0,0,0]
 
         refractSPoint_Lens9L = rayEPoint_Lens9L  # 以下、レンズ9についての計算
@@ -1634,7 +1635,7 @@ def colorZoomLens(Nlens1=1.74, Nlens2=1.8, Nlens3=1.7, Nlens4=1.5,
         # 絞り
         rayEPoint_Lens9L_TEST = raySPoint_Lens8R + 1.5*refractionV_Lens8R
         TestR = rayEPoint_Lens9L_TEST[1]**2 + rayEPoint_Lens9L_TEST[2]**2
-        if TestR >= 1:
+        if TestR >= 1.4:
             refractionV_Lens8R = [0,0,0]
 
         refractSPoint_Lens9L = rayEPoint_Lens9L  # 以下、レンズ9についての計算
@@ -1737,6 +1738,7 @@ ax.set_zlim(-LZ, LZ)
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
+ax.view_init(elev=5, azim=-110)
 
 if __name__ == "__main__":
     start = time.time()
