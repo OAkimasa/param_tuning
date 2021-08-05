@@ -14,10 +14,11 @@ LZ = 6
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-centerX = -8  # 入射光の始点の中心座標
+rayStartV = [1000, 0, 0]
+centerX = -10  # 入射光の始点の中心座標
 centerY = 0  # 入射光の始点の中心座標
 centerZ = 0  # 入射光の始点の中心座標
-rayDensity = 0.75  # 入射光の密度
+rayDensity = 0.1  # 入射光の密度
 focusX = 0  # 焦点付近の描画範囲を平行移動
 
 # アニメーション
@@ -29,932 +30,901 @@ for j in range(40):
         Unit1X = 0 - j/5
     elif 20<=j<=39:
         Unit1X = -4
-    Rx11 = 0.75  # レンズ１の倍率1
-    Rx12 = 1.05  # レンズ１の倍率2
-    Ry11 = 5  # レンズ１の倍率1
-    Ry12 = 5  # レンズ１の倍率2
-    Rz11 = 5  # レンズ１の倍率1
-    Rz12 = 5  # レンズ１の倍率2
-    lens1V = np.array([-5.5+Unit1X, 0, 0])  # レンズ１の位置ベクトル
-    Rx21 = Rx12  # レンズ２の倍率１
-    Rx22 = 0.001  # レンズ２の倍率２
-    Ry21 = 5  # レンズ２の倍率１
-    Ry22 = 4.5  # レンズ２の倍率２
-    Rz21 = 5  # レンズ２の倍率１
-    Rz22 = 4.5  # レンズ２の倍率２
-    lens2V = np.array([-5+Unit1X, 0, 0])  # レンズ２の位置ベクトル
-    Rx31 = 1.2  # レンズ３の倍率１
-    Rx32 = 0.3  # レンズ３の倍率２
-    Ry31 = 4.3  # レンズ３の倍率１
-    Ry32 = 4.3  # レンズ３の倍率２
-    Rz31 = 4.3  # レンズ３の倍率１
-    Rz32 = 4.3  # レンズ３の倍率２
-    lens3V = np.array([-3.3+Unit1X, 0, 0])  # レンズ３の位置ベクトル
 
     if 0<=j<=19:
         Unit2X = -0 - (j) / 10
         print(Unit2X)
     elif 20<=j<=39:
         Unit2X = -2 + ((j-20) / 10)
-    Rx41 = 0.5  # レンズ４の倍率1
-    Rx42 = 0.9  # レンズ４の倍率2
-    Ry41 = 2.5  # レンズ４の倍率1
-    Ry42 = 2.1  # レンズ４の倍率2
-    Rz41 = 2.5  # レンズ４の倍率1
-    Rz42 = 2.1  # レンズ４の倍率2
-    lens4V = np.array([-3.4+Unit2X, 0, 0])  # レンズ４の位置ベクトル
-    Rx51 = 0.2  # レンズ5の倍率1
-    Rx52 = 0.35  # レンズ5の倍率2
-    Ry51 = 1.8  # レンズ5の倍率1
-    Ry52 = 1.8  # レンズ5の倍率2
-    Rz51 = 1.8  # レンズ5の倍率1
-    Rz52 = 1.8  # レンズ5の倍率2
-    lens5V = np.array([-2.9+Unit2X, 0, 0])  # レンズ5の位置ベクトル
-    Rx61 = Rx52  # レンズ6の倍率１
-    Rx62 = 0.1  # レンズ6の倍率２
-    Ry61 = 1.8  # レンズ6の倍率１
-    Ry62 = 1.7  # レンズ6の倍率２
-    Rz61 = 1.8  # レンズ6の倍率１
-    Rz62 = 1.7  # レンズ6の倍率２
-    lens6V = np.array([-2.0+Unit2X, 0, 0])  # レンズ6の位置ベクトル
-    Rx71 = 0.25  # レンズ7の倍率１
-    Rx72 = 0.3  # レンズ7の倍率２
-    Ry71 = 1.8  # レンズ7の倍率１
-    Ry72 = 1.8  # レンズ7の倍率２
-    Rz71 = 1.8  # レンズ7の倍率１
-    Rz72 = 1.8  # レンズ7の倍率２
-    lens7V = np.array([-1.75+Unit2X, 0, 0])  # レンズ7の位置ベクトル
-    Rx81 = 0.4  # レンズ8の倍率1
-    Rx82 = 0.08  # レンズ8の倍率2
-    Ry81 = 1.85  # レンズ8の倍率1
-    Ry82 = 1.5  # レンズ8の倍率2
-    Rz81 = 1.85  # レンズ8の倍率1
-    Rz82 = 1.5  # レンズ8の倍率2
-    lens8V = np.array([-1.55+Unit2X, 0, 0])  # レンズ8の位置ベクトル
-    Rx91 = 0.15  # レンズ9の倍率1
-    Rx92 = 0.28  # レンズ9の倍率2
-    Ry91 = 1.8  # レンズ9の倍率1
-    Ry92 = 1.8  # レンズ9の倍率2
-    Rz91 = 1.8  # レンズ9の倍率1
-    Rz92 = 1.8  # レンズ9の倍率2
-    lens9V = np.array([0.9, 0, 0])  # レンズ9の位置ベクトル
-    Rx101 = 0.4  # レンズ１0の倍率1
-    Rx102 = 0.4  # レンズ１0の倍率2
-    Ry101 = 1.8  # レンズ１0の倍率1
-    Ry102 = 1.8  # レンズ１0の倍率2
-    Rz101 = 1.8  # レンズ１0の倍率1
-    Rz102 = 1.8  # レンズ１0の倍率2
-    lens10V = np.array([1.7, 0, 0])  # レンズ１0の位置ベクトル
-    Rx111 = Rx102  # レンズ１1の倍率1
-    Rx112 = 0.15  # レンズ１1の倍率2
-    Ry111 = 1.8  # レンズ１1の倍率1
-    Ry112 = 1.7  # レンズ１1の倍率2
-    Rz111 = 1.8  # レンズ１1の倍率1
-    Rz112 = 1.7  # レンズ１1の倍率2
-    lens11V = np.array([1.75, 0, 0])  # レンズ１1の位置ベクトル
-    Rx121 = 0.5  # レンズ1２の倍率１
-    Rx122 = 0.5  # レンズ1２の倍率２
-    Ry121 = 1.7  # レンズ1２の倍率１
-    Ry122 = 1.7  # レンズ1２の倍率２
-    Rz121 = 1.7  # レンズ1２の倍率１
-    Rz122 = 1.7  # レンズ1２の倍率２
-    lens12V = np.array([3.6, 0, 0])  # レンズ1２の位置ベクトル
-    Rx131 = 0.2  # レンズ1３の倍率１
-    Rx132 = 0.3  # レンズ1３の倍率２
-    Ry131 = 1.8  # レンズ1３の倍率１
-    Ry132 = 1.6  # レンズ1３の倍率２
-    Rz131 = 1.8  # レンズ1３の倍率１
-    Rz132 = 1.6  # レンズ1３の倍率２
-    lens13V = np.array([4.15, 0, 0])  # レンズ1３の位置ベクトル
-    Rx141 = 0.08  # レンズ14の倍率１
-    Rx142 = 0.6  # レンズ14の倍率２
-    Ry141 = 1.8  # レンズ14の倍率１
-    Ry142 = 1.8  # レンズ14の倍率２
-    Rz141 = 1.8  # レンズ14の倍率１
-    Rz142 = 1.8  # レンズ14の倍率２
-    lens14V = np.array([4.55, 0, 0])  # レンズ14の位置ベクトル
-    Rx151 = Rx142  # レンズ15の倍率１
-    Rx152 = 0.3  # レンズ15の倍率２
-    Ry151 = 1.8  # レンズ15の倍率１
-    Ry152 = 1.8  # レンズ15の倍率２
-    Rz151 = 1.8  # レンズ15の倍率１
-    Rz152 = 1.8  # レンズ15の倍率２
-    lens15V = np.array([5.35, 0, 0])  # レンズ15の位置ベクトル
 
-    screenV = np.array([9, 0, 0])  # スクリーンの位置ベクトル
+    Unit3X = 0
+    Unit4X = 1.92 + Unit3X + 0
+
+    Rx11 = 16.67  # レンズ１の倍率1
+    Rx12 = 7.06  # レンズ１の倍率2
+    Rx21 = Rx12  # レンズ２の倍率１
+    Rx22 = 44.44  # レンズ２の倍率２
+    Rx31 = 7.78  # レンズ３の倍率１
+    Rx32 = 12.78  # レンズ３の倍率２
+    Rx41 = 14.44  # レンズ４の倍率1
+    Rx42 = 1.44  # レンズ４の倍率2
+    Rx51 = 3.33  # レンズ5の倍率1
+    Rx52 = 3.33  # レンズ5の倍率2
+    Rx61 = Rx52  # レンズ6の倍率１
+    Rx62 = 6.94  # レンズ6の倍率２
+    Rx71 = 3.61  # レンズ7の倍率１
+    Rx72 = 2.50  # レンズ7の倍率２
+    Rx81 = 2.22  # レンズ8の倍率1
+    Rx82 = 8.33  # レンズ8の倍率2
+    Rx91 = 4.17  # レンズ9の倍率1
+    Rx92 = 4.17  # レンズ9の倍率2
+    Rx101 = 3.06  # レンズ１0の倍率1
+    Rx102 = 3.06  # レンズ１0の倍率2
+    Rx111 = Rx102  # レンズ１1の倍率1
+    Rx112 = 5.00  # レンズ１1の倍率2
+    Rx121 = 3.72  # レンズ1２の倍率１
+    Rx122 = 3.72  # レンズ1２の倍率２
+    Rx131 = 9.44  # レンズ1３の倍率１
+    Rx132 = 3.33  # レンズ1３の倍率２
+    Rx141 = 8.33  # レンズ14の倍率１
+    Rx142 = 2.50  # レンズ14の倍率２
+    Rx151 = Rx142  # レンズ15の倍率１
+    Rx152 = 5.00  # レンズ15の倍率２
+
+    lens1V = np.array([-0-6+Unit1X, 0, 0])  # レンズ１の位置ベクトル
+    lens2V = np.array([0.22-6+Unit1X, 0, 0])  # レンズ２の位置ベクトル
+    lens3V = np.array([1.16-6+Unit1X, 0, 0])  # レンズ３の位置ベクトル
+
+    lens4V = np.array([0-3.7+Unit2X, 0, 0])  # レンズ４の位置ベクトル
+    lens5V = np.array([0.88-3.7+Unit2X, 0, 0])  # レンズ5の位置ベクトル
+    lens6V = np.array([1.05-3.7+Unit2X, 0, 0])  # レンズ6の位置ベクトル
+    lens7V = np.array([1.33-3.7+Unit2X, 0, 0])  # レンズ7の位置ベクトル
+    lens8V = np.array([2.05-3.7+Unit2X, 0, 0])  # レンズ8の位置ベクトル
+
+    lens9V = np.array([0+Unit3X, 0, 0])  # レンズ9の位置ベクトル
+    lens10V = np.array([0.39+Unit3X, 0, 0])  # レンズ１0の位置ベクトル
+    lens11V = np.array([1.06+Unit3X, 0, 0])  # レンズ１1の位置ベクトル
+
+    lens12V = np.array([0+Unit4X, 0, 0])  # レンズ1２の位置ベクトル
+    lens13V = np.array([0.56+Unit4X, 0, 0])  # レンズ1３の位置ベクトル
+    lens14V = np.array([1+Unit4X, 0, 0])  # レンズ14の位置ベクトル
+    lens15V = np.array([1.17+Unit4X, 0, 0])  # レンズ15の位置ベクトル
+
+    screenV = np.array([6, 0, 0])  # スクリーンの位置ベクトル
+
+    Lens1Param = [16.67, 7.06, 0.22, [3.69, 3.44], [-1, -1], lens1V]
+    Lens2Param = [7.06, 44.44, 0.94, [3.44, 3.44], [-1, -1], lens2V]
+    Lens3Param = [7.78, 12.78, 0.72, [3.06, 3.06], [-1, -1], lens3V]
+    Lens4Param = [14.44, 1.44, 0.22, [1.75, 1.19], [-1, -1], lens4V]
+    Lens5Param = [3.33, 3.33, 0.17, [1.19, 1.19], [1, -1], lens5V]
+    Lens6Param = [3.33, 6.94, 0.28, [1.08, 1.08], [-1, -1], lens6V]
+    Lens7Param = [3.61, 2.50, 0.67, [1.14, 1.14], [-1, 1], lens7V]
+    Lens8Param = [2.22, 8.33, 0.17, [0.94, 0.94], [1, 1], lens8V]
+    Lens9Param = [4.17, 4.17, 0.39, [1.08, 1.08], [-1, 1], lens9V]
+    Lens10Param = [3.06, 3.06, 0.67, [1.11, 1.11], [-1, 1], lens10V]
+    Lens11Param = [3.06, 5.00, 0.22, [1.11, 1.11], [1, -1], lens11V]
+    Lens12Param = [3.72, 3.72, 0.56, [1.00, 1.00], [-1, 1], lens12V]
+    Lens13Param = [9.44, 3.33, 0.22, [0.97, 0.97], [-1, -1], lens13V]
+    Lens14Param = [8.33, 2.50, 0.17, [1.17, 1.17], [1, -1], lens14V]
+    Lens15Param = [2.50, 5.00, 0.56, [1.08, 1.08], [-1, 1], lens15V]
+
+    Params = [Lens1Param, Lens2Param, Lens3Param, Lens4Param,
+            Lens5Param, Lens6Param, Lens7Param, Lens8Param,
+            Lens9Param, Lens10Param, Lens11Param, Lens12Param,
+            Lens13Param, Lens14Param, Lens15Param]
 
 
     class VectorFunctions:
         # 受け取ったx,y,z座標から(x,y,z)の組を作る関数
         def makePoints(self, point0, point1, point2, shape0, shape1):
-            result = [None]*(len(point0)+len(point1)+len(point2))
-            result[::3] = point0
-            result[1::3] = point1
-            result[2::3] = point2
-            result = np.array(result)
-            result = result.reshape(shape0, shape1)
-            return result
+                result = [None]*(len(point0)+len(point1)+len(point2))
+                result[::3] = point0
+                result[1::3] = point1
+                result[2::3] = point2
+                result = np.array(result)
+                result = result.reshape(shape0, shape1)
+                return result
 
 
         # レイトレーシング、光線ベクトルとレンズ１の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens1L(self, startV, directionV):
-            startV = startV - lens1V
-            A = (directionV[0]**2/Rx11**2)+(
-                    directionV[1]**2/Ry11**2)+(
-                    directionV[2]**2/Rz11**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx11**2)+(
-                    startV[1]*directionV[1]/Ry11**2)+(
-                    startV[2]*directionV[2]/Rz11**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx11**2)+(
-                    startV[1]**2/Ry11**2)+(
-                    startV[2]**2/Rz11**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens1V
+                A = (directionV[0]**2/Rx11**2)+(
+                        directionV[1]**2/Rx11**2)+(
+                        directionV[2]**2/Rx11**2)
+                #print(A)
+                B = ((startV[0] - 16.67)*directionV[0]/Rx11**2)+(
+                        startV[1]*directionV[1]/Rx11**2)+(
+                        startV[2]*directionV[2]/Rx11**2)
+                #print(B)
+                C = -1+((startV[0] - 16.67)**2/Rx11**2)+(
+                        startV[1]**2/Rx11**2)+(
+                        startV[2]**2/Rx11**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens1R(self, startV, directionV):
-            startV = startV - lens1V
-            A = (directionV[0]**2/Rx12**2)+(
-                    directionV[1]**2/Ry12**2)+(
-                    directionV[2]**2/Rz12**2)
-            #print(A)
-            B = ((startV[0] - 0.5)*directionV[0]/Rx12**2)+(
-                    startV[1]*directionV[1]/Ry12**2)+(
-                    startV[2]*directionV[2]/Rz12**2)
-            #print(B)
-            C = -1+((startV[0] - 0.5)**2/Rx12**2)+(
-                    startV[1]**2/Ry12**2)+(
-                    startV[2]**2/Rz12**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens1V
+                A = (directionV[0]**2/Rx12**2)+(
+                        directionV[1]**2/Rx12**2)+(
+                        directionV[2]**2/Rx12**2)
+                #print(A)
+                B = ((startV[0] - 7.06 - 0.22)*directionV[0]/Rx12**2)+(
+                        startV[1]*directionV[1]/Rx12**2)+(
+                        startV[2]*directionV[2]/Rx12**2)
+                #print(B)
+                C = -1+((startV[0] - 7.06 - 0.22)**2/Rx12**2)+(
+                        startV[1]**2/Rx12**2)+(
+                        startV[2]**2/Rx12**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ１表面の法線を求める関数
         def decideNormalV_Lens1L(self, pointV):
-            pointV = pointV - lens1V
-            nornalVx = (2/Rx11**2)*pointV[0]
-            nornalVy = (2/Ry11**2)*pointV[1]
-            nornalVz = (2/Rz11**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens1V
+                nornalVx = (2/Rx11**2)*(pointV[0] - 16.67)
+                nornalVy = (2/Rx11**2)*pointV[1]
+                nornalVz = (2/Rx11**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens1R(self, pointV):
-            pointV = pointV - lens1V
-            nornalVx = -(2/Rx12**2)*(pointV[0] - 0.5)
-            nornalVy = -(2/Ry12**2)*pointV[1]
-            nornalVz = -(2/Rz12**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens1V
+                nornalVx = -(2/Rx12**2)*(pointV[0] - 7.06 - 0.22)
+                nornalVy = -(2/Rx12**2)*pointV[1]
+                nornalVz = -(2/Rx12**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ２の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens2L(self, startV, directionV):
-            startV = startV - lens2V
-            A = (directionV[0]**2/Rx21**2)+(
-                    directionV[1]**2/Ry21**2)+(
-                    directionV[2]**2/Rz21**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx21**2)+(
-                    startV[1]*directionV[1]/Ry21**2)+(
-                    startV[2]*directionV[2]/Rz21**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx21**2)+(
-                    startV[1]**2/Ry21**2)+(
-                    startV[2]**2/Rz21**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens2V
+                A = (directionV[0]**2/Rx21**2)+(
+                        directionV[1]**2/Rx21**2)+(
+                        directionV[2]**2/Rx21**2)
+                #print(A)
+                B = ((startV[0] - 7.06)*directionV[0]/Rx21**2)+(
+                        startV[1]*directionV[1]/Rx21**2)+(
+                        startV[2]*directionV[2]/Rx21**2)
+                #print(B)
+                C = -1+((startV[0] - 7.06)**2/Rx21**2)+(
+                        startV[1]**2/Rx21**2)+(
+                        startV[2]**2/Rx21**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens2R(self, startV, directionV):
-            startV = startV - lens2V
-            A = (directionV[0]**2/Rx22**2)+(
-                    directionV[1]**2/Ry22**2)+(
-                    directionV[2]**2/Rz22**2)
-            #print(A)
-            B = ((startV[0] - 0.4)*directionV[0]/Rx22**2)+(
-                    startV[1]*directionV[1]/Ry22**2)+(
-                    startV[2]*directionV[2]/Rz22**2)
-            #print(B)
-            C = -1+((startV[0] - 0.4)**2/Rx22**2)+(
-                    startV[1]**2/Ry22**2)+(
-                    startV[2]**2/Rz22**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens2V
+                A = (directionV[0]**2/Rx22**2)+(
+                        directionV[1]**2/Rx22**2)+(
+                        directionV[2]**2/Rx22**2)
+                #print(A)
+                B = ((startV[0] - 44.44 - 0.94)*directionV[0]/Rx22**2)+(
+                        startV[1]*directionV[1]/Rx22**2)+(
+                        startV[2]*directionV[2]/Rx22**2)
+                #print(B)
+                C = -1+((startV[0] - 44.44 - 0.94)**2/Rx22**2)+(
+                        startV[1]**2/Rx22**2)+(
+                        startV[2]**2/Rx22**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ２表面の法線を求める関数
         def decideNormalV_Lens2L(self, pointV):
-            pointV = pointV - lens2V
-            nornalVx = (2/Rx21**2)*pointV[0]
-            nornalVy = (2/Ry21**2)*pointV[1]
-            nornalVz = (2/Rz21**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens2V
+                nornalVx = (2/Rx21**2)*(pointV[0] - 7.06)
+                nornalVy = (2/Rx21**2)*pointV[1]
+                nornalVz = (2/Rx21**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens2R(self, pointV):
-            pointV = pointV - lens2V
-            nornalVx = (2/Rx22**2)*(pointV[0] - 0.4)
-            nornalVy = (2/Ry22**2)*pointV[1]
-            nornalVz = (2/Rz22**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens2V
+                nornalVx = -(2/Rx22**2)*(pointV[0] - 44.44 - 0.94)
+                nornalVy = -(2/Rx22**2)*pointV[1]
+                nornalVz = -(2/Rx22**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ３の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens3L(self, startV, directionV):
-            startV = startV - lens3V
-            A = (directionV[0]**2/Rx31**2)+(
-                    directionV[1]**2/Ry31**2)+(
-                    directionV[2]**2/Rz31**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx31**2)+(
-                    startV[1]*directionV[1]/Ry31**2)+(
-                    startV[2]*directionV[2]/Rz31**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx31**2)+(
-                    startV[1]**2/Ry31**2)+(
-                    startV[2]**2/Rz31**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens3V
+                A = (directionV[0]**2/Rx31**2)+(
+                        directionV[1]**2/Rx31**2)+(
+                        directionV[2]**2/Rx31**2)
+                #print(A)
+                B = ((startV[0] - 7.78)*directionV[0]/Rx31**2)+(
+                        startV[1]*directionV[1]/Rx31**2)+(
+                        startV[2]*directionV[2]/Rx31**2)
+                #print(B)
+                C = -1+((startV[0] - 7.78)**2/Rx31**2)+(
+                        startV[1]**2/Rx31**2)+(
+                        startV[2]**2/Rx31**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens3R(self, startV, directionV):
-            startV = startV - lens3V
-            A = (directionV[0]**2/Rx32**2)+(
-                    directionV[1]**2/Ry32**2)+(
-                    directionV[2]**2/Rz32**2)
-            #print(A)
-            B = ((startV[0] - 0.1)*directionV[0]/Rx32**2)+(
-                    startV[1]*directionV[1]/Ry32**2)+(
-                    startV[2]*directionV[2]/Rz32**2)
-            #print(B)
-            C = -1+((startV[0] - 0.1)**2/Rx32**2)+(
-                    startV[1]**2/Ry32**2)+(
-                    startV[2]**2/Rz32**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens3V
+                A = (directionV[0]**2/Rx32**2)+(
+                        directionV[1]**2/Rx32**2)+(
+                        directionV[2]**2/Rx32**2)
+                #print(A)
+                B = ((startV[0] - 12.78 - 0.72)*directionV[0]/Rx32**2)+(
+                        startV[1]*directionV[1]/Rx32**2)+(
+                        startV[2]*directionV[2]/Rx32**2)
+                #print(B)
+                C = -1+((startV[0] - 12.78 - 0.72)**2/Rx32**2)+(
+                        startV[1]**2/Rx32**2)+(
+                        startV[2]**2/Rx32**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ３表面の法線を求める関数
         def decideNormalV_Lens3L(self, pointV):
-            pointV = pointV - lens3V
-            nornalVx = (2/Rx31**2)*pointV[0]
-            nornalVy = (2/Ry31**2)*pointV[1]
-            nornalVz = (2/Rz31**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens3V
+                nornalVx = (2/Rx31**2)*(pointV[0] - 7.78)
+                nornalVy = (2/Rx31**2)*pointV[1]
+                nornalVz = (2/Rx31**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens3R(self, pointV):
-            pointV = pointV - lens3V
-            nornalVx = -(2/Rx32**2)*(pointV[0] - 0.1)
-            nornalVy = -(2/Ry32**2)*pointV[1]
-            nornalVz = -(2/Rz32**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens3V
+                nornalVx = -(2/Rx32**2)*(pointV[0] - 12.78 - 0.72)
+                nornalVy = -(2/Rx32**2)*pointV[1]
+                nornalVz = -(2/Rx32**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ４の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens4L(self, startV, directionV):
-            startV = startV - lens4V
-            A = (directionV[0]**2/Rx41**2)+(
-                    directionV[1]**2/Ry41**2)+(
-                    directionV[2]**2/Rz41**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx41**2)+(
-                    startV[1]*directionV[1]/Ry41**2)+(
-                    startV[2]*directionV[2]/Rz41**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx41**2)+(
-                    startV[1]**2/Ry41**2)+(
-                    startV[2]**2/Rz41**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens4V
+                A = (directionV[0]**2/Rx41**2)+(
+                        directionV[1]**2/Rx41**2)+(
+                        directionV[2]**2/Rx41**2)
+                #print(A)
+                B = ((startV[0] - 14.44)*directionV[0]/Rx41**2)+(
+                        startV[1]*directionV[1]/Rx41**2)+(
+                        startV[2]*directionV[2]/Rx41**2)
+                #print(B)
+                C = -1+((startV[0] - 14.44)**2/Rx41**2)+(
+                        startV[1]**2/Rx41**2)+(
+                        startV[2]**2/Rx41**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens4R(self, startV, directionV):
-            startV = startV - lens4V
-            A = (directionV[0]**2/Rx42**2)+(
-                    directionV[1]**2/Ry42**2)+(
-                    directionV[2]**2/Rz42**2)
-            #print(A)
-            B = ((startV[0] - 1)*directionV[0]/Rx42**2)+(
-                    startV[1]*directionV[1]/Ry42**2)+(
-                    startV[2]*directionV[2]/Rz42**2)
-            #print(B)
-            C = -1+((startV[0] - 1)**2/Rx42**2)+(
-                    startV[1]**2/Ry42**2)+(
-                    startV[2]**2/Rz42**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens4V
+                A = (directionV[0]**2/Rx42**2)+(
+                        directionV[1]**2/Rx42**2)+(
+                        directionV[2]**2/Rx42**2)
+                #print(A)
+                B = ((startV[0] - 1.44 - 0.22)*directionV[0]/Rx42**2)+(
+                        startV[1]*directionV[1]/Rx42**2)+(
+                        startV[2]*directionV[2]/Rx42**2)
+                #print(B)
+                C = -1+((startV[0] - 1.44 - 0.22)**2/Rx42**2)+(
+                        startV[1]**2/Rx42**2)+(
+                        startV[2]**2/Rx42**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ４表面の法線を求める関数
         def decideNormalV_Lens4L(self, pointV):
-            pointV = pointV - lens4V
-            nornalVx = (2/Rx41**2)*pointV[0]
-            nornalVy = (2/Ry41**2)*pointV[1]
-            nornalVz = (2/Rz41**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens4V
+                nornalVx = (2/Rx41**2)*(pointV[0] - 14.44)
+                nornalVy = (2/Rx41**2)*pointV[1]
+                nornalVz = (2/Rx41**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens4R(self, pointV):
-            pointV = pointV - lens4V
-            nornalVx = -(2/Rx42**2)*(pointV[0] - 1)
-            nornalVy = -(2/Ry42**2)*pointV[1]
-            nornalVz = -(2/Rz42**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens4V
+                nornalVx = -(2/Rx42**2)*(pointV[0] - 1.44 - 0.22)
+                nornalVy = -(2/Rx42**2)*pointV[1]
+                nornalVz = -(2/Rx42**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ5の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens5L(self, startV, directionV):
-            startV = startV - lens5V
-            A = (directionV[0]**2/Rx51**2)+(
-                    directionV[1]**2/Ry51**2)+(
-                    directionV[2]**2/Rz51**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx51**2)+(
-                    startV[1]*directionV[1]/Ry51**2)+(
-                    startV[2]*directionV[2]/Rz51**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx51**2)+(
-                    startV[1]**2/Ry51**2)+(
-                    startV[2]**2/Rz51**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens5V
+                A = (directionV[0]**2/Rx51**2)+(
+                        directionV[1]**2/Rx51**2)+(
+                        directionV[2]**2/Rx51**2)
+                #print(A)
+                B = ((startV[0] + 3.33)*directionV[0]/Rx51**2)+(
+                        startV[1]*directionV[1]/Rx51**2)+(
+                        startV[2]*directionV[2]/Rx51**2)
+                #print(B)
+                C = -1+((startV[0] + 3.33)**2/Rx51**2)+(
+                        startV[1]**2/Rx51**2)+(
+                        startV[2]**2/Rx51**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens5R(self, startV, directionV):
-            startV = startV - lens5V
-            A = (directionV[0]**2/Rx52**2)+(
-                    directionV[1]**2/Ry52**2)+(
-                    directionV[2]**2/Rz52**2)
-            #print(A)
-            B = ((startV[0] - 0.9)*directionV[0]/Rx52**2)+(
-                    startV[1]*directionV[1]/Ry52**2)+(
-                    startV[2]*directionV[2]/Rz52**2)
-            #print(B)
-            C = -1+((startV[0] - 0.9)**2/Rx52**2)+(
-                    startV[1]**2/Ry52**2)+(
-                    startV[2]**2/Rz52**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens5V
+                A = (directionV[0]**2/Rx52**2)+(
+                        directionV[1]**2/Rx52**2)+(
+                        directionV[2]**2/Rx52**2)
+                #print(A)
+                B = ((startV[0] - 3.33 - 0.17)*directionV[0]/Rx52**2)+(
+                        startV[1]*directionV[1]/Rx52**2)+(
+                        startV[2]*directionV[2]/Rx52**2)
+                #print(B)
+                C = -1+((startV[0] - 3.33 - 0.17)**2/Rx52**2)+(
+                        startV[1]**2/Rx52**2)+(
+                        startV[2]**2/Rx52**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ5表面の法線を求める関数
         def decideNormalV_Lens5L(self, pointV):
-            pointV = pointV - lens5V
-            nornalVx = -(2/Rx51**2)*pointV[0]
-            nornalVy = -(2/Ry51**2)*pointV[1]
-            nornalVz = -(2/Rz51**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens5V
+                nornalVx = -(2/Rx51**2)*(pointV[0] + 3.33)
+                nornalVy = -(2/Rx51**2)*pointV[1]
+                nornalVz = -(2/Rx51**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens5R(self, pointV):
-            pointV = pointV - lens5V
-            nornalVx = -(2/Rx52**2)*(pointV[0] - 0.9)
-            nornalVy = -(2/Ry52**2)*pointV[1]
-            nornalVz = -(2/Rz52**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens5V
+                nornalVx = -(2/Rx52**2)*(pointV[0] - 3.33 - 0.17)
+                nornalVy = -(2/Rx52**2)*pointV[1]
+                nornalVz = -(2/Rx52**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ6の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens6L(self, startV, directionV):
-            startV = startV - lens6V
-            A = (directionV[0]**2/Rx61**2)+(
-                    directionV[1]**2/Ry61**2)+(
-                    directionV[2]**2/Rz61**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx61**2)+(
-                    startV[1]*directionV[1]/Ry61**2)+(
-                    startV[2]*directionV[2]/Rz61**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx61**2)+(
-                    startV[1]**2/Ry61**2)+(
-                    startV[2]**2/Rz61**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens6V
+                A = (directionV[0]**2/Rx61**2)+(
+                        directionV[1]**2/Rx61**2)+(
+                        directionV[2]**2/Rx61**2)
+                #print(A)
+                B = ((startV[0] - 3.33)*directionV[0]/Rx61**2)+(
+                        startV[1]*directionV[1]/Rx61**2)+(
+                        startV[2]*directionV[2]/Rx61**2)
+                #print(B)
+                C = -1+((startV[0] - 3.33)**2/Rx61**2)+(
+                        startV[1]**2/Rx61**2)+(
+                        startV[2]**2/Rx61**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens6R(self, startV, directionV):
-            startV = startV - lens6V
-            A = (directionV[0]**2/Rx62**2)+(
-                    directionV[1]**2/Ry62**2)+(
-                    directionV[2]**2/Rz62**2)
-            #print(A)
-            B = ((startV[0] - 0.1)*directionV[0]/Rx62**2)+(
-                    startV[1]*directionV[1]/Ry62**2)+(
-                    startV[2]*directionV[2]/Rz62**2)
-            #print(B)
-            C = -1+((startV[0] - 0.1)**2/Rx62**2)+(
-                    startV[1]**2/Ry62**2)+(
-                    startV[2]**2/Rz62**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens6V
+                A = (directionV[0]**2/Rx62**2)+(
+                        directionV[1]**2/Rx62**2)+(
+                        directionV[2]**2/Rx62**2)
+                #print(A)
+                B = ((startV[0] - 6.94 - 0.28)*directionV[0]/Rx62**2)+(
+                        startV[1]*directionV[1]/Rx62**2)+(
+                        startV[2]*directionV[2]/Rx62**2)
+                #print(B)
+                C = -1+((startV[0] - 6.94 - 0.28)**2/Rx62**2)+(
+                        startV[1]**2/Rx62**2)+(
+                        startV[2]**2/Rx62**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ6表面の法線を求める関数
         def decideNormalV_Lens6L(self, pointV):
-            pointV = pointV - lens6V
-            nornalVx = (2/Rx61**2)*pointV[0]
-            nornalVy = (2/Ry61**2)*pointV[1]
-            nornalVz = (2/Rz61**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens6V
+                nornalVx = (2/Rx61**2)*(pointV[0] - 3.33)
+                nornalVy = (2/Rx61**2)*pointV[1]
+                nornalVz = (2/Rx61**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens6R(self, pointV):
-            pointV = pointV - lens6V
-            nornalVx = -(2/Rx62**2)*(pointV[0] - 0.1)
-            nornalVy = -(2/Ry62**2)*pointV[1]
-            nornalVz = -(2/Rz62**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens6V
+                nornalVx = -(2/Rx62**2)*(pointV[0] - 6.94 - 0.28)
+                nornalVy = -(2/Rx62**2)*pointV[1]
+                nornalVz = -(2/Rx62**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ7の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens7L(self, startV, directionV):
-            startV = startV - lens7V
-            A = (directionV[0]**2/Rx71**2)+(
-                    directionV[1]**2/Ry71**2)+(
-                    directionV[2]**2/Rz71**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx71**2)+(
-                    startV[1]*directionV[1]/Ry71**2)+(
-                    startV[2]*directionV[2]/Rz71**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx71**2)+(
-                    startV[1]**2/Ry71**2)+(
-                    startV[2]**2/Rz71**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens7V
+                A = (directionV[0]**2/Rx71**2)+(
+                        directionV[1]**2/Rx71**2)+(
+                        directionV[2]**2/Rx71**2)
+                #print(A)
+                B = ((startV[0] - 3.61)*directionV[0]/Rx71**2)+(
+                        startV[1]*directionV[1]/Rx71**2)+(
+                        startV[2]*directionV[2]/Rx71**2)
+                #print(B)
+                C = -1+((startV[0] - 3.61)**2/Rx71**2)+(
+                        startV[1]**2/Rx71**2)+(
+                        startV[2]**2/Rx71**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens7R(self, startV, directionV):
-            startV = startV - lens7V
-            A = (directionV[0]**2/Rx72**2)+(
-                    directionV[1]**2/Ry72**2)+(
-                    directionV[2]**2/Rz72**2)
-            #print(A)
-            B = ((startV[0] - 0.2)*directionV[0]/Rx72**2)+(
-                    startV[1]*directionV[1]/Ry72**2)+(
-                    startV[2]*directionV[2]/Rz72**2)
-            #print(B)
-            C = -1+((startV[0] - 0.2)**2/Rx72**2)+(
-                    startV[1]**2/Ry72**2)+(
-                    startV[2]**2/Rz72**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens7V
+                A = (directionV[0]**2/Rx72**2)+(
+                        directionV[1]**2/Rx72**2)+(
+                        directionV[2]**2/Rx72**2)
+                #print(A)
+                B = ((startV[0] + 2.50 - 0.67)*directionV[0]/Rx72**2)+(
+                        startV[1]*directionV[1]/Rx72**2)+(
+                        startV[2]*directionV[2]/Rx72**2)
+                #print(B)
+                C = -1+((startV[0] + 2.50 - 0.67)**2/Rx72**2)+(
+                        startV[1]**2/Rx72**2)+(
+                        startV[2]**2/Rx72**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ7表面の法線を求める関数
         def decideNormalV_Lens7L(self, pointV):
-            pointV = pointV - lens7V
-            nornalVx = (2/Rx71**2)*pointV[0]
-            nornalVy = (2/Ry71**2)*pointV[1]
-            nornalVz = (2/Rz71**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens7V
+                nornalVx = (2/Rx71**2)*(pointV[0] - 3.61)
+                nornalVy = (2/Rx71**2)*pointV[1]
+                nornalVz = (2/Rx71**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens7R(self, pointV):
-            pointV = pointV - lens7V
-            nornalVx = (2/Rx72**2)*(pointV[0] - 0.2)
-            nornalVy = (2/Ry72**2)*pointV[1]
-            nornalVz = (2/Rz72**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens7V
+                nornalVx = (2/Rx72**2)*(pointV[0] + 2.50 - 0.67)
+                nornalVy = (2/Rx72**2)*pointV[1]
+                nornalVz = (2/Rx72**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ8の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens8L(self, startV, directionV):
-            startV = startV - lens8V
-            A = (directionV[0]**2/Rx81**2)+(
-                    directionV[1]**2/Ry81**2)+(
-                    directionV[2]**2/Rz81**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx81**2)+(
-                    startV[1]*directionV[1]/Ry81**2)+(
-                    startV[2]*directionV[2]/Rz81**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx81**2)+(
-                    startV[1]**2/Ry81**2)+(
-                    startV[2]**2/Rz81**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens8V
+                A = (directionV[0]**2/Rx81**2)+(
+                        directionV[1]**2/Rx81**2)+(
+                        directionV[2]**2/Rx81**2)
+                #print(A)
+                B = ((startV[0] + 2.22)*directionV[0]/Rx81**2)+(
+                        startV[1]*directionV[1]/Rx81**2)+(
+                        startV[2]*directionV[2]/Rx81**2)
+                #print(B)
+                C = -1+((startV[0] + 2.22)**2/Rx81**2)+(
+                        startV[1]**2/Rx81**2)+(
+                        startV[2]**2/Rx81**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens8R(self, startV, directionV):
-            startV = startV - lens8V
-            A = (directionV[0]**2/Rx82**2)+(
-                    directionV[1]**2/Ry82**2)+(
-                    directionV[2]**2/Rz82**2)
-            #print(A)
-            B = ((startV[0] - 0.5)*directionV[0]/Rx82**2)+(
-                    startV[1]*directionV[1]/Ry82**2)+(
-                    startV[2]*directionV[2]/Rz82**2)
-            #print(B)
-            C = -1+((startV[0] - 0.5)**2/Rx82**2)+(
-                    startV[1]**2/Ry82**2)+(
-                    startV[2]**2/Rz82**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens8V
+                A = (directionV[0]**2/Rx82**2)+(
+                        directionV[1]**2/Rx82**2)+(
+                        directionV[2]**2/Rx82**2)
+                #print(A)
+                B = ((startV[0] + 8.33 - 0.17)*directionV[0]/Rx82**2)+(
+                        startV[1]*directionV[1]/Rx82**2)+(
+                        startV[2]*directionV[2]/Rx82**2)
+                #print(B)
+                C = -1+((startV[0] + 8.33 - 0.17)**2/Rx82**2)+(
+                        startV[1]**2/Rx82**2)+(
+                        startV[2]**2/Rx82**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ8表面の法線を求める関数
         def decideNormalV_Lens8L(self, pointV):
-            pointV = pointV - lens8V
-            nornalVx = -(2/Rx81**2)*pointV[0]
-            nornalVy = -(2/Ry81**2)*pointV[1]
-            nornalVz = -(2/Rz81**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens8V
+                nornalVx = -(2/Rx81**2)*(pointV[0] + 2.22)
+                nornalVy = -(2/Rx81**2)*pointV[1]
+                nornalVz = -(2/Rx81**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens8R(self, pointV):
-            pointV = pointV - lens8V
-            nornalVx = (2/Rx82**2)*(pointV[0] - 0.5)
-            nornalVy = (2/Ry82**2)*pointV[1]
-            nornalVz = (2/Rz82**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens8V
+                nornalVx = (2/Rx82**2)*(pointV[0] + 8.33 - 0.17)
+                nornalVy = (2/Rx82**2)*pointV[1]
+                nornalVz = (2/Rx82**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ9の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens9L(self, startV, directionV):
-            startV = startV - lens9V
-            A = (directionV[0]**2/Rx91**2)+(
-                    directionV[1]**2/Ry91**2)+(
-                    directionV[2]**2/Rz91**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx91**2)+(
-                    startV[1]*directionV[1]/Ry91**2)+(
-                    startV[2]*directionV[2]/Rz91**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx91**2)+(
-                    startV[1]**2/Ry91**2)+(
-                    startV[2]**2/Rz91**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens9V
+                A = (directionV[0]**2/Rx91**2)+(
+                        directionV[1]**2/Rx91**2)+(
+                        directionV[2]**2/Rx91**2)
+                #print(A)
+                B = ((startV[0] - 4.17)*directionV[0]/Rx91**2)+(
+                        startV[1]*directionV[1]/Rx91**2)+(
+                        startV[2]*directionV[2]/Rx91**2)
+                #print(B)
+                C = -1+((startV[0] - 4.17)**2/Rx91**2)+(
+                        startV[1]**2/Rx91**2)+(
+                        startV[2]**2/Rx91**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens9R(self, startV, directionV):
-            startV = startV - lens9V
-            A = (directionV[0]**2/Rx92**2)+(
-                    directionV[1]**2/Ry92**2)+(
-                    directionV[2]**2/Rz92**2)
-            #print(A)
-            B = ((startV[0] - 0.07)*directionV[0]/Rx92**2)+(
-                    startV[1]*directionV[1]/Ry92**2)+(
-                    startV[2]*directionV[2]/Rz92**2)
-            #print(B)
-            C = -1+((startV[0] - 0.07)**2/Rx92**2)+(
-                    startV[1]**2/Ry92**2)+(
-                    startV[2]**2/Rz92**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens9V
+                A = (directionV[0]**2/Rx92**2)+(
+                        directionV[1]**2/Rx92**2)+(
+                        directionV[2]**2/Rx92**2)
+                #print(A)
+                B = ((startV[0] + 4.17 - 0.39)*directionV[0]/Rx92**2)+(
+                        startV[1]*directionV[1]/Rx92**2)+(
+                        startV[2]*directionV[2]/Rx92**2)
+                #print(B)
+                C = -1+((startV[0] + 4.17 - 0.39)**2/Rx92**2)+(
+                        startV[1]**2/Rx92**2)+(
+                        startV[2]**2/Rx92**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ9表面の法線を求める関数
         def decideNormalV_Lens9L(self, pointV):
-            pointV = pointV - lens9V
-            nornalVx = (2/Rx91**2)*pointV[0]
-            nornalVy = (2/Ry91**2)*pointV[1]
-            nornalVz = (2/Rz91**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens9V
+                nornalVx = (2/Rx91**2)*(pointV[0] - 4.17)
+                nornalVy = (2/Rx91**2)*pointV[1]
+                nornalVz = (2/Rx91**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens9R(self, pointV):
-            pointV = pointV - lens9V
-            nornalVx = (2/Rx92**2)*(pointV[0] - 0.07)
-            nornalVy = (2/Ry92**2)*pointV[1]
-            nornalVz = (2/Rz92**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens9V
+                nornalVx = (2/Rx92**2)*(pointV[0] + 4.17 - 0.39)
+                nornalVy = (2/Rx92**2)*pointV[1]
+                nornalVz = (2/Rx92**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ10の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens10L(self, startV, directionV):
-            startV = startV - lens10V
-            A = (directionV[0]**2/Rx101**2)+(
-                    directionV[1]**2/Ry101**2)+(
-                    directionV[2]**2/Rz101**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx101**2)+(
-                    startV[1]*directionV[1]/Ry101**2)+(
-                    startV[2]*directionV[2]/Rz101**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx101**2)+(
-                    startV[1]**2/Ry101**2)+(
-                    startV[2]**2/Rz101**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens10V
+                A = (directionV[0]**2/Rx101**2)+(
+                        directionV[1]**2/Rx101**2)+(
+                        directionV[2]**2/Rx101**2)
+                #print(A)
+                B = ((startV[0] - 3.06)*directionV[0]/Rx101**2)+(
+                        startV[1]*directionV[1]/Rx101**2)+(
+                        startV[2]*directionV[2]/Rx101**2)
+                #print(B)
+                C = -1+((startV[0] - 3.06)**2/Rx101**2)+(
+                        startV[1]**2/Rx101**2)+(
+                        startV[2]**2/Rx101**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens10R(self, startV, directionV):
-            startV = startV - lens10V
-            A = (directionV[0]**2/Rx102**2)+(
-                    directionV[1]**2/Ry102**2)+(
-                    directionV[2]**2/Rz102**2)
-            #print(A)
-            B = ((startV[0] - 0.05)*directionV[0]/Rx102**2)+(
-                    startV[1]*directionV[1]/Ry102**2)+(
-                    startV[2]*directionV[2]/Rz102**2)
-            #print(B)
-            C = -1+((startV[0] - 0.05)**2/Rx102**2)+(
-                    startV[1]**2/Ry102**2)+(
-                    startV[2]**2/Rz102**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens10V
+                A = (directionV[0]**2/Rx102**2)+(
+                        directionV[1]**2/Rx102**2)+(
+                        directionV[2]**2/Rx102**2)
+                #print(A)
+                B = ((startV[0] + 3.06 - 0.67)*directionV[0]/Rx102**2)+(
+                        startV[1]*directionV[1]/Rx102**2)+(
+                        startV[2]*directionV[2]/Rx102**2)
+                #print(B)
+                C = -1+((startV[0] + 3.06 - 0.67)**2/Rx102**2)+(
+                        startV[1]**2/Rx102**2)+(
+                        startV[2]**2/Rx102**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ10表面の法線を求める関数
         def decideNormalV_Lens10L(self, pointV):
-            pointV = pointV - lens10V
-            nornalVx = (2/Rx101**2)*pointV[0]
-            nornalVy = (2/Ry101**2)*pointV[1]
-            nornalVz = (2/Rz101**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens10V
+                nornalVx = (2/Rx101**2)*(pointV[0] - 3.06)
+                nornalVy = (2/Rx101**2)*pointV[1]
+                nornalVz = (2/Rx101**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens10R(self, pointV):
-            pointV = pointV - lens10V
-            nornalVx = (2/Rx102**2)*(pointV[0] - 0.05)
-            nornalVy = (2/Ry102**2)*pointV[1]
-            nornalVz = (2/Rz102**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens10V
+                nornalVx = (2/Rx102**2)*(pointV[0] + 3.06 - 0.67)
+                nornalVy = (2/Rx102**2)*pointV[1]
+                nornalVz = (2/Rx102**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ11の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens11L(self, startV, directionV):
-            startV = startV - lens11V
-            A = (directionV[0]**2/Rx111**2)+(
-                    directionV[1]**2/Ry111**2)+(
-                    directionV[2]**2/Rz111**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx111**2)+(
-                    startV[1]*directionV[1]/Ry111**2)+(
-                    startV[2]*directionV[2]/Rz111**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx111**2)+(
-                    startV[1]**2/Ry111**2)+(
-                    startV[2]**2/Rz111**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens11V
+                A = (directionV[0]**2/Rx111**2)+(
+                        directionV[1]**2/Rx111**2)+(
+                        directionV[2]**2/Rx111**2)
+                #print(A)
+                B = ((startV[0] + 3.06)*directionV[0]/Rx111**2)+(
+                        startV[1]*directionV[1]/Rx111**2)+(
+                        startV[2]*directionV[2]/Rx111**2)
+                #print(B)
+                C = -1+((startV[0] + 3.06)**2/Rx111**2)+(
+                        startV[1]**2/Rx111**2)+(
+                        startV[2]**2/Rx111**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens11R(self, startV, directionV):
-            startV = startV - lens11V
-            A = (directionV[0]**2/Rx112**2)+(
-                    directionV[1]**2/Ry112**2)+(
-                    directionV[2]**2/Rz112**2)
-            #print(A)
-            B = ((startV[0] - 0.7)*directionV[0]/Rx112**2)+(
-                    startV[1]*directionV[1]/Ry112**2)+(
-                    startV[2]*directionV[2]/Rz112**2)
-            #print(B)
-            C = -1+((startV[0] - 0.7)**2/Rx112**2)+(
-                    startV[1]**2/Ry112**2)+(
-                    startV[2]**2/Rz112**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens11V
+                A = (directionV[0]**2/Rx112**2)+(
+                        directionV[1]**2/Rx112**2)+(
+                        directionV[2]**2/Rx112**2)
+                #print(A)
+                B = ((startV[0] - 5.00 - 0.22)*directionV[0]/Rx112**2)+(
+                        startV[1]*directionV[1]/Rx112**2)+(
+                        startV[2]*directionV[2]/Rx112**2)
+                #print(B)
+                C = -1+((startV[0] - 5.00 - 0.22)**2/Rx112**2)+(
+                        startV[1]**2/Rx112**2)+(
+                        startV[2]**2/Rx112**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ11表面の法線を求める関数
         def decideNormalV_Lens11L(self, pointV):
-            pointV = pointV - lens11V
-            nornalVx = -(2/Rx111**2)*pointV[0]
-            nornalVy = -(2/Ry111**2)*pointV[1]
-            nornalVz = -(2/Rz111**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens11V
+                nornalVx = -(2/Rx111**2)*(pointV[0] + 3.06)
+                nornalVy = -(2/Rx111**2)*pointV[1]
+                nornalVz = -(2/Rx111**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens11R(self, pointV):
-            pointV = pointV - lens11V
-            nornalVx = -(2/Rx112**2)*(pointV[0] - 0.7)
-            nornalVy = -(2/Ry112**2)*pointV[1]
-            nornalVz = -(2/Rz112**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens11V
+                nornalVx = -(2/Rx112**2)*(pointV[0] - 5.00 - 0.22)
+                nornalVy = -(2/Rx112**2)*pointV[1]
+                nornalVz = -(2/Rx112**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ12の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens12L(self, startV, directionV):
-            startV = startV - lens12V
-            A = (directionV[0]**2/Rx121**2)+(
-                    directionV[1]**2/Ry121**2)+(
-                    directionV[2]**2/Rz121**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx121**2)+(
-                    startV[1]*directionV[1]/Ry121**2)+(
-                    startV[2]*directionV[2]/Rz121**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx121**2)+(
-                    startV[1]**2/Ry121**2)+(
-                    startV[2]**2/Rz121**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens12V
+                A = (directionV[0]**2/Rx121**2)+(
+                        directionV[1]**2/Rx121**2)+(
+                        directionV[2]**2/Rx121**2)
+                #print(A)
+                B = ((startV[0] - 3.72)*directionV[0]/Rx121**2)+(
+                        startV[1]*directionV[1]/Rx121**2)+(
+                        startV[2]*directionV[2]/Rx121**2)
+                #print(B)
+                C = -1+((startV[0] - 3.72)**2/Rx121**2)+(
+                        startV[1]**2/Rx121**2)+(
+                        startV[2]**2/Rx121**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens12R(self, startV, directionV):
-            startV = startV - lens12V
-            A = (directionV[0]**2/Rx122**2)+(
-                    directionV[1]**2/Ry122**2)+(
-                    directionV[2]**2/Rz122**2)
-            #print(A)
-            B = ((startV[0] + 0.15)*directionV[0]/Rx122**2)+(
-                    startV[1]*directionV[1]/Ry122**2)+(
-                    startV[2]*directionV[2]/Rz122**2)
-            #print(B)
-            C = -1+((startV[0] + 0.15)**2/Rx122**2)+(
-                    startV[1]**2/Ry122**2)+(
-                    startV[2]**2/Rz122**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens12V
+                A = (directionV[0]**2/Rx122**2)+(
+                        directionV[1]**2/Rx122**2)+(
+                        directionV[2]**2/Rx122**2)
+                #print(A)
+                B = ((startV[0] + 3.72 - 0.56)*directionV[0]/Rx122**2)+(
+                        startV[1]*directionV[1]/Rx122**2)+(
+                        startV[2]*directionV[2]/Rx122**2)
+                #print(B)
+                C = -1+((startV[0] + 3.72 - 0.56)**2/Rx122**2)+(
+                        startV[1]**2/Rx122**2)+(
+                        startV[2]**2/Rx122**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ12表面の法線を求める関数
         def decideNormalV_Lens12L(self, pointV):
-            pointV = pointV - lens12V
-            nornalVx = (2/Rx121**2)*pointV[0]
-            nornalVy = (2/Ry121**2)*pointV[1]
-            nornalVz = (2/Rz121**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens12V
+                nornalVx = (2/Rx121**2)*(pointV[0] - 3.72)
+                nornalVy = (2/Rx121**2)*pointV[1]
+                nornalVz = (2/Rx121**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens12R(self, pointV):
-            pointV = pointV - lens12V
-            nornalVx = (2/Rx122**2)*(pointV[0] + 0.15)
-            nornalVy = (2/Ry122**2)*pointV[1]
-            nornalVz = (2/Rz122**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens12V
+                nornalVx = (2/Rx122**2)*(pointV[0] + 3.72 - 0.56)
+                nornalVy = (2/Rx122**2)*pointV[1]
+                nornalVz = (2/Rx122**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ13の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens13L(self, startV, directionV):
-            startV = startV - lens13V
-            A = (directionV[0]**2/Rx131**2)+(
-                    directionV[1]**2/Ry131**2)+(
-                    directionV[2]**2/Rz131**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx131**2)+(
-                    startV[1]*directionV[1]/Ry131**2)+(
-                    startV[2]*directionV[2]/Rz131**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx131**2)+(
-                    startV[1]**2/Ry131**2)+(
-                    startV[2]**2/Rz131**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens13V
+                A = (directionV[0]**2/Rx131**2)+(
+                        directionV[1]**2/Rx131**2)+(
+                        directionV[2]**2/Rx131**2)
+                #print(A)
+                B = ((startV[0] - 9.44)*directionV[0]/Rx131**2)+(
+                        startV[1]*directionV[1]/Rx131**2)+(
+                        startV[2]*directionV[2]/Rx131**2)
+                #print(B)
+                C = -1+((startV[0] - 9.44)**2/Rx131**2)+(
+                        startV[1]**2/Rx131**2)+(
+                        startV[2]**2/Rx131**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens13R(self, startV, directionV):
-            startV = startV - lens13V
-            A = (directionV[0]**2/Rx132**2)+(
-                    directionV[1]**2/Ry132**2)+(
-                    directionV[2]**2/Rz132**2)
-            #print(A)
-            B = ((startV[0] - 0.4)*directionV[0]/Rx132**2)+(
-                    startV[1]*directionV[1]/Ry132**2)+(
-                    startV[2]*directionV[2]/Rz132**2)
-            #print(B)
-            C = -1+((startV[0] - 0.4)**2/Rx132**2)+(
-                    startV[1]**2/Ry132**2)+(
-                    startV[2]**2/Rz132**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens13V
+                A = (directionV[0]**2/Rx132**2)+(
+                        directionV[1]**2/Rx132**2)+(
+                        directionV[2]**2/Rx132**2)
+                #print(A)
+                B = ((startV[0] - 3.33 - 0.22)*directionV[0]/Rx132**2)+(
+                        startV[1]*directionV[1]/Rx132**2)+(
+                        startV[2]*directionV[2]/Rx132**2)
+                #print(B)
+                C = -1+((startV[0] - 3.33 - 0.22)**2/Rx132**2)+(
+                        startV[1]**2/Rx132**2)+(
+                        startV[2]**2/Rx132**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ13表面の法線を求める関数
         def decideNormalV_Lens13L(self, pointV):
-            pointV = pointV - lens13V
-            nornalVx = (2/Rx131**2)*pointV[0]
-            nornalVy = (2/Ry131**2)*pointV[1]
-            nornalVz = (2/Rz131**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens13V
+                nornalVx = (2/Rx131**2)*(pointV[0] - 9.44)
+                nornalVy = (2/Rx131**2)*pointV[1]
+                nornalVz = (2/Rx131**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens13R(self, pointV):
-            pointV = pointV - lens13V
-            nornalVx = -(2/Rx132**2)*(pointV[0] - 0.4)
-            nornalVy = -(2/Ry132**2)*pointV[1]
-            nornalVz = -(2/Rz132**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens13V
+                nornalVx = -(2/Rx132**2)*(pointV[0] - 3.33 - 0.22)
+                nornalVy = -(2/Rx132**2)*pointV[1]
+                nornalVz = -(2/Rx132**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ14の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens14L(self, startV, directionV):
-            startV = startV - lens14V
-            A = (directionV[0]**2/Rx141**2)+(
-                    directionV[1]**2/Ry141**2)+(
-                    directionV[2]**2/Rz141**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx141**2)+(
-                    startV[1]*directionV[1]/Ry141**2)+(
-                    startV[2]*directionV[2]/Rz141**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx141**2)+(
-                    startV[1]**2/Ry141**2)+(
-                    startV[2]**2/Rz141**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens14V
+                A = (directionV[0]**2/Rx141**2)+(
+                        directionV[1]**2/Rx141**2)+(
+                        directionV[2]**2/Rx141**2)
+                #print(A)
+                B = ((startV[0] + 8.33)*directionV[0]/Rx141**2)+(
+                        startV[1]*directionV[1]/Rx141**2)+(
+                        startV[2]*directionV[2]/Rx141**2)
+                #print(B)
+                C = -1+((startV[0] + 8.33)**2/Rx141**2)+(
+                        startV[1]**2/Rx141**2)+(
+                        startV[2]**2/Rx141**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens14R(self, startV, directionV):
-            startV = startV - lens14V
-            A = (directionV[0]**2/Rx142**2)+(
-                    directionV[1]**2/Ry142**2)+(
-                    directionV[2]**2/Rz142**2)
-            #print(A)
-            B = ((startV[0] - 0.8)*directionV[0]/Rx142**2)+(
-                    startV[1]*directionV[1]/Ry142**2)+(
-                    startV[2]*directionV[2]/Rz142**2)
-            #print(B)
-            C = -1+((startV[0] - 0.8)**2/Rx142**2)+(
-                    startV[1]**2/Ry142**2)+(
-                    startV[2]**2/Rz142**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens14V
+                A = (directionV[0]**2/Rx142**2)+(
+                        directionV[1]**2/Rx142**2)+(
+                        directionV[2]**2/Rx142**2)
+                #print(A)
+                B = ((startV[0] - 2.50 - 0.17)*directionV[0]/Rx142**2)+(
+                        startV[1]*directionV[1]/Rx142**2)+(
+                        startV[2]*directionV[2]/Rx142**2)
+                #print(B)
+                C = -1+((startV[0] - 2.50 - 0.17)**2/Rx142**2)+(
+                        startV[1]**2/Rx142**2)+(
+                        startV[2]**2/Rx142**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ14表面の法線を求める関数
         def decideNormalV_Lens14L(self, pointV):
-            pointV = pointV - lens14V
-            nornalVx = -(2/Rx141**2)*pointV[0]
-            nornalVy = -(2/Ry141**2)*pointV[1]
-            nornalVz = -(2/Rz141**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens14V
+                nornalVx = -(2/Rx141**2)*(pointV[0] + 8.33)
+                nornalVy = -(2/Rx141**2)*pointV[1]
+                nornalVz = -(2/Rx141**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens14R(self, pointV):
-            pointV = pointV - lens14V
-            nornalVx = -(2/Rx142**2)*(pointV[0] - 0.8)
-            nornalVy = -(2/Ry142**2)*pointV[1]
-            nornalVz = -(2/Rz142**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens14V
+                nornalVx = -(2/Rx142**2)*(pointV[0] - 2.50 - 0.17)
+                nornalVy = -(2/Rx142**2)*pointV[1]
+                nornalVz = -(2/Rx142**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # レイトレーシング、光線ベクトルとレンズ15の交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Lens15L(self, startV, directionV):
-            startV = startV - lens15V
-            A = (directionV[0]**2/Rx151**2)+(
-                    directionV[1]**2/Ry151**2)+(
-                    directionV[2]**2/Rz151**2)
-            #print(A)
-            B = (startV[0]*directionV[0]/Rx151**2)+(
-                    startV[1]*directionV[1]/Ry151**2)+(
-                    startV[2]*directionV[2]/Rz151**2)
-            #print(B)
-            C = -1+(startV[0]**2/Rx151**2)+(
-                    startV[1]**2/Ry151**2)+(
-                    startV[2]**2/Rz151**2)
-            #print(C)
-            T = (-B-np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens15V
+                A = (directionV[0]**2/Rx151**2)+(
+                        directionV[1]**2/Rx151**2)+(
+                        directionV[2]**2/Rx151**2)
+                #print(A)
+                B = ((startV[0] - 2.50)*directionV[0]/Rx151**2)+(
+                        startV[1]*directionV[1]/Rx151**2)+(
+                        startV[2]*directionV[2]/Rx151**2)
+                #print(B)
+                C = -1+((startV[0] - 2.50)**2/Rx151**2)+(
+                        startV[1]**2/Rx151**2)+(
+                        startV[2]**2/Rx151**2)
+                #print(C)
+                T = (-B-np.sqrt(B**2-A*C))/A
+                return T
 
         def rayTraceDecideT_Lens15R(self, startV, directionV):
-            startV = startV - lens15V
-            A = (directionV[0]**2/Rx152**2)+(
-                    directionV[1]**2/Ry152**2)+(
-                    directionV[2]**2/Rz152**2)
-            #print(A)
-            B = ((startV[0] + 0.15)*directionV[0]/Rx152**2)+(
-                    startV[1]*directionV[1]/Ry152**2)+(
-                    startV[2]*directionV[2]/Rz152**2)
-            #print(B)
-            C = -1+((startV[0] + 0.15)**2/Rx152**2)+(
-                    startV[1]**2/Ry152**2)+(
-                    startV[2]**2/Rz152**2)
-            #print(C)
-            T = (-B+np.sqrt(B**2-A*C))/A
-            return T
+                startV = startV - lens15V
+                A = (directionV[0]**2/Rx152**2)+(
+                        directionV[1]**2/Rx152**2)+(
+                        directionV[2]**2/Rx152**2)
+                #print(A)
+                B = ((startV[0] + 5.00 - 0.56)*directionV[0]/Rx152**2)+(
+                        startV[1]*directionV[1]/Rx152**2)+(
+                        startV[2]*directionV[2]/Rx152**2)
+                #print(B)
+                C = -1+((startV[0] + 5.00 - 0.56)**2/Rx152**2)+(
+                        startV[1]**2/Rx152**2)+(
+                        startV[2]**2/Rx152**2)
+                #print(C)
+                T = (-B+np.sqrt(B**2-A*C))/A
+                return T
 
         # レンズ15表面の法線を求める関数
         def decideNormalV_Lens15L(self, pointV):
-            pointV = pointV - lens15V
-            nornalVx = (2/Rx151**2)*pointV[0]
-            nornalVy = (2/Ry151**2)*pointV[1]
-            nornalVz = (2/Rz151**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens15V
+                nornalVx = (2/Rx151**2)*(pointV[0] - 2.50)
+                nornalVy = (2/Rx151**2)*pointV[1]
+                nornalVz = (2/Rx151**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
         def decideNormalV_Lens15R(self, pointV):
-            pointV = pointV - lens15V
-            nornalVx = (2/Rx152**2)*(pointV[0] + 0.15)
-            nornalVy = (2/Ry152**2)*pointV[1]
-            nornalVz = (2/Rz152**2)*pointV[2]
-            normalV = np.array([nornalVx, nornalVy, nornalVz])
-            return normalV
+                pointV = pointV - lens15V
+                nornalVx = (2/Rx152**2)*(pointV[0] + 5.00 - 0.56)
+                nornalVy = (2/Rx152**2)*pointV[1]
+                nornalVz = (2/Rx152**2)*pointV[2]
+                normalV = np.array([nornalVx, nornalVy, nornalVz])
+                return normalV
 
 
         # スクリーンとの交点を持つときの係数Ｔを求める関数
         def rayTraceDecideT_Screen(self, startV, directionV):
-            T = (screenV[0]-startV[0])/directionV[0]
-            return T
+                T = (screenV[0]-startV[0])/directionV[0]
+                return T
 
 
         # スネルの公式から屈折光の方向ベクトルを求める関数
@@ -1016,286 +986,77 @@ for j in range(40):
 
         # ２点の位置ベクトルから直線を引く関数
         def plotLineRed(self, startPointV, endPointV):
-            startX = startPointV[0]
-            startY = startPointV[1]
-            startZ = startPointV[2]
-            endX = endPointV[0]
-            endY = endPointV[1]
-            endZ = endPointV[2]
-            ax.plot([startX,endX],[startY,endY],[startZ,endZ],
+                startX = startPointV[0]
+                startY = startPointV[1]
+                startZ = startPointV[2]
+                endX = endPointV[0]
+                endY = endPointV[1]
+                endZ = endPointV[2]
+                ax.plot([startX,endX],[startY,endY],[startZ,endZ],
                 'o-',ms='2',linewidth=0.5,color='r')
 
         def plotLinePurple(self, startPointV, endPointV):
-            startX = startPointV[0]
-            startY = startPointV[1]
-            startZ = startPointV[2]
-            endX = endPointV[0]
-            endY = endPointV[1]
-            endZ = endPointV[2]
-            ax.plot([startX,endX],[startY,endY],[startZ,endZ],
+                startX = startPointV[0]
+                startY = startPointV[1]
+                startZ = startPointV[2]
+                endX = endPointV[0]
+                endY = endPointV[1]
+                endZ = endPointV[2]
+                ax.plot([startX,endX],[startY,endY],[startZ,endZ],
                 'o-',ms='2',linewidth=0.5,color='purple')
 
         def plotLineBlue(self, startPointV, endPointV):
-            startX = startPointV[0]
-            startY = startPointV[1]
-            startZ = startPointV[2]
-            endX = endPointV[0]
-            endY = endPointV[1]
-            endZ = endPointV[2]
-            ax.plot([startX,endX],[startY,endY],[startZ,endZ],
+                startX = startPointV[0]
+                startY = startPointV[1]
+                startZ = startPointV[2]
+                endX = endPointV[0]
+                endY = endPointV[1]
+                endZ = endPointV[2]
+                ax.plot([startX,endX],[startY,endY],[startZ,endZ],
                 'o-',ms='2',linewidth=0.5,color='blue')
 
 
     # ズームレンズのスクリーン上に映った点を返す関数
-    def colorZoomLens(Nlens1=1.74, Nlens2=1.8, Nlens3=1.7, Nlens4=1.5,
-                Nlens5=1.5, Nlens6=1.6, Nlens7=1.6, Nlens8=1.5,
-                Nlens9=1.5, Nlens10=1.6, Nlens11=1.7, Nlens12=1.5,
-                Nlens13=1.5, Nlens14=1.5, Nlens15=1.5, EXNlens45=1, EXNlens1314=1,
-                NBlueRay1=1.054, NBlueRay2=1.106, NBlueRay3=1.004, NBlueRay4=1.004,
-                NBlueRay5=1.004, NBlueRay6=1.008, NBlueRay7=1.004, NBlueRay8=1.006,
-                NBlueRay9=1.004, NBlueRay10=1.004, NBlueRay11=1.006, NBlueRay12=1.004,
-                NBlueRay13=1.006, NBlueRay14=1.006, NBlueRay15=1.004):
-        def plotZoomLens():
-            limitTheta = 2*np.pi  # theta生成数
-            limitPhi = np.pi  # phi生成数
-            theta = np.linspace(0, limitTheta, geneNum)
-            phi = np.linspace(0, limitPhi, geneNum)
-
-            # １枚目のレンズを再現する
-            Xs = Rx11 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry11 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz11 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx11 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx12 * np.outer(np.cos(theta), np.sin(phi)) + 0.5
-            Ys1 = Ry11 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry12 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz11 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz12 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens1V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens1V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens1V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # ２枚目のレンズを再現する
-            Xs = Rx21 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry21 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz21 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx21 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx22 * np.outer(np.cos(theta), np.sin(phi)) + 0.4
-            Ys1 = Ry21 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry22 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz21 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz22 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens2V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens2V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens2V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # ３枚目のレンズを再現する
-            Xs = Rx31 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry31 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz31 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx31 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx32 * np.outer(np.cos(theta), np.sin(phi)) + 0.1
-            Ys1 = Ry31 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry32 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz31 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz32 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens3V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens3V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens3V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # ４枚目のレンズを再現する
-            Xs = Rx41 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry41 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz41 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx41 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx42 * np.outer(np.cos(theta), np.sin(phi)) + 1
-            Xs2 = np.where(0.5<=Xs2, 0.5, Xs2)
-            Ys1 = Ry41 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry42 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz41 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz42 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens4V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens4V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens4V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 5枚目のレンズを再現する
-            Xs = Rx51 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry51 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz51 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx51 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx52 * np.outer(np.cos(theta), np.sin(phi)) + 0.9
-            Ys1 = Ry51 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry52 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz51 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz52 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys2, Ys1) + lens5V[1]
-            Zs = np.where(Xs<0, Zs2, Zs1) + lens5V[2]
-            Xs = np.where(Xs<0, Xs2, Xs1) + lens5V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 6枚目のレンズを再現する
-            Xs = Rx61 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry61 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz61 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx61 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx62 * np.outer(np.cos(theta), np.sin(phi)) + 0.1
-            Ys1 = Ry61 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry62 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz61 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz62 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens6V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens6V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens6V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 7枚目のレンズを再現する
-            Xs = Rx71 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry71 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz71 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx71 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx72 * np.outer(np.cos(theta), np.sin(phi)) + 0.2
-            Ys1 = Ry71 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry72 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz71 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz72 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens7V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens7V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens7V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 8枚目のレンズを再現する
-            Xs = Rx81 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry81 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz81 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx81 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx82 * np.outer(np.cos(theta), np.sin(phi)) + 0.5
-            Ys1 = Ry81 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry82 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz81 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz82 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys2, Ys1) + lens8V[1]
-            Zs = np.where(Xs<0, Zs2, Zs1) + lens8V[2]
-            Xs = np.where(Xs<0, Xs2, Xs1) + lens8V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 9枚目のレンズを再現する
-            Xs = Rx91 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry91 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz91 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx91 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx92 * np.outer(np.cos(theta), np.sin(phi)) + 0.07
-            Ys1 = Ry91 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry92 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz91 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz92 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens9V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens9V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens9V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 10枚目のレンズを再現する
-            Xs = Rx101 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry101 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz101 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx101 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx102 * np.outer(np.cos(theta), np.sin(phi)) + 0.05
-            Ys1 = Ry101 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry102 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz101 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz102 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens10V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens10V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens10V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 11枚目のレンズを再現する
-            Xs = Rx111 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry111 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz111 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx111 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx112 * np.outer(np.cos(theta), np.sin(phi)) + 0.7
-            Ys1 = Ry111 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry112 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz111 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz112 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys2, Ys1) + lens11V[1]
-            Zs = np.where(Xs<0, Zs2, Zs1) + lens11V[2]
-            Xs = np.where(Xs<0, Xs2, Xs1) + lens11V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 12枚目のレンズを再現する
-            Xs = Rx121 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry121 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz121 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx121 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx122 * np.outer(np.cos(theta), np.sin(phi)) - 0.15
-            Ys1 = Ry121 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry122 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz121 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz122 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens12V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens12V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens12V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 13枚目のレンズを再現する
-            Xs = Rx131 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry131 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz131 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx131 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = -Rx132 * np.outer(np.cos(theta), np.sin(phi)) + 0.4
-            Xs2 = np.where(0.7<=Xs2, 0.5, Xs2)
-            Ys1 = Ry131 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry132 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz131 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz132 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens13V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens13V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens13V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 14枚目のレンズを再現する
-            Xs = Rx141 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry141 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz141 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx141 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx142 * np.outer(np.cos(theta), np.sin(phi)) + 0.8
-            Ys1 = Ry141 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry142 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz141 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz142 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys2, Ys1) + lens14V[1]
-            Zs = np.where(Xs<0, Zs2, Zs1) + lens14V[2]
-            Xs = np.where(Xs<0, Xs2, Xs1) + lens14V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # 15枚目のレンズを再現する
-            Xs = Rx151 * np.outer(np.cos(theta), np.sin(phi))
-            Ys = Ry151 * np.outer(np.sin(theta), np.sin(phi))
-            Zs = Rz151 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Xs1 = Rx151 * np.outer(np.cos(theta), np.sin(phi))
-            Xs2 = Rx152 * np.outer(np.cos(theta), np.sin(phi)) - 0.15
-            Ys1 = Ry151 * np.outer(np.sin(theta), np.sin(phi))
-            Ys2 = Ry152 * np.outer(np.sin(theta), np.sin(phi))
-            Zs1 = Rz151 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Zs2 = Rz152 * np.outer(np.ones(np.size(theta)), np.cos(phi))
-            Ys = np.where(Xs<0, Ys1, Ys2) + lens15V[1]
-            Zs = np.where(Xs<0, Zs1, Zs2) + lens15V[2]
-            Xs = np.where(Xs<0, Xs1, Xs2) + lens15V[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2)
-
-            # スクリーン
-            Ys, Zs = np.meshgrid(
+    def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
+            Nlens5=1.50, Nlens6=1.607, Nlens7=1.60, Nlens8=1.50,
+            Nlens9=1.50, Nlens10=1.60, Nlens11=1.70, Nlens12=1.50,
+            Nlens13=1.50, Nlens14=1.70, Nlens15=1.60, EXNlens45=1, EXNlens1314=1,
+            NBlueRay1=1.015, NBlueRay2=1.012, NBlueRay3=1.016, NBlueRay4=1.013,
+            NBlueRay5=1.004, NBlueRay6=1.015, NBlueRay7=1.005, NBlueRay8=1.006,
+            NBlueRay9=1.004, NBlueRay10=1.006, NBlueRay11=1.007, NBlueRay12=1.004,
+            NBlueRay13=1.006, NBlueRay14=1.008, NBlueRay15=1.007):
+        # スクリーン描画
+        Ys, Zs = np.meshgrid(
                 np.arange(-3, 3.5, 0.5),
                 np.arange(-3, 3.5, 0.5))
-            Xs = 0*Ys + 0*Zs + screenV[0]
-            ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
+        Xs = 0*Ys + 0*Zs + screenV[0]
+        ax.plot_wireframe(Xs, Ys, Zs, linewidth=0.2, color='k')
 
-        plotZoomLens()
+        limitTheta = 2*np.pi  # theta生成数
+        limitPhi = np.pi  # phi生成数
+        theta = np.linspace(0, limitTheta, geneNum)
+        phi = np.linspace(0, limitPhi, geneNum)
+
+        # レンズ描画
+        def plotLens(Rxi1, Rxi2, LensD, RLimit, LensType, lensiV):
+            Ys = np.outer(np.sin(theta), np.sin(phi))
+            Zs = np.outer(np.ones(np.size(theta)), np.cos(phi))
+
+            Ysi1 = RLimit[0] * Ys
+            Zsi1 = RLimit[0] * Zs
+            Xsi1 = LensType[0] * (
+                    Rxi1**2-Ysi1**2-Zsi1**2)**(1/2) - LensType[0]*Rxi1 + lensiV[0]
+            ax.plot_wireframe(Xsi1, Ysi1, Zsi1, linewidth=0.1)
+
+            Ysi2 = RLimit[1] * Ys
+            Zsi2 = RLimit[1] * Zs
+            Xsi2 = LensType[1] * (
+                    Rxi2**2-Ysi2**2-Zsi2**2)**(1/2) + LensType[1]*(
+                    -Rxi2 + LensType[1]*LensD) + lensiV[0]
+            ax.plot_wireframe(Xsi2, Ysi2, Zsi2, linewidth=0.1)
+
+        for i in Params:
+                plotLens(*i)
         VF = VectorFunctions()  # インスタンス化
 
         LastRedPoints = []
