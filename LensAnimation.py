@@ -929,60 +929,60 @@ for j in range(40):
 
         # スネルの公式から屈折光の方向ベクトルを求める関数
         def decideRefractionVL(self, rayV, normalV, Nair, Nn):
-                # 正規化
-                rayV = rayV/np.linalg.norm(rayV)
-                normalV = normalV/np.linalg.norm(normalV)
-                # 係数A
-                A = Nair/Nn
-                # 入射角
-                cos_t_in = -np.dot(rayV,normalV)
-                #量子化誤差対策
-                if cos_t_in<-1.:
+            # 正規化
+            rayV = rayV/np.linalg.norm(rayV)
+            normalV = normalV/np.linalg.norm(normalV)
+            # 係数A
+            A = Nair/Nn
+            # 入射角
+            cos_t_in = -np.dot(rayV,normalV)
+            #量子化誤差対策
+            if cos_t_in<-1.:
                 cos_t_in = -1.
-                elif cos_t_in>1.:
+            elif cos_t_in>1.:
                 cos_t_in = 1.
-                # スネルの法則
-                sin_t_in = np.sqrt(1.0 - cos_t_in**2)
-                sin_t_out = sin_t_in*A
-                if sin_t_out>1.0:
+            # スネルの法則
+            sin_t_in = np.sqrt(1.0 - cos_t_in**2)
+            sin_t_out = sin_t_in*A
+            if sin_t_out>1.0:
                 #全反射する場合
                 return np.zeros(3)
-                cos_t_out = np.sqrt(1 - sin_t_out**2)
-                # 係数B
-                B = -cos_t_out + A*cos_t_in
-                # 出射光線の方向ベクトル
-                outRayV = A*rayV + B*normalV
-                # 正規化
-                outRayV = outRayV/np.linalg.norm(outRayV)
-                return outRayV
+            cos_t_out = np.sqrt(1 - sin_t_out**2)
+            # 係数B
+            B = -cos_t_out + A*cos_t_in
+            # 出射光線の方向ベクトル
+            outRayV = A*rayV + B*normalV
+            # 正規化
+            outRayV = outRayV/np.linalg.norm(outRayV)
+            return outRayV
 
         def decideRefractionVR(self, rayV, normalV, Nair, Nn):
-                # 正規化
-                rayV = rayV/np.linalg.norm(rayV)
-                normalV = normalV/np.linalg.norm(normalV)
-                # 係数A
-                A = Nair/Nn
-                # 入射角
-                cos_t_in = np.dot(rayV,normalV)
-                #量子化誤差対策
-                if cos_t_in<-1.:
+            # 正規化
+            rayV = rayV/np.linalg.norm(rayV)
+            normalV = normalV/np.linalg.norm(normalV)
+            # 係数A
+            A = Nair/Nn
+            # 入射角
+            cos_t_in = np.dot(rayV,normalV)
+            #量子化誤差対策
+            if cos_t_in<-1.:
                 cos_t_in = -1.
-                elif cos_t_in>1.:
+            elif cos_t_in>1.:
                 cos_t_in = 1.
-                # スネルの法則
-                sin_t_in = np.sqrt(1.0 - cos_t_in**2)
-                sin_t_out = sin_t_in*A
-                if sin_t_out>1.0:
+            # スネルの法則
+            sin_t_in = np.sqrt(1.0 - cos_t_in**2)
+            sin_t_out = sin_t_in*A
+            if sin_t_out>1.0:
                 #全反射する場合
                 return np.zeros(3)
-                cos_t_out = np.sqrt(1 - sin_t_out**2)
-                # 係数B
-                B = -cos_t_out + A*cos_t_in
-                # 出射光線の方向ベクトル
-                outRayV = A*rayV + B*normalV
-                # 正規化
-                outRayV = outRayV/np.linalg.norm(outRayV)
-                return outRayV
+            cos_t_out = np.sqrt(1 - sin_t_out**2)
+            # 係数B
+            B = -cos_t_out + A*cos_t_in
+            # 出射光線の方向ベクトル
+            outRayV = A*rayV + B*normalV
+            # 正規化
+            outRayV = outRayV/np.linalg.norm(outRayV)
+            return outRayV
 
         # ２点の位置ベクトルから直線を引く関数
         def plotLineRed(self, startPointV, endPointV):
@@ -1017,14 +1017,14 @@ for j in range(40):
 
 
     # ズームレンズのスクリーン上に映った点を返す関数
-    def colorZoomLens(Nlens1=1.74, Nlens2=1.8, Nlens3=1.7, Nlens4=1.5,
-                Nlens5=1.5, Nlens6=1.6, Nlens7=1.6, Nlens8=1.5,
-                Nlens9=1.5, Nlens10=1.6, Nlens11=1.7, Nlens12=1.5,
-                Nlens13=1.5, Nlens14=1.5, Nlens15=1.5, EXNlens45=1, EXNlens1314=1,
-                NBlueRay1=1.054, NBlueRay2=1.106, NBlueRay3=1.004, NBlueRay4=1.004,
-                NBlueRay5=1.004, NBlueRay6=1.008, NBlueRay7=1.004, NBlueRay8=1.006,
-                NBlueRay9=1.004, NBlueRay10=1.004, NBlueRay11=1.006, NBlueRay12=1.004,
-                NBlueRay13=1.006, NBlueRay14=1.006, NBlueRay15=1.004):
+    def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
+            Nlens5=1.50, Nlens6=1.607, Nlens7=1.60, Nlens8=1.50,
+            Nlens9=1.50, Nlens10=1.60, Nlens11=1.70, Nlens12=1.50,
+            Nlens13=1.50, Nlens14=1.70, Nlens15=1.60, EXNlens45=1, EXNlens1314=1,
+            NBlueRay1=1.015, NBlueRay2=1.012, NBlueRay3=1.016, NBlueRay4=1.013,
+            NBlueRay5=1.004, NBlueRay6=1.015, NBlueRay7=1.005, NBlueRay8=1.006,
+            NBlueRay9=1.004, NBlueRay10=1.006, NBlueRay11=1.007, NBlueRay12=1.004,
+            NBlueRay13=1.006, NBlueRay14=1.008, NBlueRay15=1.007):
         # スクリーン描画
         Ys, Zs = np.meshgrid(
                 np.arange(-3, 3.5, 0.5),
@@ -1039,21 +1039,21 @@ for j in range(40):
 
         # レンズ描画
         def plotLens(Rxi1, Rxi2, LensD, RLimit, LensType, lensiV):
-                Ys = np.outer(np.sin(theta), np.sin(phi))
-                Zs = np.outer(np.ones(np.size(theta)), np.cos(phi))
+            Ys = np.outer(np.sin(theta), np.sin(phi))
+            Zs = np.outer(np.ones(np.size(theta)), np.cos(phi))
 
-                Ysi1 = RLimit[0] * Ys
-                Zsi1 = RLimit[0] * Zs
-                Xsi1 = LensType[0] * (
-                        Rxi1**2-Ysi1**2-Zsi1**2)**(1/2) - LensType[0]*Rxi1 + lensiV[0]
-                ax.plot_wireframe(Xsi1, Ysi1, Zsi1, linewidth=0.1)
+            Ysi1 = RLimit[0] * Ys
+            Zsi1 = RLimit[0] * Zs
+            Xsi1 = LensType[0] * (
+                    Rxi1**2-Ysi1**2-Zsi1**2)**(1/2) - LensType[0]*Rxi1 + lensiV[0]
+            ax.plot_wireframe(Xsi1, Ysi1, Zsi1, linewidth=0.1)
 
-                Ysi2 = RLimit[1] * Ys
-                Zsi2 = RLimit[1] * Zs
-                Xsi2 = LensType[1] * (
-                        Rxi2**2-Ysi2**2-Zsi2**2)**(1/2) + LensType[1]*(
-                        -Rxi2 + LensType[1]*LensD) + lensiV[0]
-                ax.plot_wireframe(Xsi2, Ysi2, Zsi2, linewidth=0.1)
+            Ysi2 = RLimit[1] * Ys
+            Zsi2 = RLimit[1] * Zs
+            Xsi2 = LensType[1] * (
+                    Rxi2**2-Ysi2**2-Zsi2**2)**(1/2) + LensType[1]*(
+                    -Rxi2 + LensType[1]*LensD) + lensiV[0]
+            ax.plot_wireframe(Xsi2, Ysi2, Zsi2, linewidth=0.1)
 
         for i in Params:
                 plotLens(*i)

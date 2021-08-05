@@ -3,13 +3,16 @@ from PIL import Image
  
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from numpy.core.fromnumeric import sort
 
 #フォルダ名を入れます
-folderName = "ZoomLensAnimation"
+folderName = "ZoomSphere"
 
 #該当フォルダから画像のリストを取得。読み込みたいファイル形式を指定。ここではpng
-picList = glob.glob(folderName + "\*.png")
-#print(picList)
+#picList = glob.glob(folderName + "\*.png")  # windows
+picList = glob.glob(folderName + "/*.png")  # mac
+picList = sort(picList)
+print(picList)
 
 #figオブジェクトの作成
 fig = plt.figure(figsize=(18,18))
@@ -30,4 +33,4 @@ for i in range(len(picList)):
 ani = animation.ArtistAnimation(fig, ims, blit=True)
 
 #アニメーション保存。ファイル名を入力
-ani.save("ZoomLens.gif", writer='pillow')
+ani.save("ZoomSphere.gif", writer='pillow')
