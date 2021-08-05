@@ -1002,11 +1002,11 @@ class VectorFunctions:
 
 
 # ズームレンズのスクリーン上に映った点を返す関数
-def colorZoomLens(Nlens1=1.60, Nlens2=1.70, Nlens3=1.70, Nlens4=1.50,
-            Nlens5=1.50, Nlens6=1.60, Nlens7=1.60, Nlens8=1.50,
+def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
+            Nlens5=1.50, Nlens6=1.607, Nlens7=1.60, Nlens8=1.50,
             Nlens9=1.50, Nlens10=1.60, Nlens11=1.70, Nlens12=1.50,
             Nlens13=1.50, Nlens14=1.70, Nlens15=1.60, EXNlens45=1, EXNlens1314=1,
-            NBlueRay1=1.015, NBlueRay2=1.010, NBlueRay3=1.016, NBlueRay4=1.013,
+            NBlueRay1=1.015, NBlueRay2=1.012, NBlueRay3=1.016, NBlueRay4=1.013,
             NBlueRay5=1.004, NBlueRay6=1.015, NBlueRay7=1.005, NBlueRay8=1.006,
             NBlueRay9=1.004, NBlueRay10=1.006, NBlueRay11=1.007, NBlueRay12=1.004,
             NBlueRay13=1.006, NBlueRay14=1.008, NBlueRay15=1.007):

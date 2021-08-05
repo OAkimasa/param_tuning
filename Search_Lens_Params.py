@@ -586,16 +586,16 @@ def searchParam_ZoomLens_Layer_v2():
     LayerOrder = [2, 1, 6, 5, 11,
                 10, 15, 14, 3, 4,
                 7, 8, 9, 12, 13]
-    Nlensargs = [1.7, 1.7, 1.7, 1.5, 1.5,
-                1.6, 1.5, 1.5, 1.5, 1.5,
-                1.7, 1.5, 1.5, 1.5, 1.5]
-    NBlueRayargs = [1.004, 1.006, 1.004, 1.004, 1.004,
-                1.006, 1.004, 1.006, 1.004, 1.004,
-                1.006, 1.004, 1.006, 1.006, 1.004]
+    Nlensargs = [1.600, 1.701, 1.70, 1.50, 1.50,
+                1.607, 1.60, 1.50, 1.50, 1.60,
+                1.70, 1.50, 1.50, 1.70, 1.60]
+    NBlueRayargs = [1.015, 1.012, 1.016, 1.013, 1.004,
+                1.015, 1.005, 1.006, 1.004, 1.006,
+                1.007, 1.004, 1.006, 1.008, 1.007]
     Nargs = Nlensargs + NBlueRayargs
     minNorm_toNext = [30, []]
     for k in LayerOrder:
-        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.01, dNB=0.001):
+        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.001, dNB=0.0001):
             count = 0
             for i in range(10):
                 if 10 <= count:
