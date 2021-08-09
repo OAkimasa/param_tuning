@@ -1002,14 +1002,14 @@ class VectorFunctions:
 
 
 # ズームレンズのスクリーン上に映った点を返す関数
-def pointsZoomLens(Nlens1=1.8, Nlens2=1.8, Nlens3=1.8, Nlens4=1.5,
-            Nlens5=1.6, Nlens6=1.7, Nlens7=1.6, Nlens8=1.5,
-            Nlens9=1.5, Nlens10=1.6, Nlens11=1.8, Nlens12=1.6,
-            Nlens13=1.6, Nlens14=1.5, Nlens15=1.6, EXNlens45=1, EXNlens1314=1,
-            NBlueRay1=1.00, NBlueRay2=1.00, NBlueRay3=1.00, NBlueRay4=1.00,
-            NBlueRay5=1.00, NBlueRay6=1.00, NBlueRay7=1.00, NBlueRay8=1.00,
-            NBlueRay9=1.00, NBlueRay10=1.00, NBlueRay11=1.00, NBlueRay12=1.00,
-            NBlueRay13=1.00, NBlueRay14=1.00, NBlueRay15=1.00):
+def pointsZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
+            Nlens5=1.50, Nlens6=1.607, Nlens7=1.60, Nlens8=1.50,
+            Nlens9=1.50, Nlens10=1.60, Nlens11=1.70, Nlens12=1.50,
+            Nlens13=1.50, Nlens14=1.70, Nlens15=1.60, EXNlens45=1, EXNlens1314=1,
+            NBlueRay1=1.015, NBlueRay2=1.012, NBlueRay3=1.016, NBlueRay4=1.013,
+            NBlueRay5=1.004, NBlueRay6=1.015, NBlueRay7=1.005, NBlueRay8=1.006,
+            NBlueRay9=1.004, NBlueRay10=1.006, NBlueRay11=1.007, NBlueRay12=1.004,
+            NBlueRay13=1.006, NBlueRay14=1.008, NBlueRay15=1.007):
     # スクリーン描画
     Ys, Zs = np.meshgrid(
             np.arange(-3, 3.5, 0.5),
