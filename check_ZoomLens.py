@@ -1077,6 +1077,8 @@ def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
             count+=1
             LorR = -1*LorR
             return calcLensVector(rayEP_Last, refractV_Last, count, LorR)
+        elif count==16:
+            return raySP_Now, refractV_Now
 
 
     for i in raySPoint0:
