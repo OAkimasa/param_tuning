@@ -1061,6 +1061,274 @@ def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
     pointsZ = pointsZ.reshape(size)*rayDensity + lens1V[2]
     raySPoint0 = VF.makePoints(pointsX, pointsY, pointsZ, size, 3)
 
+    def calcLensVector(rayEP_Last, refractV_Last, count, LorR):
+        raySP_Now = rayEP_Last
+        normalV_Now = VF.decideNV_Now(raySP_Now)
+        if LorR==1:
+            refractV_Now = VF.decideRefractionVL(refractV_Last, normalV_Now, Nin, Nlens)
+            T = VF.rayTraceDecideTL(raySP_Now, refractV_Now)
+        elif LorR==-1:
+            refractV_Now = VF.decideRefractionVR(refractV_Last, normalV_Now, Nout, Nlens)
+            T = VF.rayTraceDecideTR(raySP_Now, refractV_Now)
+        rayEP_Last = raySP_Now + T*refractV_Now
+        VF.plotLineRed(raySP_Now, rayEP_Last)
+
+        if count<=15:
+            count+=1
+            LorR = -1*LorR
+            return calcLensVector(rayEP_Last, refractV_Last, count, LorR)
+
+
+    for i in raySPoint0:
+        raySPoint0 = i
+        #directionVector0 = np.array([1, 0, 0])  # 入射光の方向ベクトルを設定
+        directionVector0 = rayStartV + raySPoint0
+        T = VF.rayTraceDecideT_Lens1L(raySPoint0, directionVector0)  # 交点のための係数
+        rayEPoint0 = raySPoint0 + T*directionVector0  # 入射光の終点
+        VF.plotLinePurple(raySPoint0, rayEPoint0)  # 入射光描画
+
+        rayEP_Last = rayEPoint0
+        refractV_Last = directionVector0
+
+
+        # 赤色光
+        count = 1
+        LorR = 1
+        calcLensVector(rayEP_Last, refractV_Last, count, LorR)
+
+        T = VF.rayTraceDecideT_Screen(raySP_Now, refractV_Now)
+        rayEPoint_Last = raySP_Now + T*refractV_Now
+        VF.plotLineBlue(raySP_Now, rayEPoint_Last)
+
+        LastRedPoints.append(rayEP_Last)
+
+
+        # 青色光
+        refractSPoint0 = rayEPoint0  # 入射光の終点を引き継ぐ。以下レンズ１についての計算
+        normalV_Lens1L = VF.decideNormalV_Lens1L(refractSPoint0)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens1L = VF.decideRefractionVL(directionVector0, normalV_Lens1L, Nair, Nlens1*NBlueRay1)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens1R(refractSPoint0, refractionV_Lens1L)
+        refractEPoint0 = refractSPoint0 + T*refractionV_Lens1L
+        VF.plotLineBlue(refractSPoint0,refractEPoint0)  # 屈折光の描画
+        raySPoint1 = refractEPoint0  # 屈折光の終点を引き継ぐ
+        normalV1 = VF.decideNormalV_Lens1R(raySPoint1)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens1R = VF.decideRefractionVR(refractionV_Lens1L, normalV1, Nlens2*NBlueRay2, Nlens1*NBlueRay1)
+        T = 0  # レンズの接着を考えた
+        rayEPoint1 = raySPoint1 + T*refractionV_Lens1R  # 空気中の屈折光の終点
+        VF.plotLineBlue(raySPoint1,rayEPoint1)  # 空気中の屈折光の描画
+
+        refractSPoint_Lens2L = rayEPoint1  # 以下、レンズ２についての計算
+        normalV_Lens2L = VF.decideNormalV_Lens2L(refractSPoint_Lens2L)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens2L = VF.decideRefractionVL(refractionV_Lens1R, normalV_Lens2L, Nlens1*NBlueRay1, Nlens2*NBlueRay2)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens2R(refractSPoint_Lens2L, refractionV_Lens2L)
+        refractEPoint_Lens2L = refractSPoint_Lens2L + T*refractionV_Lens2L
+        VF.plotLineBlue(refractSPoint_Lens2L,refractEPoint_Lens2L)  # 屈折光の描画
+        raySPoint_Lens2R = refractEPoint_Lens2L
+        normalV_Lens2R = VF.decideNormalV_Lens2R(raySPoint_Lens2R)
+        refractionV_Lens2R = VF.decideRefractionVR(refractionV_Lens2L, normalV_Lens2R, Nair, Nlens2*NBlueRay2)
+        T = VF.rayTraceDecideT_Lens3L(raySPoint_Lens2R, refractionV_Lens2R)
+        rayEPoint_Lens3L = raySPoint_Lens2R + T*refractionV_Lens2R
+        VF.plotLineBlue(raySPoint_Lens2R, rayEPoint_Lens3L)
+
+        refractSPoint_Lens3L = rayEPoint_Lens3L  # 以下、レンズ３についての計算
+        normalV_Lens3L = VF.decideNormalV_Lens3L(refractSPoint_Lens3L)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens3L = VF.decideRefractionVL(refractionV_Lens2R, normalV_Lens3L, Nair, Nlens3*NBlueRay3)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens3R(refractSPoint_Lens3L, refractionV_Lens3L)
+        refractEPoint_Lens3L = refractSPoint_Lens3L + T*refractionV_Lens3L
+        VF.plotLineBlue(refractSPoint_Lens3L,refractEPoint_Lens3L)  # 屈折光の描画
+        raySPoint_Lens3R = refractEPoint_Lens3L
+        normalV_Lens3R = VF.decideNormalV_Lens3R(raySPoint_Lens3R)
+        refractionV_Lens3R = VF.decideRefractionVR(refractionV_Lens3L, normalV_Lens3R, Nair, Nlens3*NBlueRay3)
+        T = VF.rayTraceDecideT_Lens4L(raySPoint_Lens3R, refractionV_Lens3R)
+        rayEPoint_Lens4L = raySPoint_Lens3R + T*refractionV_Lens3R
+        VF.plotLineBlue(raySPoint_Lens3R, rayEPoint_Lens4L)
+
+        refractSPoint_Lens4L = rayEPoint_Lens4L  # 以下、レンズ４についての計算
+        normalV_Lens4L = VF.decideNormalV_Lens4L(refractSPoint_Lens4L)
+        refractionV_Lens4L = VF.decideRefractionVL(refractionV_Lens3R, normalV_Lens4L, Nair, Nlens4*NBlueRay4)
+        T = VF.rayTraceDecideT_Lens4R(refractSPoint_Lens4L, refractionV_Lens4L)
+        refractEPoint_Lens4L = refractSPoint_Lens4L + T*refractionV_Lens4L
+        VF.plotLineBlue(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
+        raySPoint_Lens4R = refractEPoint_Lens4L
+        normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, EXNlens45*1.008, Nlens4*NBlueRay4)
+        T = VF.rayTraceDecideT_Lens5L(raySPoint_Lens4R, refractionV_Lens4R)
+        rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
+        VF.plotLineBlue(raySPoint_Lens4R, rayEPoint_Lens5L)
+
+        refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
+        normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, EXNlens45*1.008, Nlens5*NBlueRay5)
+        T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
+        refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
+        VF.plotLineBlue(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画
+        raySPoint_Lens5R = refractEPoint_Lens5L
+        normalV_Lens5R = VF.decideNormalV_Lens5R(raySPoint_Lens5R)
+        refractionV_Lens5R = VF.decideRefractionVR(refractionV_Lens5L, normalV_Lens5R, Nlens6*NBlueRay6, Nlens5*NBlueRay5)
+        T = 0
+        rayEPoint_Lens6L = raySPoint_Lens5R + T*refractionV_Lens5R
+        VF.plotLineBlue(raySPoint_Lens5R, rayEPoint_Lens6L)
+
+        refractSPoint_Lens6L = rayEPoint_Lens6L  # 以下、レンズ6についての計算
+        normalV_Lens6L = VF.decideNormalV_Lens6L(refractSPoint_Lens6L)
+        refractionV_Lens6L = VF.decideRefractionVL(refractionV_Lens5R, normalV_Lens6L, Nlens5*NBlueRay5, Nlens6*NBlueRay6)
+        T = VF.rayTraceDecideT_Lens6R(refractSPoint_Lens6L, refractionV_Lens6L)
+        refractEPoint_Lens6L = refractSPoint_Lens6L + T*refractionV_Lens6L
+        VF.plotLineBlue(refractSPoint_Lens6L,refractEPoint_Lens6L)  # 屈折光の描画
+        raySPoint_Lens6R = refractEPoint_Lens6L
+        normalV_Lens6R = VF.decideNormalV_Lens6R(raySPoint_Lens6R)
+        refractionV_Lens6R = VF.decideRefractionVR(refractionV_Lens6L, normalV_Lens6R, Nair, Nlens6*NBlueRay6)
+        T = VF.rayTraceDecideT_Lens7L(raySPoint_Lens6R, refractionV_Lens6R)
+        rayEPoint_Lens7L = raySPoint_Lens6R + T*refractionV_Lens6R
+        VF.plotLineBlue(raySPoint_Lens6R, rayEPoint_Lens7L)
+
+        refractSPoint_Lens7L = rayEPoint_Lens7L  # 以下、レンズ7についての計算
+        normalV_Lens7L = VF.decideNormalV_Lens7L(refractSPoint_Lens7L)
+        refractionV_Lens7L = VF.decideRefractionVL(refractionV_Lens6R, normalV_Lens7L, Nair, Nlens7*NBlueRay7)
+        T = VF.rayTraceDecideT_Lens7R(refractSPoint_Lens7L, refractionV_Lens7L)
+        refractEPoint_Lens7L = refractSPoint_Lens7L + T*refractionV_Lens7L
+        VF.plotLineBlue(refractSPoint_Lens7L,refractEPoint_Lens7L)  # 屈折光の描画
+        raySPoint_Lens7R = refractEPoint_Lens7L
+        normalV_Lens7R = VF.decideNormalV_Lens7R(raySPoint_Lens7R)
+        refractionV_Lens7R = VF.decideRefractionVR(refractionV_Lens7L, normalV_Lens7R, Nair, Nlens7*NBlueRay7)
+        T = VF.rayTraceDecideT_Lens8L(raySPoint_Lens7R, refractionV_Lens7R)
+        rayEPoint_Lens8L = raySPoint_Lens7R + T*refractionV_Lens7R
+        VF.plotLineBlue(raySPoint_Lens7R, rayEPoint_Lens8L)
+
+        refractSPoint_Lens8L = rayEPoint_Lens8L  # 以下、レンズ8についての計算
+        normalV_Lens8L = VF.decideNormalV_Lens8L(refractSPoint_Lens8L)
+        refractionV_Lens8L = VF.decideRefractionVL(refractionV_Lens7R, normalV_Lens8L, Nair, Nlens8*NBlueRay8)
+        T = VF.rayTraceDecideT_Lens8R(refractSPoint_Lens8L, refractionV_Lens8L)
+        refractEPoint_Lens8L = refractSPoint_Lens8L + T*refractionV_Lens8L
+        VF.plotLineBlue(refractSPoint_Lens8L,refractEPoint_Lens8L)  # 屈折光の描画
+        raySPoint_Lens8R = refractEPoint_Lens8L
+        normalV_Lens8R = VF.decideNormalV_Lens8R(raySPoint_Lens8R)
+        refractionV_Lens8R = VF.decideRefractionVR(refractionV_Lens8L, normalV_Lens8R, Nair, Nlens8*NBlueRay8)
+        T = VF.rayTraceDecideT_Lens9L(raySPoint_Lens8R, refractionV_Lens8R)
+        rayEPoint_Lens9L = raySPoint_Lens8R + T*refractionV_Lens8R
+        VF.plotLineBlue(raySPoint_Lens8R, rayEPoint_Lens9L)
+
+        # 絞り
+        rayEPoint_Lens9L_TEST = raySPoint_Lens8R + 1.2*refractionV_Lens8R
+        TestR = rayEPoint_Lens9L_TEST[1]**2 + rayEPoint_Lens9L_TEST[2]**2
+        if TestR >= 0.8:
+            refractionV_Lens8R = [0,0,0]
+
+        refractSPoint_Lens9L = rayEPoint_Lens9L  # 以下、レンズ9についての計算
+        normalV_Lens9L = VF.decideNormalV_Lens9L(refractSPoint_Lens9L)
+        refractionV_Lens9L = VF.decideRefractionVL(refractionV_Lens8R, normalV_Lens9L, Nair, Nlens9*NBlueRay9)
+        T = VF.rayTraceDecideT_Lens9R(refractSPoint_Lens9L, refractionV_Lens9L)
+        refractEPoint_Lens9L = refractSPoint_Lens9L + T*refractionV_Lens9L
+        VF.plotLineBlue(refractSPoint_Lens9L,refractEPoint_Lens9L)  # 屈折光の描画
+        raySPoint_Lens9R = refractEPoint_Lens9L
+        normalV_Lens9R = VF.decideNormalV_Lens9R(raySPoint_Lens9R)
+        refractionV_Lens9R = VF.decideRefractionVR(refractionV_Lens9L, normalV_Lens9R, Nair, Nlens9*NBlueRay9)
+        T = VF.rayTraceDecideT_Lens10L(raySPoint_Lens9R, refractionV_Lens9R)
+        rayEPoint_Lens10L = raySPoint_Lens9R + T*refractionV_Lens9R
+        VF.plotLineBlue(raySPoint_Lens9R, rayEPoint_Lens10L)
+
+        refractSPoint_Lens10L = rayEPoint_Lens10L  # 以下、レンズ10についての計算
+        normalV_Lens10L = VF.decideNormalV_Lens10L(refractSPoint_Lens10L)
+        refractionV_Lens10L = VF.decideRefractionVL(refractionV_Lens9R, normalV_Lens10L, Nair, Nlens10*NBlueRay10)
+        T = VF.rayTraceDecideT_Lens10R(refractSPoint_Lens10L, refractionV_Lens10L)
+        refractEPoint_Lens10L = refractSPoint_Lens10L + T*refractionV_Lens10L
+        VF.plotLineBlue(refractSPoint_Lens10L,refractEPoint_Lens10L)  # 屈折光の描画
+        raySPoint_Lens10R = refractEPoint_Lens10L
+        normalV_Lens10R = VF.decideNormalV_Lens10R(raySPoint_Lens10R)
+        refractionV_Lens10R = VF.decideRefractionVR(refractionV_Lens10L, normalV_Lens10R, Nlens11*NBlueRay11, Nlens10*NBlueRay10)
+        T = 0  # レンズの接着を考えた
+        rayEPoint_Lens11L = raySPoint_Lens10R + T*refractionV_Lens10R
+        VF.plotLineBlue(raySPoint_Lens10R, rayEPoint_Lens11L)
+
+        refractSPoint_Lens11L = rayEPoint_Lens11L  # 以下、レンズ11についての計算
+        normalV_Lens11L = VF.decideNormalV_Lens11L(refractSPoint_Lens11L)
+        refractionV_Lens11L = VF.decideRefractionVL(refractionV_Lens10R, normalV_Lens11L, Nlens10*NBlueRay10, Nlens11*NBlueRay11)
+        T = VF.rayTraceDecideT_Lens11R(refractSPoint_Lens11L, refractionV_Lens11L)
+        refractEPoint_Lens11L = refractSPoint_Lens11L + T*refractionV_Lens11L
+        VF.plotLineBlue(refractSPoint_Lens11L,refractEPoint_Lens11L)  # 屈折光の描画
+        raySPoint_Lens11R = refractEPoint_Lens11L
+        normalV_Lens11R = VF.decideNormalV_Lens11R(raySPoint_Lens11R)
+        refractionV_Lens11R = VF.decideRefractionVR(refractionV_Lens11L, normalV_Lens11R, Nair, Nlens11*NBlueRay11)
+        T = VF.rayTraceDecideT_Lens12L(raySPoint_Lens11R, refractionV_Lens11R)
+        rayEPoint_Lens12L = raySPoint_Lens11R + T*refractionV_Lens11R
+        VF.plotLineBlue(raySPoint_Lens11R, rayEPoint_Lens12L)
+
+        refractSPoint_Lens12L = rayEPoint_Lens12L  # 以下、レンズ12についての計算
+        normalV_Lens12L = VF.decideNormalV_Lens12L(refractSPoint_Lens12L)
+        refractionV_Lens12L = VF.decideRefractionVL(refractionV_Lens11R, normalV_Lens12L, Nair, Nlens12*NBlueRay12)
+        T = VF.rayTraceDecideT_Lens12R(refractSPoint_Lens12L, refractionV_Lens12L)
+        refractEPoint_Lens12L = refractSPoint_Lens12L + T*refractionV_Lens12L
+        VF.plotLineBlue(refractSPoint_Lens12L,refractEPoint_Lens12L)  # 屈折光の描画
+        raySPoint_Lens12R = refractEPoint_Lens12L
+        normalV_Lens12R = VF.decideNormalV_Lens12R(raySPoint_Lens12R)
+        refractionV_Lens12R = VF.decideRefractionVR(refractionV_Lens12L, normalV_Lens12R, Nair, Nlens12*NBlueRay12)
+        T = VF.rayTraceDecideT_Lens13L(raySPoint_Lens12R, refractionV_Lens12R)
+        rayEPoint_Lens13L = raySPoint_Lens12R + T*refractionV_Lens12R
+        VF.plotLineBlue(raySPoint_Lens12R, rayEPoint_Lens13L)
+
+        refractSPoint_Lens13L = rayEPoint_Lens13L  # 以下、レンズ13についての計算
+        normalV_Lens13L = VF.decideNormalV_Lens13L(refractSPoint_Lens13L)
+        refractionV_Lens13L = VF.decideRefractionVL(refractionV_Lens12R, normalV_Lens13L, Nair, Nlens13*NBlueRay13)
+        T = VF.rayTraceDecideT_Lens13R(refractSPoint_Lens13L, refractionV_Lens13L)
+        refractEPoint_Lens13L = refractSPoint_Lens13L + T*refractionV_Lens13L
+        VF.plotLineBlue(refractSPoint_Lens13L,refractEPoint_Lens13L)  # 屈折光の描画
+        raySPoint_Lens13R = refractEPoint_Lens13L
+        normalV_Lens13R = VF.decideNormalV_Lens13R(raySPoint_Lens13R)
+        refractionV_Lens13R = VF.decideRefractionVR(refractionV_Lens13L, normalV_Lens13R, EXNlens1314*1.002, Nlens13*NBlueRay13)
+        T = VF.rayTraceDecideT_Lens14L(raySPoint_Lens13R, refractionV_Lens13R)
+        rayEPoint_Lens14L = raySPoint_Lens13R + T*refractionV_Lens13R
+        VF.plotLineBlue(raySPoint_Lens13R, rayEPoint_Lens14L)
+
+        refractSPoint_Lens14L = rayEPoint_Lens14L  # 以下、レンズ14についての計算
+        normalV_Lens14L = VF.decideNormalV_Lens14L(refractSPoint_Lens14L)
+        refractionV_Lens14L = VF.decideRefractionVL(refractionV_Lens13R, normalV_Lens14L, EXNlens1314*1.002, Nlens14*NBlueRay14)
+        T = VF.rayTraceDecideT_Lens14R(refractSPoint_Lens14L, refractionV_Lens14L)
+        refractEPoint_Lens14L = refractSPoint_Lens14L + T*refractionV_Lens14L
+        VF.plotLineBlue(refractSPoint_Lens14L,refractEPoint_Lens14L)  # 屈折光の描画
+        raySPoint_Lens14R = refractEPoint_Lens14L
+        normalV_Lens14R = VF.decideNormalV_Lens14R(raySPoint_Lens14R)
+        refractionV_Lens14R = VF.decideRefractionVR(refractionV_Lens14L, normalV_Lens14R, Nlens15*NBlueRay15, Nlens14*NBlueRay14)
+        T = 0  # レンズの接着を考えた
+        rayEPoint_Lens15L = raySPoint_Lens14R + T*refractionV_Lens14R
+        VF.plotLineBlue(raySPoint_Lens14R, rayEPoint_Lens15L)
+
+        refractSPoint_Lens15L = rayEPoint_Lens15L  # 以下、レンズ15についての計算
+        normalV_Lens15L = VF.decideNormalV_Lens15L(refractSPoint_Lens15L)
+        refractionV_Lens15L = VF.decideRefractionVL(refractionV_Lens14R, normalV_Lens15L, Nlens14*NBlueRay14, Nlens15*NBlueRay15)
+        T = VF.rayTraceDecideT_Lens15R(refractSPoint_Lens15L, refractionV_Lens15L)
+        refractEPoint_Lens15L = refractSPoint_Lens15L + T*refractionV_Lens15L
+        VF.plotLineBlue(refractSPoint_Lens15L,refractEPoint_Lens15L)  # 屈折光の描画
+        raySPoint_Lens15R = refractEPoint_Lens15L
+        normalV_Lens15R = VF.decideNormalV_Lens15R(raySPoint_Lens15R)
+        refractionV_Lens15R = VF.decideRefractionVR(refractionV_Lens15L, normalV_Lens15R, Nair, Nlens15*NBlueRay15)
+        T = VF.rayTraceDecideT_Screen(raySPoint_Lens15R, refractionV_Lens15R)
+        rayEPoint_Last = raySPoint_Lens15R + T*refractionV_Lens15R
+        VF.plotLineBlue(raySPoint_Lens15R, rayEPoint_Last)
+
+        LastBluePoints.append(rayEPoint_Last)
+
+    '''    LastRedPoints = []
+    LastBluePoints = []
+
+    # 始点を生成する
+    width = 3
+    space = 1
+    size = len(np.arange(-width+centerY, 1+width+centerY, space))**2
+    pointsY, pointsZ = np.meshgrid(
+        np.arange(-width+centerY, 1+width+centerY, space),
+        np.arange(-width+centerZ, 1+width+centerZ, space))
+    pointsX = np.array([centerX]*size) + lens1V[0]
+    pointsY = pointsY.reshape(size)*rayDensity + lens1V[1]
+    pointsZ = pointsZ.reshape(size)*rayDensity + lens1V[2]
+    raySPoint0 = VF.makePoints(pointsX, pointsY, pointsZ, size, 3)
+
     for i in raySPoint0:
         raySPoint0 = i
         #directionVector0 = np.array([1, 0, 0])  # 入射光の方向ベクトルを設定
@@ -1490,7 +1758,7 @@ def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
         rayEPoint_Last = raySPoint_Lens15R + T*refractionV_Lens15R
         VF.plotLineBlue(raySPoint_Lens15R, rayEPoint_Last)
 
-        LastBluePoints.append(rayEPoint_Last)
+        LastBluePoints.append(rayEPoint_Last)'''
 
 
     ax.set_xlim(-LX+focusX, LX+focusX)
