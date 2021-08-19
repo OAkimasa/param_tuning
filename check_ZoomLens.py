@@ -1061,6 +1061,7 @@ def colorZoomLens(Nlens1=1.600, Nlens2=1.701, Nlens3=1.70, Nlens4=1.50,
     pointsZ = pointsZ.reshape(size)*rayDensity + lens1V[2]
     raySPoint0 = VF.makePoints(pointsX, pointsY, pointsZ, size, 3)
 
+    # レンズ計算
     def calcLensVector(rayEP_Last, refractV_Last, count, LorR):
         raySP_Now = rayEP_Last
         normalV_Now = VF.decideNV_Now(raySP_Now)
