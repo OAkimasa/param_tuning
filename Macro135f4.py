@@ -13,26 +13,15 @@ LZ = 6
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-rayStartV = np.array([80000, 0, 0])
-centerX = -10  # 入射光表示の中心座標
+rayStartV = np.array([100*100, 0, 0])
+centerX = 0  # 入射光表示の中心座標
 centerY = 0  # 入射光表示の中心座標
 centerZ = 0  # 入射光表示の中心座標
-rayDensity = 0.5  # 入射光の密度
-focusX = 13.5  # 焦点付近の描画範囲を平行移動
+rayDensity = 0.25  # 入射光の密度
+focusX = -2  # 焦点付近の描画範囲を平行移動
 
+screenV = np.array([12, 0, 0])  # スクリーンの位置ベクトル
 UnitX = -0
-
-# レンズ曲率半径
-Rx11 = 16
-Rx12 = 37.2
-Rx21 = Rx12
-Rx22 = 71.74
-Rx31 = 55.72
-Rx32 = 12.6
-Rx41 = 196.88
-Rx42 = 26.32
-Rx51 = Rx42
-Rx52 = 50
 
 
 lens1V = np.array([-4.5+UnitX, 0, 0])  # レンズ１の位置ベクトル
@@ -41,16 +30,30 @@ lens3V = np.array([-2.57+UnitX, 0, 0])  # レンズ３の位置ベクトル
 lens4V = np.array([-0.78+UnitX, 0, 0])  # レンズ４の位置ベクトル
 lens5V = np.array([-0.58+UnitX, 0, 0])  # レンズ5の位置ベクトル
 
+Lens1Param = [16/2, 37.2/2, 0.8, [3.5/2, 3.5/2], [-1, 1], lens1V]
+Lens2Param = [37.2/2, 71.74/2, 0.27, [3.5/2, 3.3/2], [1, -1], lens2V]
+Lens3Param = [55.72/2, 12.6/2, 0.67, [3/2, 2.5/2], [1, -1], lens3V]
+Lens4Param = [196.88/2, 26.32/2, 0.2, [2.7/2, 2.7/2], [1, -1], lens4V]
+Lens5Param = [26.32/2, 50/2, 0.58, [2.7/2, 2.7/2], [-1, 1], lens5V]
 
-screenV = np.array([15, 0, 0])  # スクリーンの位置ベクトル
+# レンズ曲率半径
+Rx11 = Lens1Param[0]
+Rx12 = Lens1Param[1]
+Rx21 = Lens2Param[0]
+Rx22 = Lens2Param[1]
+Rx31 = Lens3Param[0]
+Rx32 = Lens3Param[1]
+Rx41 = Lens4Param[0]
+Rx42 = Lens4Param[1]
+Rx51 = Lens5Param[0]
+Rx52 = Lens5Param[1]
 
-
-Lens1Param = [16, 37.2, 0.8, [3.5, 3.5], [-1, 1], lens1V]
-Lens2Param = [37.2, 71.74, 0.27, [3.5, 3.3], [1, -1], lens2V]
-Lens3Param = [55.72, 12.6, 0.67, [3, 2.5], [1, -1], lens3V]
-Lens4Param = [196.88, 26.32, 0.2, [2.7, 2.7], [1, -1], lens4V]
-Lens5Param = [26.32, 50, 0.58, [2.7, 2.7], [-1, 1], lens5V]
-
+# レンズ厚さ
+Lensd1 = Lens1Param[2]
+Lensd2 = Lens2Param[2]
+Lensd3 = Lens3Param[2]
+Lensd4 = Lens4Param[2]
+Lensd5 = Lens5Param[2]
 
 Params = [Lens1Param, Lens2Param, Lens3Param, Lens4Param, Lens5Param]
 
@@ -74,11 +77,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx11**2)+(
                 directionV[2]**2/Rx11**2)
         #print(A)
-        B = ((startV[0] - 16)*directionV[0]/Rx11**2)+(
+        B = ((startV[0] - Rx11)*directionV[0]/Rx11**2)+(
                 startV[1]*directionV[1]/Rx11**2)+(
                 startV[2]*directionV[2]/Rx11**2)
         #print(B)
-        C = -1+((startV[0] - 16)**2/Rx11**2)+(
+        C = -1+((startV[0] - Rx11)**2/Rx11**2)+(
                 startV[1]**2/Rx11**2)+(
                 startV[2]**2/Rx11**2)
         #print(C)
@@ -91,11 +94,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx12**2)+(
                 directionV[2]**2/Rx12**2)
         #print(A)
-        B = ((startV[0] + 37.2 - 0.8)*directionV[0]/Rx12**2)+(
+        B = ((startV[0] + Rx12 - Lensd1)*directionV[0]/Rx12**2)+(
                 startV[1]*directionV[1]/Rx12**2)+(
                 startV[2]*directionV[2]/Rx12**2)
         #print(B)
-        C = -1+((startV[0] + 37.2 - 0.8)**2/Rx12**2)+(
+        C = -1+((startV[0] + Rx12 - Lensd1)**2/Rx12**2)+(
                 startV[1]**2/Rx12**2)+(
                 startV[2]**2/Rx12**2)
         #print(C)
@@ -105,7 +108,7 @@ class VectorFunctions:
     # レンズ１表面の法線を求める関数
     def decideNormalV_Lens1L(self, pointV):
         pointV = pointV - lens1V
-        nornalVx = (2/Rx11**2)*(pointV[0] - 16)
+        nornalVx = (2/Rx11**2)*(pointV[0] - Rx11)
         nornalVy = (2/Rx11**2)*pointV[1]
         nornalVz = (2/Rx11**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -113,7 +116,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens1R(self, pointV):
         pointV = pointV - lens1V
-        nornalVx = (2/Rx12**2)*(pointV[0] + 37.2 - 0.8)
+        nornalVx = (2/Rx12**2)*(pointV[0] + Rx12 - Lensd1)
         nornalVy = (2/Rx12**2)*pointV[1]
         nornalVz = (2/Rx12**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -127,11 +130,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx21**2)+(
                 directionV[2]**2/Rx21**2)
         #print(A)
-        B = ((startV[0] + 37.2)*directionV[0]/Rx21**2)+(
+        B = ((startV[0] + Rx21)*directionV[0]/Rx21**2)+(
                 startV[1]*directionV[1]/Rx21**2)+(
                 startV[2]*directionV[2]/Rx21**2)
         #print(B)
-        C = -1+((startV[0] + 37.2)**2/Rx21**2)+(
+        C = -1+((startV[0] + Rx21)**2/Rx21**2)+(
                 startV[1]**2/Rx21**2)+(
                 startV[2]**2/Rx21**2)
         #print(C)
@@ -144,11 +147,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx22**2)+(
                 directionV[2]**2/Rx22**2)
         #print(A)
-        B = ((startV[0] - 71.74 - 0.27)*directionV[0]/Rx22**2)+(
+        B = ((startV[0] - Rx22 - Lensd2)*directionV[0]/Rx22**2)+(
                 startV[1]*directionV[1]/Rx22**2)+(
                 startV[2]*directionV[2]/Rx22**2)
         #print(B)
-        C = -1+((startV[0] - 71.74 - 0.27)**2/Rx22**2)+(
+        C = -1+((startV[0] - Rx22 - Lensd2)**2/Rx22**2)+(
                 startV[1]**2/Rx22**2)+(
                 startV[2]**2/Rx22**2)
         #print(C)
@@ -158,7 +161,7 @@ class VectorFunctions:
     # レンズ２表面の法線を求める関数
     def decideNormalV_Lens2L(self, pointV):
         pointV = pointV - lens2V
-        nornalVx = -(2/Rx21**2)*(pointV[0] + 37.2)
+        nornalVx = -(2/Rx21**2)*(pointV[0] + Rx21)
         nornalVy = -(2/Rx21**2)*pointV[1]
         nornalVz = -(2/Rx21**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -166,7 +169,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens2R(self, pointV):
         pointV = pointV - lens2V
-        nornalVx = -(2/Rx22**2)*(pointV[0] - 71.74 - 0.27)
+        nornalVx = -(2/Rx22**2)*(pointV[0] - Rx22 - Lensd2)
         nornalVy = -(2/Rx22**2)*pointV[1]
         nornalVz = -(2/Rx22**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -180,11 +183,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx31**2)+(
                 directionV[2]**2/Rx31**2)
         #print(A)
-        B = ((startV[0] + 55.72)*directionV[0]/Rx31**2)+(
+        B = ((startV[0] + Rx31)*directionV[0]/Rx31**2)+(
                 startV[1]*directionV[1]/Rx31**2)+(
                 startV[2]*directionV[2]/Rx31**2)
         #print(B)
-        C = -1+((startV[0] + 55.72)**2/Rx31**2)+(
+        C = -1+((startV[0] + Rx31)**2/Rx31**2)+(
                 startV[1]**2/Rx31**2)+(
                 startV[2]**2/Rx31**2)
         #print(C)
@@ -197,11 +200,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx32**2)+(
                 directionV[2]**2/Rx32**2)
         #print(A)
-        B = ((startV[0] - 12.6 - 0.67)*directionV[0]/Rx32**2)+(
+        B = ((startV[0] - Rx32 - Lensd3)*directionV[0]/Rx32**2)+(
                 startV[1]*directionV[1]/Rx32**2)+(
                 startV[2]*directionV[2]/Rx32**2)
         #print(B)
-        C = -1+((startV[0] - 12.6 - 0.67)**2/Rx32**2)+(
+        C = -1+((startV[0] - Rx32 - Lensd3)**2/Rx32**2)+(
                 startV[1]**2/Rx32**2)+(
                 startV[2]**2/Rx32**2)
         #print(C)
@@ -211,7 +214,7 @@ class VectorFunctions:
     # レンズ３表面の法線を求める関数
     def decideNormalV_Lens3L(self, pointV):
         pointV = pointV - lens3V
-        nornalVx = -(2/Rx31**2)*(pointV[0] + 55.72)
+        nornalVx = -(2/Rx31**2)*(pointV[0] + Rx31)
         nornalVy = -(2/Rx31**2)*pointV[1]
         nornalVz = -(2/Rx31**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -219,7 +222,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens3R(self, pointV):
         pointV = pointV - lens3V
-        nornalVx = -(2/Rx32**2)*(pointV[0] - 12.6 - 0.67)
+        nornalVx = -(2/Rx32**2)*(pointV[0] - Rx32 - Lensd3)
         nornalVy = -(2/Rx32**2)*pointV[1]
         nornalVz = -(2/Rx32**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -233,11 +236,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx41**2)+(
                 directionV[2]**2/Rx41**2)
         #print(A)
-        B = ((startV[0] + 196.88)*directionV[0]/Rx41**2)+(
+        B = ((startV[0] + Rx41)*directionV[0]/Rx41**2)+(
                 startV[1]*directionV[1]/Rx41**2)+(
                 startV[2]*directionV[2]/Rx41**2)
         #print(B)
-        C = -1+((startV[0] + 196.88)**2/Rx41**2)+(
+        C = -1+((startV[0] + Rx41)**2/Rx41**2)+(
                 startV[1]**2/Rx41**2)+(
                 startV[2]**2/Rx41**2)
         #print(C)
@@ -250,11 +253,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx42**2)+(
                 directionV[2]**2/Rx42**2)
         #print(A)
-        B = ((startV[0] - 26.32 - 0.2)*directionV[0]/Rx42**2)+(
+        B = ((startV[0] - Rx42 - Lensd4)*directionV[0]/Rx42**2)+(
                 startV[1]*directionV[1]/Rx42**2)+(
                 startV[2]*directionV[2]/Rx42**2)
         #print(B)
-        C = -1+((startV[0] - 26.32 - 0.2)**2/Rx42**2)+(
+        C = -1+((startV[0] - Rx42 - Lensd4)**2/Rx42**2)+(
                 startV[1]**2/Rx42**2)+(
                 startV[2]**2/Rx42**2)
         #print(C)
@@ -264,7 +267,7 @@ class VectorFunctions:
     # レンズ４表面の法線を求める関数
     def decideNormalV_Lens4L(self, pointV):
         pointV = pointV - lens4V
-        nornalVx = -(2/Rx41**2)*(pointV[0] + 196.88)
+        nornalVx = -(2/Rx41**2)*(pointV[0] + Rx41)
         nornalVy = -(2/Rx41**2)*pointV[1]
         nornalVz = -(2/Rx41**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -272,7 +275,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens4R(self, pointV):
         pointV = pointV - lens4V
-        nornalVx = -(2/Rx42**2)*(pointV[0] - 26.32 - 0.2)
+        nornalVx = -(2/Rx42**2)*(pointV[0] - Rx42 - Lensd4)
         nornalVy = -(2/Rx42**2)*pointV[1]
         nornalVz = -(2/Rx42**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -286,11 +289,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx51**2)+(
                 directionV[2]**2/Rx51**2)
         #print(A)
-        B = ((startV[0] - 26.32)*directionV[0]/Rx51**2)+(
+        B = ((startV[0] - Rx51)*directionV[0]/Rx51**2)+(
                 startV[1]*directionV[1]/Rx51**2)+(
                 startV[2]*directionV[2]/Rx51**2)
         #print(B)
-        C = -1+((startV[0] - 26.32)**2/Rx51**2)+(
+        C = -1+((startV[0] - Rx51)**2/Rx51**2)+(
                 startV[1]**2/Rx51**2)+(
                 startV[2]**2/Rx51**2)
         #print(C)
@@ -303,11 +306,11 @@ class VectorFunctions:
                 directionV[1]**2/Rx52**2)+(
                 directionV[2]**2/Rx52**2)
         #print(A)
-        B = ((startV[0] + 50 - 0.58)*directionV[0]/Rx52**2)+(
+        B = ((startV[0] + Rx52 - Lensd5)*directionV[0]/Rx52**2)+(
                 startV[1]*directionV[1]/Rx52**2)+(
                 startV[2]*directionV[2]/Rx52**2)
         #print(B)
-        C = -1+((startV[0] + 50 - 0.58)**2/Rx52**2)+(
+        C = -1+((startV[0] + Rx52 - Lensd5)**2/Rx52**2)+(
                 startV[1]**2/Rx52**2)+(
                 startV[2]**2/Rx52**2)
         #print(C)
@@ -317,7 +320,7 @@ class VectorFunctions:
     # レンズ5表面の法線を求める関数
     def decideNormalV_Lens5L(self, pointV):
         pointV = pointV - lens5V
-        nornalVx = (2/Rx51**2)*(pointV[0] - 26.32)
+        nornalVx = (2/Rx51**2)*(pointV[0] - Rx51)
         nornalVy = (2/Rx51**2)*pointV[1]
         nornalVz = (2/Rx51**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
@@ -325,7 +328,7 @@ class VectorFunctions:
 
     def decideNormalV_Lens5R(self, pointV):
         pointV = pointV - lens5V
-        nornalVx = (2/Rx52**2)*(pointV[0] + 50 - 0.58)
+        nornalVx = (2/Rx52**2)*(pointV[0] + Rx52 - Lensd5)
         nornalVy = (2/Rx52**2)*pointV[1]
         nornalVz = (2/Rx52**2)*pointV[2]
         normalV = np.array([nornalVx, nornalVy, nornalVz])
