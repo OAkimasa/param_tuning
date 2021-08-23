@@ -75,6 +75,22 @@ def calcNorm_MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=
     #print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
 
+def calcNorm_MacroLens_Focus(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=1.8,
+            NBlueRay1=1.010, NBlueRay2=1.010, NBlueRay3=1.010, NBlueRay4=1.013, NBlueRay5=1.008):
+    Params = np.array([Nlens1, Nlens2, Nlens3, Nlens4, Nlens5,
+            NBlueRay1, NBlueRay2, NBlueRay3, NBlueRay4, NBlueRay5])  # ここから変化させて最適化する
+
+    points = MacroLens(*Params)
+    pointsRed = points[0]
+    pointsBlue = points[1]
+    sumpoints = np.array(pointsRed)*0 - np.array(pointsBlue)
+
+    resultNorm = np.linalg.norm(np.nan_to_num(
+        sumpoints, copy=False), ord=2)
+    #print('norm =', resultNorm, '  :   params =', Params)
+    return resultNorm, Params
+
+
 '''
 # pulpは線形計画法なので、屈折の処理などができなかった
 def pulpSearch():
@@ -645,8 +661,8 @@ def searchParam_ZoomLens_Layer_v2():
 
 def searchParam_MacroLens_Layer():
     LayerOrder = [3, 2, 4, 1, 5]
-    Nlensargs = [1.8, 1.7, 1.56, 1.56, 1.8]
-    NBlueRayargs = [1.010, 1.010, 1.010, 1.013, 1.008]
+    Nlensargs = [1.71, 1.65, 1.55, 1.65, 1.71]
+    NBlueRayargs = [1.006, 1.010, 1.010, 1.010, 1.006]
     Nargs = Nlensargs + NBlueRayargs
     minNorm_toNext = [30, []]
     for k in LayerOrder:
@@ -680,6 +696,46 @@ def searchParam_MacroLens_Layer():
         minNorm_toNext = minNorm
 
         print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
+
+
+def searchParam_MacroLens_Focus_Layer():
+    LayerOrder = [3, 2, 4, 1, 5]
+    Nlensargs = [1.55, 1.65, 1.55, 1.65, 1.55]
+    NBlueRayargs = [1.006, 1.010, 1.010, 1.010, 1.006]
+    Nargs = Nlensargs + NBlueRayargs
+    minNorm_toNext = [30, Nargs]
+    for k in LayerOrder:
+        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.001, dNB=0.0001):
+            count = 0
+            for i in range(10):
+                if 10 <= count:
+                    print('\n----Lens', k, ' STOP----\n')
+                    break
+                print('Lens', k, ' :', i+1, '/10')
+                calcNorm_MacroLens_Focus(*Nargs)[0]
+                Nargs[k-1] += dNl
+                for j in range(10):
+                    norm = calcNorm_MacroLens_Focus(*Nargs)
+                    Nargs[k+4] += dNB
+                    #print(minNorm[0])
+                    if norm[0] <= minNorm[0]:
+                        #print('!')
+                        minNorm = norm
+                        count = 0
+                    else:
+                        count += 1
+            Nlens = minNorm[1][k-1]
+            NBlueRay = minNorm[1][k+4]
+            return minNorm, Nlens, NBlueRay
+
+        resultLayer = LensLayer(Nlensargs, NBlueRayargs, minNorm_toNext)
+        minNorm = resultLayer[0]
+        Nlensargs = resultLayer[1]
+        NBlueRayargs = resultLayer[2]
+        minNorm_toNext = minNorm
+
+        print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
+
 
 
 if __name__ == "__main__":
