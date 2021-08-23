@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 import time
 
+start = time.time()
 
 LX = 5
 LY = 5
@@ -671,6 +672,16 @@ def MacroLens(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.72,
     ax.set_zlabel('z')
     ax.view_init(elev=45, azim=-90)
 
+# マクロレンズ焦点付近
+def MacroLens_Screen(focus):
+    MacroLens()
+    ax.set_xlim(-LX/2+focus, LX/2+focus)  # 10.695 or 14.895
+    ax.set_ylim(-LY/2, LY/2)
+    ax.set_zlim(-LZ/2, LZ/2)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
+    ax.view_init(elev=0, azim=-90)
 
 
 # 逆伝播用、係数 Tを求める過程で符号逆転
@@ -1045,6 +1056,7 @@ class VectorFunctions_reverse:
         ax.plot([startX,endX],[startY,endY],[startZ,endZ],
             'o-',ms='2',linewidth=0.5,color='blue')
 
+
 # マクロレンズ,スクリーン上から逆伝播
 def MacroLens_reverse(startX=10.695, startZ=0):
     Nlens1=1.6
@@ -1296,20 +1308,6 @@ def MacroLens_reverse(startX=10.695, startZ=0):
     ax.set_zlabel('z')
     ax.view_init(elev=0, azim=-90)
 
-
-
-# マクロレンズ焦点付近
-def MacroLens_Screen(focus):
-    MacroLens()
-    ax.set_xlim(-LX/2+focus, LX/2+focus)  # 10.695 or 14.895
-    ax.set_ylim(-LY/2, LY/2)
-    ax.set_zlim(-LZ/2, LZ/2)
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_zlabel('z')
-    ax.view_init(elev=0, azim=-90)
-
-
 # マクロレンズ焦点付近
 def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
     MacroLens_reverse(startX, startZ)
@@ -1321,20 +1319,17 @@ def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
     ax.set_zlabel('z')
     ax.view_init(elev=0, azim=-90)
 
+# アニメーション(逆伝播)
+fig = plt.figure(figsize=(12, 6))
 
-if __name__ == "__main__":
-    start = time.time()
-    fig = plt.figure(figsize=(12, 6))
-
+for j in range(20):
     ax = fig.add_subplot(1, 2, 1, projection='3d')
-    #MacroLens()
-    MacroLens_reverse(14.895, 0)
+    MacroLens_reverse(10.695+(4.2/20)*j, 0)
 
     ax = fig.add_subplot(1, 2, 2, projection='3d')
-    MacroLens_reverse_Screen(14.895, 0, 10.695)
-
-    #ax = fig.add_subplot(1, 3, 3, projection='3d')
-    #MacroLens_reverse_Screen(14.895)
+    MacroLens_reverse_Screen(10.695+(4.2/20)*j, 0, 10.695)
 
     print('time =', time.time()-start)
-    plt.show()
+    #plt.show()
+    fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
+    plt.savefig('MacroLens%d.png' % j)
