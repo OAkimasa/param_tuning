@@ -13,7 +13,7 @@ LZ = 6
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-rayStartV = np.array([100*100, 0, 0])
+rayStartV = np.array([1.5*100, 0, 0])
 centerX = 0  # 入射光表示の中心座標
 centerY = 0  # 入射光表示の中心座標
 centerZ = 0  # 入射光表示の中心座標
@@ -30,11 +30,11 @@ lens3V = np.array([-2.57+UnitX, 0, 0])  # レンズ３の位置ベクトル
 lens4V = np.array([-0.78+UnitX, 0, 0])  # レンズ４の位置ベクトル
 lens5V = np.array([-0.58+UnitX, 0, 0])  # レンズ5の位置ベクトル
 
-Lens1Param = [16/2, 37.2/2, 0.8, [3.5/2, 3.5/2], [-1, 1], lens1V]
-Lens2Param = [37.2/2, 71.74/2, 0.27, [3.5/2, 3.3/2], [1, -1], lens2V]
-Lens3Param = [55.72/2, 12.6/2, 0.67, [3/2, 2.5/2], [1, -1], lens3V]
-Lens4Param = [196.88/2, 26.32/2, 0.2, [2.7/2, 2.7/2], [1, -1], lens4V]
-Lens5Param = [26.32/2, 50/2, 0.58, [2.7/2, 2.7/2], [-1, 1], lens5V]
+Lens1Param = [16/4, 37.2/4, 0.8, [3.5/2, 3.5/2], [-1, 1], lens1V]
+Lens2Param = [37.2/4, 71.74/4, 0.27, [3.5/2, 3.3/2], [1, -1], lens2V]
+Lens3Param = [55.72/4, 12.6/4, 0.67, [3/2, 2.5/2], [1, -1], lens3V]
+Lens4Param = [196.88/4, 26.32/4, 0.2, [2.7/2, 2.7/2], [1, -1], lens4V]
+Lens5Param = [26.32/4, 50/4, 0.58, [2.7/2, 2.7/2], [-1, 1], lens5V]
 
 # レンズ曲率半径
 Rx11 = Lens1Param[0]
@@ -545,8 +545,6 @@ def MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=1.8,
         T = VF.rayTraceDecideT_Lens4L(raySPoint_Lens3R, refractionV_Lens3R)
         rayEPoint_Lens4L = raySPoint_Lens3R + T*refractionV_Lens3R
         #VF.plotLineRed(raySPoint_Lens3R, rayEPoint_Lens4L)
-        #ax.quiver(raySPoint_Lens3R[0], raySPoint_Lens3R[1], raySPoint_Lens3R[2],
-        #    refractionV_Lens3R[0], refractionV_Lens3R[1], refractionV_Lens3R[2])
 
         refractSPoint_Lens4L = rayEPoint_Lens4L  # 以下、レンズ４についての計算
         normalV_Lens4L = VF.decideNormalV_Lens4L(refractSPoint_Lens4L)
@@ -556,14 +554,14 @@ def MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=1.8,
         #VF.plotLineRed(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
         raySPoint_Lens4R = refractEPoint_Lens4L
         normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
-        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nair, Nlens4)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nlens5, Nlens4)
         T = 0  # レンズの接着を考えた
         rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
         #VF.plotLineRed(raySPoint_Lens4R, rayEPoint_Lens5L)
 
         refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
         normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
-        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nair, Nlens5)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nlens4, Nlens5)
         T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
         refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
         #VF.plotLineRed(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画
@@ -633,14 +631,14 @@ def MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=1.8,
         #VF.plotLineBlue(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
         raySPoint_Lens4R = refractEPoint_Lens4L
         normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
-        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nair, Nlens4*NBlueRay4)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nlens5*NBlueRay5, Nlens4*NBlueRay4)
         T = 0  # レンズの接着を考えた
         rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
         #VF.plotLineBlue(raySPoint_Lens4R, rayEPoint_Lens5L)
 
         refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
         normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
-        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nair, Nlens5*NBlueRay5)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nlens4*NBlueRay4, Nlens5*NBlueRay5)
         T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
         refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
         #VF.plotLineBlue(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画

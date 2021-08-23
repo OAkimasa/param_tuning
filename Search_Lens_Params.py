@@ -661,8 +661,8 @@ def searchParam_ZoomLens_Layer_v2():
 
 def searchParam_MacroLens_Layer():
     LayerOrder = [3, 2, 4, 1, 5]
-    Nlensargs = [1.8, 1.65, 1.55, 1.65, 1.8]
-    NBlueRayargs = [1.010, 1.012, 1.012, 1.010, 1.008]
+    Nlensargs = [1.71, 1.65, 1.55, 1.65, 1.71]
+    NBlueRayargs = [1.006, 1.010, 1.010, 1.010, 1.006]
     Nargs = Nlensargs + NBlueRayargs
     minNorm_toNext = [30, []]
     for k in LayerOrder:
@@ -743,6 +743,6 @@ if __name__ == "__main__":
     start = time.time()
 
     # searchParam_Tessar_Layer or searchParam_ZoomLens_Layer
-    searchParam_MacroLens_Focus_Layer()
+    searchParam_MacroLens_Layer()
 
     print('time =', time.time()-start)
