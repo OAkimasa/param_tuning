@@ -1052,11 +1052,11 @@ def MacroLens_reverse(startX=10.695, startZ=0):
     Nlens3=1.53
     Nlens4=1.53
     Nlens5=1.6
-    NBlueRay1=1.0
-    NBlueRay2=1.0
-    NBlueRay3=1.0
-    NBlueRay4=1.0
-    NBlueRay5=1.0
+    NBlueRay1=1.0078
+    NBlueRay2=1.0078
+    NBlueRay3=1.0078
+    NBlueRay4=1.0078
+    NBlueRay5=1.0078
 
     # スクリーン描画
     Ys, Zs = np.meshgrid(
@@ -1309,8 +1309,7 @@ def MacroLens_Screen(focus):
     ax.set_zlabel('z')
     ax.view_init(elev=0, azim=-90)
 
-
-# マクロレンズ焦点付近
+# マクロレンズ焦点付近(逆)
 def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
     MacroLens_reverse(startX, startZ)
     ax.set_xlim(-LX+focus, LX+focus)  # 10.695 or 14.895
@@ -1322,16 +1321,62 @@ def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
     ax.view_init(elev=0, azim=-90)
 
 
+
+# レンズ 1枚に注目、アッべ数
+def Check_Abbe():
+    limitTheta = 2*np.pi  # theta生成数
+    limitPhi = np.pi  # phi生成数
+    theta = np.linspace(0, limitTheta, geneNum)
+    phi = np.linspace(0, limitPhi, geneNum)
+
+    # レンズ描画
+    def plotLens(Rxi1, Rxi2, LensD, RLimit, LensType, lensiV):
+        Ys = np.outer(np.sin(theta), np.sin(phi))
+        Zs = np.outer(np.ones(np.size(theta)), np.cos(phi))
+
+        Ysi1 = RLimit[0] * Ys
+        Zsi1 = RLimit[0] * Zs
+        Xsi1 = LensType[0] * (
+                Rxi1**2-Ysi1**2-Zsi1**2)**(1/2) - LensType[0]*Rxi1 + lensiV[0]
+        ax.plot_wireframe(Xsi1, Ysi1, Zsi1, linewidth=0.1)
+
+        Ysi2 = RLimit[1] * Ys
+        Zsi2 = RLimit[1] * Zs
+        Xsi2 = LensType[1] * (
+                Rxi2**2-Ysi2**2-Zsi2**2)**(1/2) + LensType[1]*(
+                -Rxi2 + LensType[1]*LensD) + lensiV[0]
+        ax.plot_wireframe(Xsi2, Ysi2, Zsi2, linewidth=0.1)
+
+    for i in np.arange(5):
+        #print(Params[i])
+        ax = fig.add_subplot(2, 5, i+1, projection='3d')
+        plotLens(*Params[i])
+
+        ax.set_xlim(-3+Params[i][5][0], 3+Params[i][5][0])
+        ax.set_ylim(-3, 3)
+        ax.set_zlim(-3, 3)
+        #ax.set_xlabel('x')
+        #ax.set_ylabel('y')
+        #ax.set_zlabel('z')
+        ax.view_init(elev=0, azim=-90)
+
+
+    # 入射光
+    VF = VectorFunctions()  # インスタンス化
+
+
+
 if __name__ == "__main__":
     start = time.time()
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(25, 10))
 
-    ax = fig.add_subplot(1, 2, 1, projection='3d')
+    #ax = fig.add_subplot(1, 1, 1, projection='3d')
     #MacroLens()
-    MacroLens_reverse(14.895, 0)
+    #MacroLens_reverse(14.895, 0)
+    Check_Abbe()
 
-    ax = fig.add_subplot(1, 2, 2, projection='3d')
-    MacroLens_reverse_Screen(14.895, 0, 10.695)
+    #ax = fig.add_subplot(1, 2, 2, projection='3d')
+    #MacroLens_reverse_Screen(14.895, 0, 10.695)
 
     #ax = fig.add_subplot(1, 3, 3, projection='3d')
     #MacroLens_reverse_Screen(14.895)
