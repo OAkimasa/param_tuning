@@ -1352,12 +1352,12 @@ def Check_Abbe():
         ax = fig.add_subplot(2, 5, i+1, projection='3d')
         plotLens(*Params[i])
 
-        ax.set_xlim(-3+Params[i][5][0], 3+Params[i][5][0])
-        ax.set_ylim(-3, 3)
-        ax.set_zlim(-3, 3)
-        #ax.set_xlabel('x')
-        #ax.set_ylabel('y')
-        #ax.set_zlabel('z')
+        ax.set_xlim(-2+Params[i][5][0], 2+Params[i][5][0])
+        ax.set_ylim(-2, 2)
+        ax.set_zlim(-2, 2)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
         ax.view_init(elev=0, azim=-90)
 
 
@@ -1368,15 +1368,15 @@ def Check_Abbe():
 
 if __name__ == "__main__":
     start = time.time()
-    fig = plt.figure(figsize=(25, 10))
+    fig = plt.figure(figsize=(16, 8))
 
-    #ax = fig.add_subplot(1, 1, 1, projection='3d')
-    #MacroLens()
+    ax = fig.add_subplot(1, 2, 1, projection='3d')
+    MacroLens()
     #MacroLens_reverse(14.895, 0)
-    Check_Abbe()
+    #Check_Abbe()
 
-    #ax = fig.add_subplot(1, 2, 2, projection='3d')
-    #MacroLens_reverse_Screen(14.895, 0, 10.695)
+    ax = fig.add_subplot(1, 2, 2, projection='3d')
+    MacroLens_Screen(14.895)
 
     #ax = fig.add_subplot(1, 3, 3, projection='3d')
     #MacroLens_reverse_Screen(14.895)

@@ -1,6 +1,10 @@
 import numpy as np
+import itertools
 import matplotlib.pyplot as plt
 import time
+
+from numpy.core.defchararray import array
+from numpy.core.fromnumeric import shape
 from Tessar import pointsTessar
 from ZoomLens import pointsZoomLens
 from Macro135f4 import MacroLens
@@ -737,12 +741,109 @@ def searchParam_MacroLens_Focus_Layer():
         print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
 
 
+# 改修・行列化
+def searchParam_MacroLens_Matrix():
+    #LayerOrder = [3, 2, 4, 1, 5]
+    #Nlensargs = [1.71, 1.65, 1.55, 1.65, 1.71]
+    #NBlueRayargs = [1.006, 1.010, 1.010, 1.010, 1.006]
+    #Nargs = Nlensargs + NBlueRayargs
+    MinNorm_toNext = 100
+
+    dNl = 0.001*4
+    dNB = 0.0001*4
+
+    NLens1 = 1.71
+    NLens2 = 1.65
+    NLens3 = 1.55
+    NLens4 = 1.65
+    NLens5 = 1.71
+
+    NBlue1 = 1.005
+    NBlue2 = 1.005
+    NBlue3 = 1.005
+    NBlue4 = 1.005
+    NBlue5 = 1.005
+
+    Nlensargs = np.array(
+                    [np.arange(NLens1, NLens1+0.0091, dNl),
+                    np.arange(NLens2, NLens2+0.0091, dNl),
+                    np.arange(NLens3, NLens3+0.0091, dNl),
+                    np.arange(NLens4, NLens4+0.0091, dNl),
+                    np.arange(NLens5, NLens5+0.0091, dNl)])
+
+    NBlueRayargs = np.array(
+                    [np.arange(NBlue1, NBlue1+0.00091, dNB),
+                    np.arange(NBlue2, NBlue2+0.00091, dNB),
+                    np.arange(NBlue3, NBlue3+0.00091, dNB),
+                    np.arange(NBlue4, NBlue4+0.00091, dNB),
+                    np.arange(NBlue5, NBlue5+0.00091, dNB)])
+
+    ParamsMatrix = np.array(list(
+            itertools.product(Nlensargs[0],
+                            Nlensargs[1],
+                            Nlensargs[2],
+                            Nlensargs[3],
+                            Nlensargs[4],
+                            NBlueRayargs[0],
+                            NBlueRayargs[1],
+                            NBlueRayargs[2],
+                            NBlueRayargs[3],
+                            NBlueRayargs[4])))
+    #print(ParamsMatrix)
+
+    for i in ParamsMatrix:
+        # 行列形式の変数を順に関数へ代入
+        #print(i)
+        Calculation = calcNorm_MacroLens(*i)
+        MinNorm = Calculation[0]
+        MinParams = Calculation[1]
+
+        if MinNorm_toNext<=MinNorm:
+            MinNorm_toNext = MinNorm
+
+    print(MinNorm_toNext)
+
+
+    '''
+    for k in LayerOrder:
+        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.001, dNB=0.0001):
+            count = 0
+            for i in range(10):
+                if 10 <= count:
+                    print('\n----Lens', k, ' STOP----\n')
+                    break
+                print('Lens', k, ' :', i+1, '/10')
+                calcNorm_MacroLens(*Nargs)[0]
+                Nargs[k-1] += dNl
+                for j in range(10):
+                    norm = calcNorm_MacroLens(*Nargs)
+                    Nargs[k+4] += dNB
+                    #print(minNorm[0])
+                    if norm[0] <= minNorm[0]:
+                        #print('!')
+                        minNorm = norm
+                        count = 0
+                    else:
+                        count += 1
+            Nlens = minNorm[1][k-1]
+            NBlueRay = minNorm[1][k+4]
+            return minNorm, Nlens, NBlueRay
+
+        resultLayer = LensLayer(Nlensargs, NBlueRayargs, MinNorm_toNext)
+        MinNorm = resultLayer[0]
+        Nlensargs = resultLayer[1]
+        NBlueRayargs = resultLayer[2]
+        MinNorm_toNext = MinNorm
+
+        print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
+    '''
+
 
 if __name__ == "__main__":
     print('\n----------------START----------------\n')
     start = time.time()
 
     # searchParam_Tessar_Layer or searchParam_ZoomLens_Layer
-    searchParam_MacroLens_Layer()
+    searchParam_MacroLens_Matrix()
 
     print('time =', time.time()-start)
