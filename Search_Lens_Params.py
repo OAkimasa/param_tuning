@@ -2,6 +2,10 @@ import numpy as np
 import itertools
 import matplotlib.pyplot as plt
 import time
+import gc
+
+import socket
+from concurrent.futures import ThreadPoolExecutor
 
 from numpy.core.defchararray import array
 from numpy.core.fromnumeric import shape
@@ -74,8 +78,8 @@ def calcNorm_MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=
     pointsBlue = points[1]
     diff = np.array(pointsRed) - np.array(pointsBlue)
 
-    resultNorm = np.linalg.norm(np.nan_to_num(
-        diff, copy=False), ord=2)
+    resultNorm = np.round(np.linalg.norm(np.nan_to_num(
+        diff, copy=False), ord=2), decimals=4)
     #print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
 
@@ -748,6 +752,7 @@ def searchParam_MacroLens_Matrix():
     #NBlueRayargs = [1.006, 1.010, 1.010, 1.010, 1.006]
     #Nargs = Nlensargs + NBlueRayargs
     MinNorm_toNext = 100
+    result = np.array([])
 
     dNl = 0.001*4
     dNB = 0.0001*4
@@ -791,17 +796,31 @@ def searchParam_MacroLens_Matrix():
                             NBlueRayargs[4])))
     #print(ParamsMatrix)
 
-    for i in ParamsMatrix:
+    for i, param in enumerate(ParamsMatrix):
         # 行列形式の変数を順に関数へ代入
         #print(i)
-        Calculation = calcNorm_MacroLens(*i)
-        MinNorm = Calculation[0]
-        MinParams = Calculation[1]
+        Calculation = calcNorm_MacroLens(*param)
+        
+        #MinNorm = Calculation[0]
+        #MinParams = Calculation[1]
+        np.append(result, calcNorm_MacroLens(*param))
 
-        if MinNorm_toNext<=MinNorm:
-            MinNorm_toNext = MinNorm
+        #if MinNorm_toNext>=MinNorm:
+        #    MinNorm_toNext = MinNorm
+        #    MinParams_toNext = MinParams
 
-    print(MinNorm_toNext)
+        print(Calculation)
+        #print(result)
+        #print(MinNorm)
+        #print(MinParams)
+
+        del Calculation
+        print(shape(ParamsMatrix))
+        #del MinNorm
+        #del MinParams
+        gc.collect()
+
+    #print(MinNorm_toNext)
 
 
     '''
@@ -838,12 +857,19 @@ def searchParam_MacroLens_Matrix():
         print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
     '''
 
+def multi_thread_way():
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = {executor.submit(searchParam_MacroLens_Matrix) for i in range(10)}
+    return len([future.result() for future in futures])
+
 
 if __name__ == "__main__":
     print('\n----------------START----------------\n')
     start = time.time()
 
+    multi_thread_way()
+
     # searchParam_Tessar_Layer or searchParam_ZoomLens_Layer
-    searchParam_MacroLens_Matrix()
+    #searchParam_MacroLens_Matrix()
 
     print('time =', time.time()-start)
