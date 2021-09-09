@@ -11,7 +11,7 @@ LZ = 5
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-rayStartV = np.array([0.8*100, 0*100, 0.0*100])
+rayStartV = np.array([0.8*100, 0*100, 0.0*100])  # m から cm へ変換
 centerX = 0  # 入射光表示の中心座標
 centerY = 0  # 入射光表示の中心座標
 centerZ = 0  # 入射光表示の中心座標
@@ -28,7 +28,7 @@ lens3V = np.array([-2.57+UnitX, 0, 0])  # レンズ３の位置ベクトル
 lens4V = np.array([-0.78+UnitX, 0, 0])  # レンズ４の位置ベクトル
 lens5V = np.array([-0.58+UnitX, 0, 0])  # レンズ5の位置ベクトル
 
-Lens1Param = [4.78, 37.2/4, 0.8, [1.791, 1.791], [-1, 1], lens1V]
+Lens1Param = [4.78, 37.2/4, 0.8-0.044, [1.791, 1.791], [-1, 1], lens1V]
 Lens2Param = [37.2/4, 26.25, 0.27, [1.788, 1.788], [1, -1], lens2V]
 Lens3Param = [11.27, 4.3, 0.514, [1.26, 1.26], [1, -1], lens3V]
 Lens4Param = [1000000, 26.32/4, 0.2, [1.395, 1.395], [1, -1], lens4V]
@@ -669,7 +669,7 @@ def MacroLens(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.72,
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
-    ax.view_init(elev=45, azim=-90)
+    ax.view_init(elev=0, azim=-90)
 
 
 
@@ -1368,15 +1368,15 @@ def Check_Abbe():
 
 if __name__ == "__main__":
     start = time.time()
-    fig = plt.figure(figsize=(20, 4))
+    fig = plt.figure(figsize=(16, 8))
 
-    #ax = fig.add_subplot(1, 2, 1, projection='3d')
-    #MacroLens()
+    ax = fig.add_subplot(1, 2, 1, projection='3d')
+    MacroLens()
     #MacroLens_reverse(14.895, 0)
-    Check_Abbe()
+    #Check_Abbe()
 
-    #ax = fig.add_subplot(1, 2, 2, projection='3d')
-    #MacroLens_Screen(14.895)
+    ax = fig.add_subplot(1, 2, 2, projection='3d')
+    MacroLens_Screen(14.895)
 
     #ax = fig.add_subplot(1, 3, 3, projection='3d')
     #MacroLens_reverse_Screen(14.895)
