@@ -22,17 +22,17 @@ screenV = np.array([16, 0, 0])  # スクリーンの位置ベクトル
 UnitX = -0
 
 
-lens1V = np.array([-4.5+UnitX, 0, 0])  # レンズ１の位置ベクトル
+lens1V = np.array([-4.456+UnitX, 0, 0])  # レンズ１の位置ベクトル
 lens2V = np.array([-3.7+UnitX, 0, 0])  # レンズ２の位置ベクトル
 lens3V = np.array([-2.57+UnitX, 0, 0])  # レンズ３の位置ベクトル
 lens4V = np.array([-0.78+UnitX, 0, 0])  # レンズ４の位置ベクトル
 lens5V = np.array([-0.58+UnitX, 0, 0])  # レンズ5の位置ベクトル
 
-Lens1Param = [16/4, 37.2/4, 0.8, [3.5/2, 3.5/2], [-1, 1], lens1V]
-Lens2Param = [37.2/4, 71.74/4, 0.27, [3.5/2, 3.3/2], [1, -1], lens2V]
-Lens3Param = [55.72/4, 12.6/4, 0.67, [3/2, 2.5/2], [1, -1], lens3V]
-Lens4Param = [196.88/4, 26.32/4, 0.2, [2.7/2, 2.7/2], [1, -1], lens4V]
-Lens5Param = [26.32/4, 50/4, 0.58, [2.7/2, 2.7/2], [-1, 1], lens5V]
+Lens1Param = [4.78, 37.2/4, 0.8, [1.791, 1.791], [-1, 1], lens1V]
+Lens2Param = [37.2/4, 26.25, 0.27, [1.788, 1.788], [1, -1], lens2V]
+Lens3Param = [11.27, 4.3, 0.514, [1.26, 1.26], [1, -1], lens3V]
+Lens4Param = [1000000, 26.32/4, 0.2, [1.395, 1.395], [1, -1], lens4V]
+Lens5Param = [26.32/4, 9.34, 0.58, [1.395, 1.395], [-1, 1], lens5V]
 
 # レンズ曲率半径
 Rx11 = Lens1Param[0]
@@ -1349,7 +1349,7 @@ def Check_Abbe():
 
     for i in np.arange(5):
         #print(Params[i])
-        ax = fig.add_subplot(2, 5, i+1, projection='3d')
+        ax = fig.add_subplot(1, 5, i+1, projection='3d')
         plotLens(*Params[i])
 
         ax.set_xlim(-2+Params[i][5][0], 2+Params[i][5][0])
@@ -1368,15 +1368,15 @@ def Check_Abbe():
 
 if __name__ == "__main__":
     start = time.time()
-    fig = plt.figure(figsize=(16, 8))
+    fig = plt.figure(figsize=(20, 4))
 
-    ax = fig.add_subplot(1, 2, 1, projection='3d')
-    MacroLens()
+    #ax = fig.add_subplot(1, 2, 1, projection='3d')
+    #MacroLens()
     #MacroLens_reverse(14.895, 0)
-    #Check_Abbe()
+    Check_Abbe()
 
-    ax = fig.add_subplot(1, 2, 2, projection='3d')
-    MacroLens_Screen(14.895)
+    #ax = fig.add_subplot(1, 2, 2, projection='3d')
+    #MacroLens_Screen(14.895)
 
     #ax = fig.add_subplot(1, 3, 3, projection='3d')
     #MacroLens_reverse_Screen(14.895)

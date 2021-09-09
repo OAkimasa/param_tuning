@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from numpy.core.defchararray import array
 from numpy.core.fromnumeric import shape
+
 from Tessar import pointsTessar
 from ZoomLens import pointsZoomLens
 from Macro135f4 import MacroLens
@@ -796,14 +797,26 @@ def searchParam_MacroLens_Matrix():
                             NBlueRayargs[4])))
     #print(ParamsMatrix)
 
-    for i, param in enumerate(ParamsMatrix):
+    #result = np.array(map(calcNorm_MacroLens, ParamsMatrix))
+
+    '''
+    with ThreadPoolExecutor(max_workers=32) as executor:
+        #print(ParamsMatrix)
+        #print(shape(ParamsMatrix))
+        #print(type(ParamsMatrix))
+        results = executor.map(calcNorm_MacroLens, ParamsMatrix)
+    print(results)
+    '''
+
+
+    for i in ParamsMatrix:
         # 行列形式の変数を順に関数へ代入
         #print(i)
-        Calculation = calcNorm_MacroLens(*param)
+        Calculation = calcNorm_MacroLens(*i)
         
         #MinNorm = Calculation[0]
         #MinParams = Calculation[1]
-        np.append(result, calcNorm_MacroLens(*param))
+        np.append(result, Calculation)
 
         #if MinNorm_toNext>=MinNorm:
         #    MinNorm_toNext = MinNorm
@@ -815,51 +828,18 @@ def searchParam_MacroLens_Matrix():
         #print(MinParams)
 
         del Calculation
-        print(shape(ParamsMatrix))
         #del MinNorm
         #del MinParams
         gc.collect()
 
-    #print(MinNorm_toNext)
+
+    #print(result)
 
 
-    '''
-    for k in LayerOrder:
-        def LensLayer(Nlensargs, NBlueRayargs, minNorm=minNorm_toNext, dNl=0.001, dNB=0.0001):
-            count = 0
-            for i in range(10):
-                if 10 <= count:
-                    print('\n----Lens', k, ' STOP----\n')
-                    break
-                print('Lens', k, ' :', i+1, '/10')
-                calcNorm_MacroLens(*Nargs)[0]
-                Nargs[k-1] += dNl
-                for j in range(10):
-                    norm = calcNorm_MacroLens(*Nargs)
-                    Nargs[k+4] += dNB
-                    #print(minNorm[0])
-                    if norm[0] <= minNorm[0]:
-                        #print('!')
-                        minNorm = norm
-                        count = 0
-                    else:
-                        count += 1
-            Nlens = minNorm[1][k-1]
-            NBlueRay = minNorm[1][k+4]
-            return minNorm, Nlens, NBlueRay
-
-        resultLayer = LensLayer(Nlensargs, NBlueRayargs, MinNorm_toNext)
-        MinNorm = resultLayer[0]
-        Nlensargs = resultLayer[1]
-        NBlueRayargs = resultLayer[2]
-        MinNorm_toNext = MinNorm
-
-        print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
-    '''
 
 def multi_thread_way():
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = {executor.submit(searchParam_MacroLens_Matrix) for i in range(10)}
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        futures = {executor.submit(searchParam_MacroLens_Matrix) for i in range(8)}
     return len([future.result() for future in futures])
 
 
