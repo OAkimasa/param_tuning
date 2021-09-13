@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import itertools
 import matplotlib.pyplot as plt
@@ -10,9 +11,10 @@ from concurrent.futures import ThreadPoolExecutor
 from numpy.core.defchararray import array
 from numpy.core.fromnumeric import shape
 
-from Tessar import pointsTessar
-from ZoomLens import pointsZoomLens
-from Macro135f4 import MacroLens
+from GlassData import GlassData
+from setting.Tessar import pointsTessar
+from setting.ZoomLens import pointsZoomLens
+from setting.Macro135f4 import MacroLens
 #import pulp
 
 
@@ -835,19 +837,61 @@ def searchParam_MacroLens_Matrix():
 
     #print(result)
 
-
-
 def multi_thread_way():
     with ThreadPoolExecutor(max_workers=8) as executor:
         futures = {executor.submit(searchParam_MacroLens_Matrix) for i in range(8)}
     return len([future.result() for future in futures])
 
 
+# ガラスデータ参照
+def searchParam_GlassData():
+    result = np.array([])
+
+    GlassList = GlassData()
+    print(GlassList)
+    print(sys.getsizeof(GlassList))
+
+
+    ParamsMatrix = np.array(list(
+            itertools.permutations(GlassList, 5)))
+    #print(ParamsMatrix)
+
+
+    #result = np.array(map(calcNorm_MacroLens, ParamsMatrix))
+
+    '''
+    for i in ParamsMatrix:
+        # 行列形式の変数を順に関数へ代入
+        #print(i)
+        Calculation = calcNorm_MacroLens(*i)
+        
+        #MinNorm = Calculation[0]
+        #MinParams = Calculation[1]
+        np.append(result, Calculation)
+
+        #if MinNorm_toNext>=MinNorm:
+        #    MinNorm_toNext = MinNorm
+        #    MinParams_toNext = MinParams
+
+        print(Calculation)
+        #print(result)
+        #print(MinNorm)
+        #print(MinParams)
+
+        del Calculation
+        #del MinNorm
+        #del MinParams
+        gc.collect()
+    '''
+
+    #print(result)
+
+
 if __name__ == "__main__":
     print('\n----------------START----------------\n')
     start = time.time()
 
-    multi_thread_way()
+    searchParam_GlassData()
 
     # searchParam_Tessar_Layer or searchParam_ZoomLens_Layer
     #searchParam_MacroLens_Matrix()

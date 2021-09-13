@@ -438,8 +438,8 @@ class VectorFunctions:
             'o-',ms='2',linewidth=0.5,color='black')
 
 # マクロレンズのスクリーン上に映った点を返す関数
-def MacroLens(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.72,
-            NBlueRay1=1.007, NBlueRay2=1.012, NBlueRay3=1.008, NBlueRay4=1.012, NBlueRay5=1.007):
+def MacroLens(Nlens1=1.565748, Nlens2=1.514321, Nlens3=1.514321, Nlens4=1.514321, Nlens5=1.565748,
+            NBlueRay1=1.00649, NBlueRay2=1.00532, NBlueRay3=1.00532, NBlueRay4=1.00532, NBlueRay5=1.00649):
 
     # スクリーン描画
     Ys, Zs = np.meshgrid(
@@ -1344,8 +1344,8 @@ def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
 
 
 # 近軸交差位置グラフ、主点と焦点距離
-def MakeFocusGraph(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.72,
-            NBlueRay1=1.007, NBlueRay2=1.012, NBlueRay3=1.008, NBlueRay4=1.012, NBlueRay5=1.007):
+def MakeFocusGraph(Nlens1=1.565748, Nlens2=1.514321, Nlens3=1.514321, Nlens4=1.514321, Nlens5=1.565748,
+            NBlueRay1=1.00649, NBlueRay2=1.00532, NBlueRay3=1.00532, NBlueRay4=1.00532, NBlueRay5=1.00649):
 
     def T_FocusGraph(startV, directionV):
         T = -startV[2]/directionV[2]
@@ -1571,8 +1571,12 @@ def MakeFocusGraph(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.
     ax.plot(RedFocusPoints, pointsY, pointsZ, color='r')
     ax.plot(BlueFocusPoints, pointsY, pointsZ, color='b')
 
-    print('RedFocalLength=', np.array(RedFocusPoints)-np.array(RedPrincipalPoints))
-    print('BlueFocalLength=', np.array(BlueFocusPoints)-np.array(BluePrincipalPoints))
+    print('\nRedFocusPoints=', np.array(RedFocusPoints))
+    print('\nBlueFocusPoints=', np.array(BlueFocusPoints))
+    print('\nRedPrincipalPoints=', np.array(RedPrincipalPoints))
+    print('\nBluePrincipalPoints=', np.array(BluePrincipalPoints))
+    print('\nRedFocalLength=', np.array(RedFocusPoints)-np.array(RedPrincipalPoints))
+    print('\nBlueFocalLength=', np.array(BlueFocusPoints)-np.array(BluePrincipalPoints))
 
     ax.set_xlim(-1.7+RedFocusPoints[0], 1.7+RedFocusPoints[0])
     ax.set_ylim(-1.7, 1.7)
@@ -1627,6 +1631,7 @@ def Check_Abbe():
 
 
 if __name__ == "__main__":
+    print('\n----------------START----------------\n')
     start = time.time()
     fig = plt.figure(figsize=(16, 8))
 
@@ -1643,4 +1648,5 @@ if __name__ == "__main__":
     #MacroLens_reverse_Screen(14.895)
 
     print('time =', time.time()-start)
+    print('\n----------------END----------------\n')
     plt.show()
