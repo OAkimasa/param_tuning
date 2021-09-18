@@ -13,6 +13,7 @@ from GlassData import GlassData
 from setting.MacroGlassMatrix import returnFocus
 
 
+
 # ガラスデータ参照、変数のマトリックスを作成
 def searchParam_GlassData():
     print('----------generating matrix----------')
@@ -48,6 +49,7 @@ def out_csvFile(args):
     writer = csv.writer(file)
     writer.writerows(results)
     file.close()
+
 
 
 if __name__ == "__main__":
