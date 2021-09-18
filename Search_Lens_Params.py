@@ -1,12 +1,26 @@
+import sys
 import numpy as np
+import itertools
 import matplotlib.pyplot as plt
 import time
-from Tessar import pointsTessar
-from ZoomLens import pointsZoomLens
-from Macro135f4 import MacroLens
+import csv
+import gc
+
+import socket
+from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Pool
+
+from numpy.core.defchararray import array
+from numpy.core.fromnumeric import shape
+
+from GlassData import GlassData
+from setting.Tessar import pointsTessar
+from setting.ZoomLens import pointsZoomLens
+from setting.Macro135f4 import MacroLens
+from setting.MacroGlassMatrix import returnFocus
 #import pulp
 
-
+'''
 def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
             NBlueRay1=1.01, NBlueRay2=1.01, NBlueRay3=1.01, NBlueRay4=1.01):
     Params = np.array([Nlens1, Nlens2, Nlens3, Nlens4,
@@ -17,7 +31,7 @@ def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
     pointsBlue = pointsTessar(*Params)[1]
     diff = np.array(pointsRed) - np.array(pointsBlue)
 
-    '''
+
     print('\n----------------RED----------------\n')
     for i in pointsRed:
         print(i)
@@ -28,7 +42,7 @@ def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
     print('\n----------------DIFF----------------\n')
     for i in diff:
         print(i)
-    '''
+
     resultNorm = np.linalg.norm(diff, ord=2)
     print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
@@ -70,8 +84,8 @@ def calcNorm_MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=
     pointsBlue = points[1]
     diff = np.array(pointsRed) - np.array(pointsBlue)
 
-    resultNorm = np.linalg.norm(np.nan_to_num(
-        diff, copy=False), ord=2)
+    resultNorm = np.round(np.linalg.norm(np.nan_to_num(
+        diff, copy=False), ord=2), decimals=4)
     #print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
 
@@ -89,7 +103,7 @@ def calcNorm_MacroLens_Focus(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, N
         sumpoints, copy=False), ord=2)
     #print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
-
+'''
 
 '''
 # pulpは線形計画法なので、屈折の処理などができなかった
@@ -130,7 +144,7 @@ def pulpSearch():
     print('norm =', problem.objective.value())
 '''
 
-
+'''
 def searchParam_Tessar(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.45,
             NBlueRay1=1.008, NBlueRay2=1.008, NBlueRay3=1.008, NBlueRay4=1.006,
             dNl=0.01, dNB=0.001):
@@ -737,12 +751,139 @@ def searchParam_MacroLens_Focus_Layer():
         print('best =', 'norm =', minNorm_toNext[0], 'params =', *minNorm_toNext[1])
 
 
+# 改修・行列化
+def searchParam_MacroLens_Matrix():
+    #LayerOrder = [3, 2, 4, 1, 5]
+    #Nlensargs = [1.71, 1.65, 1.55, 1.65, 1.71]
+    #NBlueRayargs = [1.006, 1.010, 1.010, 1.010, 1.006]
+    #Nargs = Nlensargs + NBlueRayargs
+    MinNorm_toNext = 100
+    result = np.array([])
+
+    dNl = 0.001*4
+    dNB = 0.0001*4
+
+    NLens1 = 1.71
+    NLens2 = 1.65
+    NLens3 = 1.55
+    NLens4 = 1.65
+    NLens5 = 1.71
+
+    NBlue1 = 1.005
+    NBlue2 = 1.005
+    NBlue3 = 1.005
+    NBlue4 = 1.005
+    NBlue5 = 1.005
+
+    Nlensargs = np.array(
+                    [np.arange(NLens1, NLens1+0.0091, dNl),
+                    np.arange(NLens2, NLens2+0.0091, dNl),
+                    np.arange(NLens3, NLens3+0.0091, dNl),
+                    np.arange(NLens4, NLens4+0.0091, dNl),
+                    np.arange(NLens5, NLens5+0.0091, dNl)])
+
+    NBlueRayargs = np.array(
+                    [np.arange(NBlue1, NBlue1+0.00091, dNB),
+                    np.arange(NBlue2, NBlue2+0.00091, dNB),
+                    np.arange(NBlue3, NBlue3+0.00091, dNB),
+                    np.arange(NBlue4, NBlue4+0.00091, dNB),
+                    np.arange(NBlue5, NBlue5+0.00091, dNB)])
+
+    ParamsMatrix = np.array(list(
+            itertools.product(Nlensargs[0],
+                            Nlensargs[1],
+                            Nlensargs[2],
+                            Nlensargs[3],
+                            Nlensargs[4],
+                            NBlueRayargs[0],
+                            NBlueRayargs[1],
+                            NBlueRayargs[2],
+                            NBlueRayargs[3],
+                            NBlueRayargs[4])))
+    #print(ParamsMatrix)
+
+    #result = np.array(map(calcNorm_MacroLens, ParamsMatrix))
+
+
+    with ThreadPoolExecutor(max_workers=32) as executor:
+        #print(ParamsMatrix)
+        #print(shape(ParamsMatrix))
+        #print(type(ParamsMatrix))
+        results = executor.map(calcNorm_MacroLens, ParamsMatrix)
+    print(results)
+
+
+
+    for i in ParamsMatrix:
+        # 行列形式の変数を順に関数へ代入
+        #print(i)
+        Calculation = calcNorm_MacroLens(*i)
+        
+        #MinNorm = Calculation[0]
+        #MinParams = Calculation[1]
+        np.append(result, Calculation)
+
+        #if MinNorm_toNext>=MinNorm:
+        #    MinNorm_toNext = MinNorm
+        #    MinParams_toNext = MinParams
+
+        print(Calculation)
+        #print(result)
+        #print(MinNorm)
+        #print(MinParams)
+
+        del Calculation
+        #del MinNorm
+        #del MinParams
+        gc.collect()
+
+
+    #print(result)
+
+def multi_thread_way():
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        futures = {executor.submit(searchParam_MacroLens_Matrix) for i in range(8)}
+    return len([future.result() for future in futures])
+'''
+
+# ガラスデータ参照
+def searchParam_GlassData():
+    results = []
+
+    GlassList = GlassData()
+    #print(GlassList)
+    #print(sys.getsizeof(GlassList))
+
+
+    ParamsMatrix = np.array(list(
+            itertools.permutations(GlassList, 5)
+            ))
+    #print(ParamsMatrix)
+
+    for i in ParamsMatrix:
+        focus = returnFocus(i)
+        dfocus = focus[2]
+        if -0.03<=dfocus<=0.03 and 13.0<=focus[0]<=14.0 and 13.0<=focus[1]<=14.0:
+            result = (focus, i)
+            results.append(result)
+            #print(results)
+
+    #print('result =', results)
+
+    file = open('Out_GlassList.csv', 'w')
+    writer = csv.writer(file)
+    writer.writerows(results)
+    file.close()
+
 
 if __name__ == "__main__":
     print('\n----------------START----------------\n')
     start = time.time()
 
+    searchParam_GlassData()
+
     # searchParam_Tessar_Layer or searchParam_ZoomLens_Layer
-    searchParam_MacroLens_Layer()
+    #searchParam_MacroLens_Matrix()
 
     print('time =', time.time()-start)
+    print('\n----------------END----------------\n')

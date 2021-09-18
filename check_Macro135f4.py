@@ -11,7 +11,7 @@ LZ = 5
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-rayStartV = np.array([0.8*100, 0*100, 0.0*100])
+rayStartV = np.array([1000*100, 0*100, 0.0*100])  # m から cm へ変換
 centerX = 0  # 入射光表示の中心座標
 centerY = 0  # 入射光表示の中心座標
 centerZ = 0  # 入射光表示の中心座標
@@ -22,17 +22,17 @@ screenV = np.array([16, 0, 0])  # スクリーンの位置ベクトル
 UnitX = -0
 
 
-lens1V = np.array([-4.5+UnitX, 0, 0])  # レンズ１の位置ベクトル
+lens1V = np.array([-4.456+UnitX, 0, 0])  # レンズ１の位置ベクトル
 lens2V = np.array([-3.7+UnitX, 0, 0])  # レンズ２の位置ベクトル
 lens3V = np.array([-2.57+UnitX, 0, 0])  # レンズ３の位置ベクトル
 lens4V = np.array([-0.78+UnitX, 0, 0])  # レンズ４の位置ベクトル
 lens5V = np.array([-0.58+UnitX, 0, 0])  # レンズ5の位置ベクトル
 
-Lens1Param = [16/4, 37.2/4, 0.8, [3.5/2, 3.5/2], [-1, 1], lens1V]
-Lens2Param = [37.2/4, 71.74/4, 0.27, [3.5/2, 3.3/2], [1, -1], lens2V]
-Lens3Param = [55.72/4, 12.6/4, 0.67, [3/2, 2.5/2], [1, -1], lens3V]
-Lens4Param = [196.88/4, 26.32/4, 0.2, [2.7/2, 2.7/2], [1, -1], lens4V]
-Lens5Param = [26.32/4, 50/4, 0.58, [2.7/2, 2.7/2], [-1, 1], lens5V]
+Lens1Param = [4.78, 37.2/4, 0.8-0.044, [1.791, 1.791], [-1, 1], lens1V]
+Lens2Param = [37.2/4, 26.25, 0.27, [1.788, 1.788], [1, -1], lens2V]
+Lens3Param = [11.27, 4.3, 0.514, [1.26, 1.26], [1, -1], lens3V]
+Lens4Param = [1000000, 26.32/4, 0.2, [1.395, 1.395], [1, -1], lens4V]
+Lens5Param = [26.32/4, 9.305, 0.58, [1.395, 1.395], [-1, 1], lens5V]
 
 # レンズ曲率半径
 Rx11 = Lens1Param[0]
@@ -427,9 +427,19 @@ class VectorFunctions:
         ax.plot([startX,endX],[startY,endY],[startZ,endZ],
             'o-',ms='2',linewidth=0.5,color='blue')
 
+    def plotLineBlack(self, startPointV, endPointV):
+        startX = startPointV[0]
+        startY = startPointV[1]
+        startZ = startPointV[2]
+        endX = endPointV[0]
+        endY = endPointV[1]
+        endZ = endPointV[2]
+        ax.plot([startX,endX],[startY,endY],[startZ,endZ],
+            'o-',ms='2',linewidth=0.5,color='black')
+
 # マクロレンズのスクリーン上に映った点を返す関数
-def MacroLens(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.72,
-            NBlueRay1=1.0, NBlueRay2=1.0, NBlueRay3=1.0, NBlueRay4=1.0, NBlueRay5=1.0):
+def MacroLens(Nlens1=1.58618, Nlens2=1.59875, Nlens3=1.54457, Nlens4=1.51982, Nlens5=1.61727,
+            NBlueRay1=1.00607, NBlueRay2=1.00992, NBlueRay3=1.00776, NBlueRay4=1.00578, NBlueRay5=1.00636):
 
     # スクリーン描画
     Ys, Zs = np.meshgrid(
@@ -669,7 +679,7 @@ def MacroLens(Nlens1=1.72, Nlens2=1.62, Nlens3=1.62, Nlens4=1.62, Nlens5=1.72,
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
-    ax.view_init(elev=45, azim=-90)
+    ax.view_init(elev=0, azim=-90)
 
 
 
@@ -1045,6 +1055,17 @@ class VectorFunctions_reverse:
         ax.plot([startX,endX],[startY,endY],[startZ,endZ],
             'o-',ms='2',linewidth=0.5,color='blue')
 
+    def plotLineBlack(self, startPointV, endPointV):
+        startX = startPointV[0]
+        startY = startPointV[1]
+        startZ = startPointV[2]
+        endX = endPointV[0]
+        endY = endPointV[1]
+        endZ = endPointV[2]
+        ax.plot([startX,endX],[startY,endY],[startZ,endZ],
+            'o-',ms='2',linewidth=0.5,color='black')
+
+
 # マクロレンズ,スクリーン上から逆伝播
 def MacroLens_reverse(startX=10.695, startZ=0):
     Nlens1=1.6
@@ -1052,11 +1073,11 @@ def MacroLens_reverse(startX=10.695, startZ=0):
     Nlens3=1.53
     Nlens4=1.53
     Nlens5=1.6
-    NBlueRay1=1.0
-    NBlueRay2=1.0
-    NBlueRay3=1.0
-    NBlueRay4=1.0
-    NBlueRay5=1.0
+    NBlueRay1=1.0078
+    NBlueRay2=1.0078
+    NBlueRay3=1.0078
+    NBlueRay4=1.0078
+    NBlueRay5=1.0078
 
     # スクリーン描画
     Ys, Zs = np.meshgrid(
@@ -1309,8 +1330,7 @@ def MacroLens_Screen(focus):
     ax.set_zlabel('z')
     ax.view_init(elev=0, azim=-90)
 
-
-# マクロレンズ焦点付近
+# マクロレンズ焦点付近(逆)
 def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
     MacroLens_reverse(startX, startZ)
     ax.set_xlim(-LX+focus, LX+focus)  # 10.695 or 14.895
@@ -1322,19 +1342,311 @@ def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
     ax.view_init(elev=0, azim=-90)
 
 
+
+# 近軸交差位置グラフ、主点と焦点距離
+def MakeFocusGraph(Nlens1=1.58618, Nlens2=1.59875, Nlens3=1.54457, Nlens4=1.51982, Nlens5=1.61727,
+            NBlueRay1=1.00607, NBlueRay2=1.00992, NBlueRay3=1.00776, NBlueRay4=1.00578, NBlueRay5=1.00636):
+
+    def T_FocusGraph(startV, directionV):
+        T = -startV[2]/directionV[2]
+        return T
+
+    def T_FocalLength(startV, directionV):
+        T = -startV[2]/directionV[2]
+        return T
+
+    VF = VectorFunctions()  # インスタンス化
+
+    #LastRedPoints = []
+    #LastBluePoints = []
+    RedFocusPoints = []
+    BlueFocusPoints = []
+    RedPrincipalPoints = []
+    BluePrincipalPoints = []
+
+    # 始点を生成する
+    pointsZ = np.arange(0.001, 1.79, 0.1) + lens1V[2]
+    pointsX = np.array([centerX]*len(pointsZ)) + lens1V[0]
+    pointsY = np.array([0]*len(pointsZ)) + lens1V[1]
+    raySPoint0 = VF.makePoints(pointsX, pointsY, pointsZ, len(pointsZ), 3)
+
+    for i in raySPoint0:
+        raySPoint0 = i
+        #directionVector0 = np.array([1, 0, 0])  # 入射光の方向ベクトルを設定
+        directionVector0 = rayStartV + raySPoint0
+        T = VF.rayTraceDecideT_Lens1L(raySPoint0, directionVector0)  # 交点のための係数
+        rayEPoint0 = raySPoint0 + T*directionVector0  # 入射光の終点
+        VF.plotLinePurple(-rayStartV, rayEPoint0)  # 入射光描画
+
+        # 赤色光
+        refractSPoint0 = rayEPoint0  # 入射光の終点を引き継ぐ。以下レンズ１についての計算
+        normalV_Lens1L = VF.decideNormalV_Lens1L(refractSPoint0)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens1L = VF.decideRefractionVL(directionVector0, normalV_Lens1L, Nair, Nlens1)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens1R(refractSPoint0, refractionV_Lens1L)
+        refractEPoint0 = refractSPoint0 + T*refractionV_Lens1L
+        VF.plotLineRed(refractSPoint0,refractEPoint0)  # 屈折光の描画
+        raySPoint1 = refractEPoint0  # 屈折光の終点を引き継ぐ
+        normalV1 = VF.decideNormalV_Lens1R(raySPoint1)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens1R = VF.decideRefractionVR(refractionV_Lens1L, normalV1, Nlens2, Nlens1)
+        T = 0  # レンズの接着を考えた
+        rayEPoint1 = raySPoint1 + T*refractionV_Lens1R  # 空気中の屈折光の終点
+        VF.plotLineRed(raySPoint1,rayEPoint1)  # 空気中の屈折光の描画
+
+        refractSPoint_Lens2L = rayEPoint1  # 以下、レンズ２についての計算
+        normalV_Lens2L = VF.decideNormalV_Lens2L(refractSPoint_Lens2L)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens2L = VF.decideRefractionVL(refractionV_Lens1R, normalV_Lens2L, Nlens1, Nlens2)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens2R(refractSPoint_Lens2L, refractionV_Lens2L)
+        refractEPoint_Lens2L = refractSPoint_Lens2L + T*refractionV_Lens2L
+        VF.plotLineRed(refractSPoint_Lens2L,refractEPoint_Lens2L)  # 屈折光の描画
+        raySPoint_Lens2R = refractEPoint_Lens2L
+        normalV_Lens2R = VF.decideNormalV_Lens2R(raySPoint_Lens2R)
+        refractionV_Lens2R = VF.decideRefractionVR(refractionV_Lens2L, normalV_Lens2R, Nair, Nlens2)
+        T = VF.rayTraceDecideT_Lens3L(raySPoint_Lens2R, refractionV_Lens2R)
+        rayEPoint_Lens3L = raySPoint_Lens2R + T*refractionV_Lens2R
+        VF.plotLineRed(raySPoint_Lens2R, rayEPoint_Lens3L)
+
+        refractSPoint_Lens3L = rayEPoint_Lens3L  # 以下、レンズ３についての計算
+        normalV_Lens3L = VF.decideNormalV_Lens3L(refractSPoint_Lens3L)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens3L = VF.decideRefractionVL(refractionV_Lens2R, normalV_Lens3L, Nair, Nlens3)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens3R(refractSPoint_Lens3L, refractionV_Lens3L)
+        refractEPoint_Lens3L = refractSPoint_Lens3L + T*refractionV_Lens3L
+        VF.plotLineRed(refractSPoint_Lens3L,refractEPoint_Lens3L)  # 屈折光の描画
+        raySPoint_Lens3R = refractEPoint_Lens3L
+        normalV_Lens3R = VF.decideNormalV_Lens3R(raySPoint_Lens3R)
+        refractionV_Lens3R = VF.decideRefractionVR(refractionV_Lens3L, normalV_Lens3R, Nair, Nlens3)
+        T = VF.rayTraceDecideT_Lens4L(raySPoint_Lens3R, refractionV_Lens3R)
+        rayEPoint_Lens4L = raySPoint_Lens3R + T*refractionV_Lens3R
+        VF.plotLineRed(raySPoint_Lens3R, rayEPoint_Lens4L)
+        #ax.quiver(raySPoint_Lens3R[0], raySPoint_Lens3R[1], raySPoint_Lens3R[2],
+        #    refractionV_Lens3R[0], refractionV_Lens3R[1], refractionV_Lens3R[2])
+
+        # 絞り
+        rayEPoint_Lens4L_TEST = raySPoint_Lens3R + 0.85*refractionV_Lens3R
+        TestR = rayEPoint_Lens4L_TEST[1]**2 + rayEPoint_Lens4L_TEST[2]**2
+        if TestR >= 1.2:
+            refractionV_Lens3R = [0,0,0]
+
+        refractSPoint_Lens4L = rayEPoint_Lens4L  # 以下、レンズ４についての計算
+        normalV_Lens4L = VF.decideNormalV_Lens4L(refractSPoint_Lens4L)
+        refractionV_Lens4L = VF.decideRefractionVL(refractionV_Lens3R, normalV_Lens4L, Nair, Nlens4)
+        T = VF.rayTraceDecideT_Lens4R(refractSPoint_Lens4L, refractionV_Lens4L)
+        refractEPoint_Lens4L = refractSPoint_Lens4L + T*refractionV_Lens4L
+        VF.plotLineRed(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
+        raySPoint_Lens4R = refractEPoint_Lens4L
+        normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nlens5, Nlens4)
+        T = 0  # レンズの接着を考えた
+        rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
+        VF.plotLineRed(raySPoint_Lens4R, rayEPoint_Lens5L)
+
+        refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
+        normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nlens4, Nlens5)
+        T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
+        refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
+        VF.plotLineRed(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画
+        raySPoint_Lens5R = refractEPoint_Lens5L
+        normalV_Lens5R = VF.decideNormalV_Lens5R(raySPoint_Lens5R)
+        refractionV_Lens5R = VF.decideRefractionVR(refractionV_Lens5L, normalV_Lens5R, Nair, Nlens5)
+
+        T = VF.rayTraceDecideT_Screen(raySPoint_Lens5R, refractionV_Lens5R)
+        rayEPoint_Last = raySPoint_Lens5R + T*refractionV_Lens5R
+        VF.plotLineRed(raySPoint_Lens5R, rayEPoint_Last)
+
+        #LastRedPoints.append(rayEPoint_Last)
+
+        T = T_FocusGraph(raySPoint_Lens5R, refractionV_Lens5R)
+        focusPoint = raySPoint_Lens5R + T*refractionV_Lens5R
+        RedFocusPoints.append(focusPoint[0])
+
+        T = T_FocalLength(raySPoint0, refractionV_Lens5R)
+        principalPoint = focusPoint - T*refractionV_Lens5R
+        RedPrincipalPoints.append(principalPoint[0])
+        VF.plotLineBlack(focusPoint+[0,1,0], principalPoint+[0,1,0])
+        VF.plotLineBlack(raySPoint0+[0,1,0], principalPoint+[0,1,0])
+        VF.plotLineBlack(focusPoint+[0,1,0], rayEPoint_Last+[0,1,0])
+
+
+        # 青色光
+        refractSPoint0 = rayEPoint0  # 入射光の終点を引き継ぐ。以下レンズ１についての計算
+        normalV_Lens1L = VF.decideNormalV_Lens1L(refractSPoint0)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens1L = VF.decideRefractionVL(directionVector0, normalV_Lens1L, Nair, Nlens1*NBlueRay1)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens1R(refractSPoint0, refractionV_Lens1L)
+        refractEPoint0 = refractSPoint0 + T*refractionV_Lens1L
+        VF.plotLineBlue(refractSPoint0,refractEPoint0)  # 屈折光の描画
+        raySPoint1 = refractEPoint0  # 屈折光の終点を引き継ぐ
+        normalV1 = VF.decideNormalV_Lens1R(raySPoint1)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens1R = VF.decideRefractionVR(refractionV_Lens1L, normalV1, Nlens2*NBlueRay2, Nlens1*NBlueRay1)
+        T = 0  # レンズの接着を考えた
+        rayEPoint1 = raySPoint1 + T*refractionV_Lens1R  # 空気中の屈折光の終点
+        VF.plotLineBlue(raySPoint1,rayEPoint1)  # 空気中の屈折光の描画
+
+        refractSPoint_Lens2L = rayEPoint1  # 以下、レンズ２についての計算
+        normalV_Lens2L = VF.decideNormalV_Lens2L(refractSPoint_Lens2L)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens2L = VF.decideRefractionVL(refractionV_Lens1R, normalV_Lens2L, Nlens1*NBlueRay1, Nlens2*NBlueRay2)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens2R(refractSPoint_Lens2L, refractionV_Lens2L)
+        refractEPoint_Lens2L = refractSPoint_Lens2L + T*refractionV_Lens2L
+        VF.plotLineBlue(refractSPoint_Lens2L,refractEPoint_Lens2L)  # 屈折光の描画
+        raySPoint_Lens2R = refractEPoint_Lens2L
+        normalV_Lens2R = VF.decideNormalV_Lens2R(raySPoint_Lens2R)
+        refractionV_Lens2R = VF.decideRefractionVR(refractionV_Lens2L, normalV_Lens2R, Nair, Nlens2*NBlueRay2)
+        T = VF.rayTraceDecideT_Lens3L(raySPoint_Lens2R, refractionV_Lens2R)
+        rayEPoint_Lens3L = raySPoint_Lens2R + T*refractionV_Lens2R
+        VF.plotLineBlue(raySPoint_Lens2R, rayEPoint_Lens3L)
+
+        refractSPoint_Lens3L = rayEPoint_Lens3L  # 以下、レンズ３についての計算
+        normalV_Lens3L = VF.decideNormalV_Lens3L(refractSPoint_Lens3L)  # レンズの法線を求める
+        # 屈折光の方向ベクトルを求める
+        refractionV_Lens3L = VF.decideRefractionVL(refractionV_Lens2R, normalV_Lens3L, Nair, Nlens3*NBlueRay3)
+        # 係数Tを求めて、屈折光の終点も求める
+        T = VF.rayTraceDecideT_Lens3R(refractSPoint_Lens3L, refractionV_Lens3L)
+        refractEPoint_Lens3L = refractSPoint_Lens3L + T*refractionV_Lens3L
+        VF.plotLineBlue(refractSPoint_Lens3L,refractEPoint_Lens3L)  # 屈折光の描画
+        raySPoint_Lens3R = refractEPoint_Lens3L
+        normalV_Lens3R = VF.decideNormalV_Lens3R(raySPoint_Lens3R)
+        refractionV_Lens3R = VF.decideRefractionVR(refractionV_Lens3L, normalV_Lens3R, Nair, Nlens3*NBlueRay3)
+        T = VF.rayTraceDecideT_Lens4L(raySPoint_Lens3R, refractionV_Lens3R)
+        rayEPoint_Lens4L = raySPoint_Lens3R + T*refractionV_Lens3R
+        VF.plotLineBlue(raySPoint_Lens3R, rayEPoint_Lens4L)
+
+        # 絞り
+        rayEPoint_Lens4L_TEST = raySPoint_Lens3R + 0.85*refractionV_Lens3R
+        TestR = rayEPoint_Lens4L_TEST[1]**2 + rayEPoint_Lens4L_TEST[2]**2
+        if TestR >= 1.2:
+            refractionV_Lens3R = [0,0,0]
+
+        refractSPoint_Lens4L = rayEPoint_Lens4L  # 以下、レンズ４についての計算
+        normalV_Lens4L = VF.decideNormalV_Lens4L(refractSPoint_Lens4L)
+        refractionV_Lens4L = VF.decideRefractionVL(refractionV_Lens3R, normalV_Lens4L, Nair, Nlens4*NBlueRay4)
+        T = VF.rayTraceDecideT_Lens4R(refractSPoint_Lens4L, refractionV_Lens4L)
+        refractEPoint_Lens4L = refractSPoint_Lens4L + T*refractionV_Lens4L
+        VF.plotLineBlue(refractSPoint_Lens4L,refractEPoint_Lens4L)  # 屈折光の描画
+        raySPoint_Lens4R = refractEPoint_Lens4L
+        normalV_Lens4R = VF.decideNormalV_Lens4R(raySPoint_Lens4R)
+        refractionV_Lens4R = VF.decideRefractionVR(refractionV_Lens4L, normalV_Lens4R, Nlens5*NBlueRay5, Nlens4*NBlueRay4)
+        T = 0  # レンズの接着を考えた
+        rayEPoint_Lens5L = raySPoint_Lens4R + T*refractionV_Lens4R
+        VF.plotLineBlue(raySPoint_Lens4R, rayEPoint_Lens5L)
+
+        refractSPoint_Lens5L = rayEPoint_Lens5L  # 以下、レンズ5についての計算
+        normalV_Lens5L = VF.decideNormalV_Lens5L(refractSPoint_Lens5L)
+        refractionV_Lens5L = VF.decideRefractionVL(refractionV_Lens4R, normalV_Lens5L, Nlens4*NBlueRay4, Nlens5*NBlueRay5)
+        T = VF.rayTraceDecideT_Lens5R(refractSPoint_Lens5L, refractionV_Lens5L)
+        refractEPoint_Lens5L = refractSPoint_Lens5L + T*refractionV_Lens5L
+        VF.plotLineBlue(refractSPoint_Lens5L,refractEPoint_Lens5L)  # 屈折光の描画
+        raySPoint_Lens5R = refractEPoint_Lens5L
+        normalV_Lens5R = VF.decideNormalV_Lens5R(raySPoint_Lens5R)
+        refractionV_Lens5R = VF.decideRefractionVR(refractionV_Lens5L, normalV_Lens5R, Nair, Nlens5*NBlueRay5)
+
+        T = VF.rayTraceDecideT_Screen(raySPoint_Lens5R, refractionV_Lens5R)
+        rayEPoint_Last = raySPoint_Lens5R + T*refractionV_Lens5R
+        VF.plotLineBlue(raySPoint_Lens5R, rayEPoint_Last)
+
+        #LastBluePoints.append(rayEPoint_Last)
+
+        T = T_FocusGraph(raySPoint_Lens5R, refractionV_Lens5R)
+        focusPoint = raySPoint_Lens5R + T*refractionV_Lens5R
+        BlueFocusPoints.append(focusPoint[0])
+
+        T = T_FocalLength(raySPoint0, refractionV_Lens5R)
+        principalPoint = focusPoint - T*refractionV_Lens5R
+        BluePrincipalPoints.append(principalPoint[0])
+        VF.plotLineBlack(focusPoint+[0,1,0], principalPoint+[0,1,0])
+        VF.plotLineBlack(raySPoint0+[0,1,0], principalPoint+[0,1,0])
+        VF.plotLineBlack(focusPoint+[0,1,0], rayEPoint_Last+[0,1,0])
+
+
+    ax.plot(RedFocusPoints, pointsY, pointsZ, color='r')
+    ax.plot(BlueFocusPoints, pointsY, pointsZ, color='b')
+
+    print('\nRedFocusPoints=', np.array(RedFocusPoints))
+    print('\nBlueFocusPoints=', np.array(BlueFocusPoints))
+    print('\nRedPrincipalPoints=', np.array(RedPrincipalPoints))
+    print('\nBluePrincipalPoints=', np.array(BluePrincipalPoints))
+    print('\nRedFocalLength=', np.array(RedFocusPoints)-np.array(RedPrincipalPoints))
+    print('\nBlueFocalLength=', np.array(BlueFocusPoints)-np.array(BluePrincipalPoints))
+
+    ax.set_xlim(-1.7+RedFocusPoints[0], 1.7+RedFocusPoints[0])
+    ax.set_ylim(-1.7, 1.7)
+    ax.set_zlim(-1.7, 1.7)
+    ax.set_xlabel('focus')
+    ax.set_zlabel('pointsZ')
+    ax.view_init(elev=0, azim=-90)
+
+
+# レンズ 1枚に注目、アッべ数
+def Check_Abbe():
+    limitTheta = 2*np.pi  # theta生成数
+    limitPhi = np.pi  # phi生成数
+    theta = np.linspace(0, limitTheta, geneNum)
+    phi = np.linspace(0, limitPhi, geneNum)
+
+    # レンズ描画
+    def plotLens(Rxi1, Rxi2, LensD, RLimit, LensType, lensiV):
+        Ys = np.outer(np.sin(theta), np.sin(phi))
+        Zs = np.outer(np.ones(np.size(theta)), np.cos(phi))
+
+        Ysi1 = RLimit[0] * Ys
+        Zsi1 = RLimit[0] * Zs
+        Xsi1 = LensType[0] * (
+                Rxi1**2-Ysi1**2-Zsi1**2)**(1/2) - LensType[0]*Rxi1 + lensiV[0]
+        ax.plot_wireframe(Xsi1, Ysi1, Zsi1, linewidth=0.1)
+
+        Ysi2 = RLimit[1] * Ys
+        Zsi2 = RLimit[1] * Zs
+        Xsi2 = LensType[1] * (
+                Rxi2**2-Ysi2**2-Zsi2**2)**(1/2) + LensType[1]*(
+                -Rxi2 + LensType[1]*LensD) + lensiV[0]
+        ax.plot_wireframe(Xsi2, Ysi2, Zsi2, linewidth=0.1)
+
+    for i in np.arange(5):
+        #print(Params[i])
+        ax = fig.add_subplot(1, 5, i+1, projection='3d')
+        plotLens(*Params[i])
+
+        ax.set_xlim(-2+Params[i][5][0], 2+Params[i][5][0])
+        ax.set_ylim(-2, 2)
+        ax.set_zlim(-2, 2)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax.view_init(elev=0, azim=-90)
+
+
+    # 入射光
+    VF = VectorFunctions()  # インスタンス化
+
+
+
 if __name__ == "__main__":
+    print('\n----------------START----------------\n')
     start = time.time()
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(16, 8))
 
     ax = fig.add_subplot(1, 2, 1, projection='3d')
-    #MacroLens()
-    MacroLens_reverse(14.895, 0)
+    MacroLens()
+    #MacroLens_reverse(14.895, 0)
+    #Check_Abbe()
 
     ax = fig.add_subplot(1, 2, 2, projection='3d')
-    MacroLens_reverse_Screen(14.895, 0, 10.695)
+    #MacroLens_Screen(14.895)
+    MakeFocusGraph()
 
     #ax = fig.add_subplot(1, 3, 3, projection='3d')
     #MacroLens_reverse_Screen(14.895)
 
     print('time =', time.time()-start)
+    print('\n----------------END----------------\n')
     plt.show()

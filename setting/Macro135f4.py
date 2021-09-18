@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
+from functools import lru_cache
 
 fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(1, 1, 1, projection='3d')
@@ -429,7 +430,7 @@ class VectorFunctions:
         ax.plot([startX,endX],[startY,endY],[startZ,endZ],
             'o-',ms='2',linewidth=0.5,color='blue')
 
-
+@lru_cache()
 # マクロレンズのスクリーン上に映った点を返す関数
 def MacroLens(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, Nlens5=1.8,
             NBlueRay1=1.01, NBlueRay2=1.01, NBlueRay3=1.01, NBlueRay4=1.013,
