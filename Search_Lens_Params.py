@@ -3,6 +3,7 @@ import numpy as np
 import itertools
 import matplotlib.pyplot as plt
 import time
+import csv
 import gc
 
 import socket
@@ -15,6 +16,7 @@ from GlassData import GlassData
 from setting.Tessar import pointsTessar
 from setting.ZoomLens import pointsZoomLens
 from setting.Macro135f4 import MacroLens
+from setting.MacroGlassMatrix import returnFocus
 #import pulp
 
 
@@ -845,46 +847,32 @@ def multi_thread_way():
 
 # ガラスデータ参照
 def searchParam_GlassData():
-    result = np.array([])
+    results = []
 
     GlassList = GlassData()
-    print(GlassList)
-    print(sys.getsizeof(GlassList))
+    #print(GlassList)
+    #print(sys.getsizeof(GlassList))
 
 
     ParamsMatrix = np.array(list(
-            itertools.permutations(GlassList, 5)))
+            itertools.permutations(GlassList, 5)
+            ))
     #print(ParamsMatrix)
 
-
-    #result = np.array(map(calcNorm_MacroLens, ParamsMatrix))
-
-    '''
     for i in ParamsMatrix:
-        # 行列形式の変数を順に関数へ代入
-        #print(i)
-        Calculation = calcNorm_MacroLens(*i)
-        
-        #MinNorm = Calculation[0]
-        #MinParams = Calculation[1]
-        np.append(result, Calculation)
+        focus = returnFocus(i)
+        dfocus = focus[2]
+        if -0.03<=dfocus<=0.03 and 13.0<=focus[0]<=14.0 and 13.0<=focus[1]<=14.0:
+            result = (focus, i)
+            results.append(result)
+            #print(results)
 
-        #if MinNorm_toNext>=MinNorm:
-        #    MinNorm_toNext = MinNorm
-        #    MinParams_toNext = MinParams
+    print('result =', results)
 
-        print(Calculation)
-        #print(result)
-        #print(MinNorm)
-        #print(MinParams)
-
-        del Calculation
-        #del MinNorm
-        #del MinParams
-        gc.collect()
-    '''
-
-    #print(result)
+    file = open('Out_GlassList.csv', 'w')
+    writer = csv.writer(file)
+    writer.writerows(results)
+    file.close()
 
 
 if __name__ == "__main__":
@@ -897,3 +885,4 @@ if __name__ == "__main__":
     #searchParam_MacroLens_Matrix()
 
     print('time =', time.time()-start)
+    print('\n----------------END----------------\n')
