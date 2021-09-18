@@ -8,6 +8,7 @@ import gc
 
 import socket
 from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Pool
 
 from numpy.core.defchararray import array
 from numpy.core.fromnumeric import shape
@@ -19,7 +20,7 @@ from setting.Macro135f4 import MacroLens
 from setting.MacroGlassMatrix import returnFocus
 #import pulp
 
-
+'''
 def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
             NBlueRay1=1.01, NBlueRay2=1.01, NBlueRay3=1.01, NBlueRay4=1.01):
     Params = np.array([Nlens1, Nlens2, Nlens3, Nlens4,
@@ -30,7 +31,7 @@ def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
     pointsBlue = pointsTessar(*Params)[1]
     diff = np.array(pointsRed) - np.array(pointsBlue)
 
-    '''
+
     print('\n----------------RED----------------\n')
     for i in pointsRed:
         print(i)
@@ -41,7 +42,7 @@ def calcNorm(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.70,
     print('\n----------------DIFF----------------\n')
     for i in diff:
         print(i)
-    '''
+
     resultNorm = np.linalg.norm(diff, ord=2)
     print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
@@ -102,7 +103,7 @@ def calcNorm_MacroLens_Focus(Nlens1=1.8, Nlens2=1.7, Nlens3=1.56, Nlens4=1.56, N
         sumpoints, copy=False), ord=2)
     #print('norm =', resultNorm, '  :   params =', Params)
     return resultNorm, Params
-
+'''
 
 '''
 # pulpは線形計画法なので、屈折の処理などができなかった
@@ -143,7 +144,7 @@ def pulpSearch():
     print('norm =', problem.objective.value())
 '''
 
-
+'''
 def searchParam_Tessar(Nlens1=1.43, Nlens2=1.43, Nlens3=1.43, Nlens4=1.45,
             NBlueRay1=1.008, NBlueRay2=1.008, NBlueRay3=1.008, NBlueRay4=1.006,
             dNl=0.01, dNB=0.001):
@@ -803,14 +804,14 @@ def searchParam_MacroLens_Matrix():
 
     #result = np.array(map(calcNorm_MacroLens, ParamsMatrix))
 
-    '''
+
     with ThreadPoolExecutor(max_workers=32) as executor:
         #print(ParamsMatrix)
         #print(shape(ParamsMatrix))
         #print(type(ParamsMatrix))
         results = executor.map(calcNorm_MacroLens, ParamsMatrix)
     print(results)
-    '''
+
 
 
     for i in ParamsMatrix:
@@ -843,7 +844,7 @@ def multi_thread_way():
     with ThreadPoolExecutor(max_workers=8) as executor:
         futures = {executor.submit(searchParam_MacroLens_Matrix) for i in range(8)}
     return len([future.result() for future in futures])
-
+'''
 
 # ガラスデータ参照
 def searchParam_GlassData():
@@ -867,7 +868,7 @@ def searchParam_GlassData():
             results.append(result)
             #print(results)
 
-    print('result =', results)
+    #print('result =', results)
 
     file = open('Out_GlassList.csv', 'w')
     writer = csv.writer(file)
