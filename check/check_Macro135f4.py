@@ -11,12 +11,12 @@ LZ = 5
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-rayStartV = np.array([1000*100, 0*100, 0.0*100])  # m から cm へ変換
+rayStartV = np.array([100000*100, 0*100, 0.0*100])  # m から cm へ変換
 centerX = 0  # 入射光表示の中心座標
 centerY = 0  # 入射光表示の中心座標
 centerZ = 0  # 入射光表示の中心座標
 rayDensity = 0.25  # 入射光の密度
-focusX = -2  # 焦点付近の描画範囲を平行移動
+focusX = 10.7  # 焦点付近の描画範囲を平行移動
 
 screenV = np.array([16, 0, 0])  # スクリーンの位置ベクトル
 UnitX = -0
@@ -438,8 +438,8 @@ class VectorFunctions:
             'o-',ms='2',linewidth=0.5,color='black')
 
 # マクロレンズのスクリーン上に映った点を返す関数
-def MacroLens(Nlens1=1.58618, Nlens2=1.59875, Nlens3=1.54457, Nlens4=1.51982, Nlens5=1.61727,
-            NBlueRay1=1.00607, NBlueRay2=1.00992, NBlueRay3=1.00776, NBlueRay4=1.00578, NBlueRay5=1.00636):
+def MacroLens(Nlens1=1.58619, Nlens2=1.50854, Nlens3=1.59875, Nlens4=1.45446, Nlens5=1.61727,
+            NBlueRay1=1.00606, NBlueRay2=1.00561, NBlueRay3=1.00992, NBlueRay4=1.00345, NBlueRay5=1.00636):
 
     # スクリーン描画
     Ys, Zs = np.meshgrid(
@@ -1344,8 +1344,8 @@ def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
 
 
 # 近軸交差位置グラフ、主点と焦点距離
-def MakeFocusGraph(Nlens1=1.58618, Nlens2=1.59875, Nlens3=1.54457, Nlens4=1.51982, Nlens5=1.61727,
-            NBlueRay1=1.00607, NBlueRay2=1.00992, NBlueRay3=1.00776, NBlueRay4=1.00578, NBlueRay5=1.00636):
+def MakeFocusGraph(Nlens1=1.58619, Nlens2=1.50854, Nlens3=1.59875, Nlens4=1.45446, Nlens5=1.61727,
+            NBlueRay1=1.00606, NBlueRay2=1.00561, NBlueRay3=1.00992, NBlueRay4=1.00345, NBlueRay5=1.00636):
 
     def T_FocusGraph(startV, directionV):
         T = -startV[2]/directionV[2]
@@ -1578,9 +1578,9 @@ def MakeFocusGraph(Nlens1=1.58618, Nlens2=1.59875, Nlens3=1.54457, Nlens4=1.5198
     print('\nRedFocalLength=', np.array(RedFocusPoints)-np.array(RedPrincipalPoints))
     print('\nBlueFocalLength=', np.array(BlueFocusPoints)-np.array(BluePrincipalPoints))
 
-    ax.set_xlim(-1.7+RedFocusPoints[0], 1.7+RedFocusPoints[0])
-    ax.set_ylim(-1.7, 1.7)
-    ax.set_zlim(-1.7, 1.7)
+    ax.set_xlim(-1.7*2+RedFocusPoints[0], 1.7*2+RedFocusPoints[0])
+    ax.set_ylim(-1.7*2, 1.7*2)
+    ax.set_zlim(-1.7*2, 1.7*2)
     ax.set_xlabel('focus')
     ax.set_zlabel('pointsZ')
     ax.view_init(elev=0, azim=-90)

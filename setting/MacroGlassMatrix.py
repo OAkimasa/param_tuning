@@ -12,7 +12,7 @@ LZ = 5
 geneNum = 500
 Nair = 1  # 空気の屈折率
 
-rayStartV = np.array([1000*100, 0*100, 0.0*100])  # m から cm へ変換
+rayStartV = np.array([100000*100, 0*100, 0.0*100])  # m から cm へ変換
 centerX = 0  # 入射光表示の中心座標
 centerY = 0  # 入射光表示の中心座標
 centerZ = 0  # 入射光表示の中心座標
