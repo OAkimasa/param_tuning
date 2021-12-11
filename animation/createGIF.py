@@ -6,7 +6,7 @@ import matplotlib.animation as animation
 from numpy.core.fromnumeric import sort
 
 #フォルダ名を入れます
-folderName = "LunarEclipse"
+folderName = "Last_Macro_Anime2"
 
 #該当フォルダから画像のリストを取得。読み込みたいファイル形式を指定。ここではpng
 #picList = glob.glob(folderName + "\*.png")  # windows
@@ -33,4 +33,4 @@ for i in range(len(picList)):
 ani = animation.ArtistAnimation(fig, ims, blit=True)
 
 #アニメーション保存。ファイル名を入力
-ani.save("LunarEclipse.gif", writer='pillow')
+ani.save("Last_Macro_Anime2.gif", writer='pillow')

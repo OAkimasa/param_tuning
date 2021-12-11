@@ -11,6 +11,13 @@ from numpy.core.defchararray import array
 from numpy.core.fromnumeric import shape
 
 from GlassData import GlassData
+from Out_GlassList_after_inf12345 import GlassList_inf12345
+from Out_GlassList_after_inf12 import GlassList_inf12
+from Out_GlassList_after_inf12re import GlassList_inf12re
+from Out_GlassList_after_inf45 import GlassList_inf45
+from Out_GlassList_after_inf45re import GlassList_inf45re
+from Compare_GlassList import Compare_GlassList
+
 from setting.MacroGlassMatrix import returnFocus
 from setting.MacroGlassMatrix_Lens12 import returnFocus_Lens12
 from setting.MacroGlassMatrix_Lens45 import returnFocus_Lens45
@@ -41,6 +48,13 @@ def searchParam_GlassData_Lens12and45():
     ParamsMatrix = np.array(list(
             itertools.permutations(GlassList, 2)
             ))
+    return ParamsMatrix
+
+# 比較第一段階終了後のリスト
+def searchParam_GlassData_afterCompare1():
+    print('----------generating matrix----------')
+
+    ParamsMatrix = Compare_GlassList()
     return ParamsMatrix
 
 '''
@@ -94,8 +108,6 @@ def infMakeFocusList_Lens45(args):
     return results
 
 
-
-
 # レンズ12re、探索
 def infMakeFocusList_Lens12re(args):
     results = []
@@ -119,9 +131,6 @@ def infMakeFocusList_Lens45re(args):
             result = (focus, i)
             results.append(result)
     return results
-
-
-
 
 
 
@@ -159,7 +168,7 @@ def out_csvFile(args):
         if i != []:
             results.append(i)
 
-    file = open('Out_GlassList_after_inf45re.csv', 'w', newline='')
+    file = open('Out_GlassList_after_Compare1.csv', 'w', newline='')
     writer = csv.writer(file)
     writer.writerows(results)
     file.close()
@@ -170,10 +179,10 @@ if __name__ == "__main__":
     print('\n----------------START----------------\n')
     start = time.time()
 
-    ParamsMatrix = searchParam_GlassData_Lens12and45()  # 総当たりか既存のリストか
+    ParamsMatrix = searchParam_GlassData_afterCompare1()  # 総当たりか既存のリストか
     print('-------------calculating-------------')
     p = Pool(processes=4)
-    results = p.map(func=infMakeFocusList_Lens45re, iterable=ParamsMatrix)
+    results = p.map(func=infMakeFocusList, iterable=ParamsMatrix)
     out_csvFile(results)
     #print('result =', results)
 
