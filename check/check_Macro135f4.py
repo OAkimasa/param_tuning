@@ -438,8 +438,8 @@ class VectorFunctions:
             'o-',ms='2',linewidth=0.5,color='black')
 
 # マクロレンズのスクリーン上に映った点を返す関数
-def MacroLens(Nlens1=1.58619, Nlens2=1.50854, Nlens3=1.59875, Nlens4=1.45446, Nlens5=1.61727,
-            NBlueRay1=1.00606, NBlueRay2=1.00561, NBlueRay3=1.00992, NBlueRay4=1.00345, NBlueRay5=1.00636):
+def MacroLens(Nlens1=1.60008, Nlens2=1.49552, Nlens3=1.61506, Nlens4=1.50592, Nlens5=1.58619,
+            NBlueRay1=1.00622, NBlueRay2=1.00497, NBlueRay3=1.01054, NBlueRay4=1.00552, NBlueRay5=1.00606):
 
     # スクリーン描画
     Ys, Zs = np.meshgrid(
@@ -1344,8 +1344,8 @@ def MacroLens_reverse_Screen(startX=10.695, startZ=0, focus=10.695):
 
 
 # 近軸交差位置グラフ、主点と焦点距離
-def MakeFocusGraph(Nlens1=1.58619, Nlens2=1.50854, Nlens3=1.59875, Nlens4=1.45446, Nlens5=1.61727,
-            NBlueRay1=1.00606, NBlueRay2=1.00561, NBlueRay3=1.00992, NBlueRay4=1.00345, NBlueRay5=1.00636):
+def MakeFocusGraph(Nlens1=1.60008, Nlens2=1.49552, Nlens3=1.61506, Nlens4=1.50592, Nlens5=1.58619,
+            NBlueRay1=1.00622, NBlueRay2=1.00497, NBlueRay3=1.01054, NBlueRay4=1.00552, NBlueRay5=1.00606):
 
     def T_FocusGraph(startV, directionV):
         T = -startV[2]/directionV[2]
